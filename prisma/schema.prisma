@@ -13,9 +13,131 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  date      DateTime @default(now())
-  done      Boolean  @default(false)
+model University {
+  id        Int    @id @default(autoincrement())
+  name      String
+  shortName String @map("short_name")
+  region    String
+
+  gakuren Gakuren[]
+  player  Player[]
+
+  @@map("universities")
+}
+
+model Tournament {
+  id      String  @id @default(cuid())
+  name    String
+  region  String
+  isOpen  Boolean @default(true) @map("is_open")
+  isTeam  Boolean @map("is_team") // true if team, false if individual
+  beginAt String  @map("begin_date") // YYYY-MM-DD
+  endAt   String  @map("end_date") // YYYY-MM-DD
+
+  matchMeta MatchMeta[]
+  match     Match[]
+
+  @@map("tournaments")
+}
+
+model Gakuren {
+  id           String     @id @default(uuid())
+  lastName     String     @map("last_name")
+  firstName    String     @map("first_name")
+  grade        Int
+  role         String
+  universityId Int        @map("university_id")
+  university   University @relation(fields: [universityId], references: [id])
+  region       String
+  email        String     @unique
+  password     String
+  hashSalt     String     @map("hash_salt")
+  sessionToken String     @map("session_token")
+
+  match Match[]
+
+  @@map("gakurens")
+}
+
+model Player {
+  id           String     @id @default(uuid())
+  lastName     String     @map("last_name")
+  firstName    String     @map("first_name")
+  sex          String
+  universityId Int        @map("university_id")
+  university   University @relation(fields: [universityId], references: [id])
+  grade        Int
+  isRetired    Boolean    @default(false) @map("is_retired")
+
+  seed        Seed[]
+  matchWinner Match[] @relation(name: "winner")
+  matchLoser  Match[] @relation(name: "loser")
+
+  @@map("players")
+}
+
+model MatchMeta {
+  id           String     @id @default(cuid())
+  type         String
+  tournamentId String     @map("tournament_id")
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  isRated      Boolean    @map("is_rated")
+
+  match Match[]
+
+  @@map("match_metas")
+}
+
+model SeedMeta {
+  id        String   @id @default(cuid())
+  name      String
+  region    String
+  sex       String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  seed Seed[]
+
+  @@map("seed_metas")
+}
+
+model Seed {
+  seedMetaId String   @map("seed_meta_id")
+  seedMeta   SeedMeta @relation(fields: [seedMetaId], references: [id])
+  playerId   String   @map("player_id")
+  player     Player   @relation(fields: [playerId], references: [id])
+  rank       Int
+
+  @@unique(fields: [seedMetaId, rank], name: "id")
+  @@map("seeds")
+}
+
+model Match {
+  id                 String     @id @default(cuid())
+  winnerId           String     @map("winner_id")
+  winner             Player     @relation(name: "winner", fields: [winnerId], references: [id])
+  loserId            String     @map("loser_id")
+  loser              Player     @relation(name: "loser", fields: [loserId], references: [id])
+  isDefo             Boolean    @map("is_defo")
+  winnerGameCount    Int        @map("winner_game_count")
+  loserGameCount     Int        @map("loser_game_count")
+  winner_game1_score Int?       @map("winner_game1_score")
+  winner_game2_score Int?       @map("winner_game2_score")
+  winner_game3_score Int?       @map("winner_game3_score")
+  winner_game4_score Int?       @map("winner_game4_score")
+  winner_game5_score Int?       @map("winner_game5_score")
+  loser_game1_score  Int?       @map("loser_game1_score")
+  loser_game2_score  Int?       @map("loser_game2_score")
+  loser_game3_score  Int?       @map("loser_game3_score")
+  loser_game4_score  Int?       @map("loser_game4_score")
+  loser_game5_score  Int?       @map("loser_game5_score")
+  tournamentId       String     @map("tournament_id")
+  tournament         Tournament @relation(fields: [tournamentId], references: [id])
+  matchMetaId        String     @map("match_meta_id")
+  matchMeta          MatchMeta  @relation(fields: [matchMetaId], references: [id])
+  createdByGakurenId String     @map("created_by_gakuren_id")
+  createdByGakuren   Gakuren    @relation(fields: [createdByGakurenId], references: [id])
+  createdAt          DateTime   @default(now()) @map("created_at")
+  // TODO: add is_tweeted column
+
+  @@map("matches")
 }

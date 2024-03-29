@@ -8,6 +8,7 @@ export class Seed {
     public readonly name: string,
     public readonly region: Region,
     public readonly ranks: Player[],
-    public readonly sex: Sex
+    public readonly sex: Sex,
+    public readonly createdAt: Date
   ) {}
 }

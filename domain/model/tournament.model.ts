@@ -7,7 +7,7 @@ export class Tournament {
     public readonly region: Region,
     public readonly isOpen: boolean,
     public readonly isTeam: boolean,
-    public readonly beginAt: Date,
-    public readonly endAt: Date
+    public readonly beginAt: String,
+    public readonly endAt: String
   ) {}
 }
