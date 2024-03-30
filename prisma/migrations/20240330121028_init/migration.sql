@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Todo` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "Todo";
-
 -- CreateTable
 CREATE TABLE "universities" (
     "id" SERIAL NOT NULL,
@@ -66,6 +57,7 @@ CREATE TABLE "match_metas" (
     "type" TEXT NOT NULL,
     "tournament_id" TEXT NOT NULL,
     "is_rated" BOOLEAN NOT NULL,
+    "sex" TEXT NOT NULL,
 
     CONSTRAINT "match_metas_pkey" PRIMARY KEY ("id")
 );
