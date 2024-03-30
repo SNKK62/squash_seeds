@@ -2,7 +2,7 @@ import { Person } from "./person.abstract";
 import { Region } from "./region";
 import { University } from "./university.model";
 
-export type Role = "委員長" | "幹部" | "普通";
+export type Role = "幹部" | "普通";
 
 export class Gakuren extends Person {
   constructor(

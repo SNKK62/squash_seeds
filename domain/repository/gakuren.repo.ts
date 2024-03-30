@@ -1,11 +1,32 @@
-import { Gakuren } from "../model/gakuren.model";
+import { Gakuren, Role } from "../model/gakuren.model";
+import { Region } from "../model/region";
 
-type AuthOptions = {
+type AuthData = {
+  email: string;
+  hashedPassword: string;
+  salt: string;
+  hashedSessionToken: string;
+};
+
+type GakurenWithAuthData = {
+  gakuren: Gakuren;
+  authData: AuthData;
+};
+
+export type createGakurenInput = {
+  firstName: string;
+  lastName: string;
+  grade: number;
+  universityId: number;
+  role: Role;
+  region: Region;
   email: string;
   password: string;
 };
 
 export type IGakurenRepo = {
-  getGakurenById: (id: string) => Gakuren;
-  createGakuren: (gakuren: Gakuren, authOptions: AuthOptions) => void;
+  getGakurenWithAuthDataByEmail: (
+    email: string
+  ) => Promise<GakurenWithAuthData>;
+  createGakuren: (input: createGakurenInput) => Promise<void>;
 };

@@ -1,3 +1,4 @@
+import { Sex } from "./sex";
 import { Tournament } from "./tournament.model";
 
 export class MatchMeta {
@@ -5,6 +6,7 @@ export class MatchMeta {
     public readonly id: string,
     public readonly name: string,
     public readonly tournament: Tournament,
-    public readonly isRated: boolean
+    public readonly isRated: boolean,
+    public readonly sex: Sex
   ) {}
 }
