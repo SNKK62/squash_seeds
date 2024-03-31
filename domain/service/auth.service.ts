@@ -1,6 +1,12 @@
-import { Gakuren } from "../model/gakuren.model";
-import { createGakurenInput, IGakurenRepo } from "../repository/gakuren.repo";
+import { Gakuren } from "@model/gakuren.model";
+import { CreateGakurenInput, IGakurenRepo } from "@repository/gakuren.repo";
 import { createHash } from "crypto";
+
+export const hashString = (str: string): string => {
+  const hash = createHash("sha256");
+  hash.update(str);
+  return hash.digest("hex");
+};
 
 export class AuthService {
   constructor(private readonly gakurenRepo: IGakurenRepo) {}
@@ -10,9 +16,9 @@ export class AuthService {
       const gakurenWithAuthData =
         await this.gakurenRepo.getGakurenWithAuthDataByEmail(email);
 
-      const hash = createHash("sha256");
-      hash.update(password + gakurenWithAuthData.authData.salt);
-      const hashedPassword = hash.digest("hex");
+      const hashedPassword = hashString(
+        password + gakurenWithAuthData.authData.salt
+      );
 
       if (gakurenWithAuthData.authData.hashedPassword !== hashedPassword) {
         throw new Error("Invalid password");
@@ -23,7 +29,7 @@ export class AuthService {
     }
   }
 
-  public async signup(input: createGakurenInput): Promise<Gakuren> {
+  public async signup(input: CreateGakurenInput): Promise<Gakuren> {
     try {
       await this.gakurenRepo.createGakuren(input);
       return await this.gakurenRepo
@@ -42,9 +48,9 @@ export class AuthService {
       const gakurenWithAuthData =
         await this.gakurenRepo.getGakurenWithAuthDataByEmail(email);
 
-      const hash = createHash("sha256");
-      hash.update(sessionToken + gakurenWithAuthData.authData.salt);
-      const hashedSessionToken = hash.digest("hex");
+      const hashedSessionToken = hashString(
+        sessionToken + gakurenWithAuthData.authData.salt
+      );
 
       return (
         hashedSessionToken === gakurenWithAuthData.authData.hashedSessionToken

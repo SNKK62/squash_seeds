@@ -1,6 +1,6 @@
-import { Person } from "./person.abstract";
-import { Region } from "./region";
-import { University } from "./university.model";
+import { Person } from "@model/person.abstract";
+import { Region } from "@model/region";
+import { University } from "@model/university.model";
 
 export type Role = "幹部" | "普通";
 

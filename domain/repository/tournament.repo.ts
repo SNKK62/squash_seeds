@@ -1,5 +1,5 @@
-import { Region } from "../model/region";
-import { Tournament } from "../model/tournament.model";
+import { Region } from "@model/region";
+import { Tournament } from "@model/tournament.model";
 
 export type ITournamentRepo = {
   getTournaments: () => Tournament[];

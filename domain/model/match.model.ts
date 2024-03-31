@@ -1,9 +1,9 @@
-import { Gakuren } from "./gakuren.model";
-import { MatchMeta } from "./matchMeta.model";
-import { Player } from "./player.model";
-import { Tournament } from "./tournament.model";
+import { Gakuren } from "@model/gakuren.model";
+import { MatchMeta } from "@model/matchMeta.model";
+import { Player } from "@model/player.model";
+import { Tournament } from "@model/tournament.model";
 
-class Score {
+export class Score {
   constructor(
     public readonly winnerScore: number,
     public readonly loserScore: number

@@ -1,4 +1,4 @@
-import { University } from "./university.model";
+import { University } from "@model/university.model";
 
 export abstract class Person {
   constructor(

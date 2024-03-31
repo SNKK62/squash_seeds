@@ -1,6 +1,6 @@
-import { Player } from "./player.model";
-import { Region } from "./region";
-import { Sex } from "./sex";
+import { Player } from "@model/player.model";
+import { Region } from "@model/region";
+import { Sex } from "@model/sex";
 
 export class Seed {
   constructor(

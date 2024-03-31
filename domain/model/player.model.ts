@@ -1,6 +1,6 @@
-import { Person } from "./person.abstract";
-import { Sex } from "./sex";
-import { University } from "./university.model";
+import { Person } from "@model/person.abstract";
+import { Sex } from "@model/sex";
+import { University } from "@model/university.model";
 
 export class Player extends Person {
   constructor(

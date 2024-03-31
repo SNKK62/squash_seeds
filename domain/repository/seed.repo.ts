@@ -1,5 +1,5 @@
-import { Seed } from "../model/seed.model";
-import { Sex } from "../model/sex";
+import { Seed } from "@model/seed.model";
+import { Sex } from "@model/sex";
 
 export type ISeedRepo = {
   getSeedsBySex: (sex: Sex) => Seed[];

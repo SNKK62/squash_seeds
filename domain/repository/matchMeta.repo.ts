@@ -1,4 +1,4 @@
-import { MatchMeta } from "../model/matchMeta.model";
+import { MatchMeta } from "@model/matchMeta.model";
 
 export type IMatchMetaRepo = {
   getMatchMetas: () => MatchMeta[];

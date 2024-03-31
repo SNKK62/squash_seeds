@@ -1,5 +1,5 @@
-import { Region } from "../model/region";
-import { University } from "../model/university.model";
+import { Region } from "@model/region";
+import { University } from "@model/university.model";
 
 export type IUniversityRepo = {
   getUniversities: () => University[];

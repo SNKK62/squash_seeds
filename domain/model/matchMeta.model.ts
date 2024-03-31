@@ -1,5 +1,5 @@
-import { Sex } from "./sex";
-import { Tournament } from "./tournament.model";
+import { Sex } from "@model/sex";
+import { Tournament } from "@model/tournament.model";
 
 export class MatchMeta {
   constructor(

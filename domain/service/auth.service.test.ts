@@ -1,6 +1,5 @@
-import { createHash } from "crypto";
-import { AuthService } from "./auth.service";
-import { createGakurenInput, IGakurenRepo } from "../repository/gakuren.repo";
+import { AuthService, hashString } from "@service/auth.service";
+import { CreateGakurenInput, IGakurenRepo } from "@repository/gakuren.repo";
 
 // Mock the IGakurenRepo
 const newMockGakurenRepo = (
@@ -24,9 +23,7 @@ describe("AuthService", () => {
       const email = "test@example.com";
       const password = "password";
       const salt = "salt";
-      const hashedPassword = createHash("sha256")
-        .update(password + salt)
-        .digest("hex");
+      const hashedPassword = hashString(password + salt);
 
       const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
         Promise.resolve({
@@ -71,9 +68,7 @@ describe("AuthService", () => {
       const wrongPassword = "wrongPassword";
       const password = "password";
       const salt = "salt";
-      const hashedPassword = createHash("sha256")
-        .update(password + salt)
-        .digest("hex");
+      const hashedPassword = hashString(password + salt);
 
       const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
         Promise.resolve({
@@ -108,7 +103,7 @@ describe("AuthService", () => {
       const email = "test@example.com";
       const salt = "salt";
       const password = "password";
-      const input: createGakurenInput = {
+      const input: CreateGakurenInput = {
         firstName: "John",
         lastName: "Doe",
         grade: 1,
@@ -118,9 +113,7 @@ describe("AuthService", () => {
         email,
         password,
       };
-      const hashedPassword = createHash("sha256")
-        .update(password + salt)
-        .digest("hex");
+      const hashedPassword = hashString(password + salt);
 
       const mockCreateGakuren = jest.fn().mockResolvedValue(undefined);
 
@@ -171,7 +164,7 @@ describe("AuthService", () => {
       const email = "test@example.com";
       const salt = "salt";
       const password = "password";
-      const input: createGakurenInput = {
+      const input: CreateGakurenInput = {
         firstName: "John",
         lastName: "Doe",
         grade: 1,
@@ -181,9 +174,7 @@ describe("AuthService", () => {
         email,
         password,
       };
-      const hashedPassword = createHash("sha256")
-        .update(password + salt)
-        .digest("hex");
+      const hashedPassword = hashString(password + salt);
 
       const mockCreateGakuren = jest
         .fn()
@@ -230,9 +221,7 @@ describe("AuthService", () => {
       const email = "test@example.com";
       const sessionToken = "sessionToken";
       const salt = "salt";
-      const hashedSessionToken = createHash("sha256")
-        .update(sessionToken + salt)
-        .digest("hex");
+      const hashedSessionToken = hashString(sessionToken + salt);
 
       const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
         Promise.resolve({
@@ -269,9 +258,7 @@ describe("AuthService", () => {
       const sessionToken = "SessionToken";
       const invalidSessionToken = "invalidSessionToken";
       const salt = "salt";
-      const hashedSessionToken = createHash("sha256")
-        .update(sessionToken + salt)
-        .digest("hex");
+      const hashedSessionToken = hashString(sessionToken + salt);
 
       const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue({
         gakuren: {

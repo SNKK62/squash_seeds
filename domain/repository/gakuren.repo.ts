@@ -1,5 +1,5 @@
-import { Gakuren, Role } from "../model/gakuren.model";
-import { Region } from "../model/region";
+import { Gakuren, Role } from "@model/gakuren.model";
+import { Region } from "@model/region";
 
 type AuthData = {
   email: string;
@@ -13,7 +13,7 @@ type GakurenWithAuthData = {
   authData: AuthData;
 };
 
-export type createGakurenInput = {
+export type CreateGakurenInput = {
   firstName: string;
   lastName: string;
   grade: number;
@@ -28,5 +28,5 @@ export type IGakurenRepo = {
   getGakurenWithAuthDataByEmail: (
     email: string
   ) => Promise<GakurenWithAuthData>;
-  createGakuren: (input: createGakurenInput) => Promise<void>;
+  createGakuren: (input: CreateGakurenInput) => Promise<void>;
 };

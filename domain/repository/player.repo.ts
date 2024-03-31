@@ -1,5 +1,5 @@
-import { Player } from "../model/player.model";
-import { Sex } from "../model/sex";
+import { Player } from "@model/player.model";
+import { Sex } from "@model/sex";
 
 export type IPlayerRepo = {
   getPlayers: () => Player[];
