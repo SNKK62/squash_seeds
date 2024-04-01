@@ -21,12 +21,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
       "@model/*": ["./domain/model/*"],
       "@repository/*": ["./domain/repository/*"],
       "@service/*": ["./domain/service/*"],
       "@infrastructure/*": ["./infrastructure/*"],
-      "@db/*": ["./infrastructure/db/*"]
+      "@db/*": ["./infrastructure/db/*"],
+      "@/*": ["./*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

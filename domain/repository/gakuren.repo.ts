@@ -8,7 +8,7 @@ type AuthData = {
   hashedSessionToken: string;
 };
 
-type GakurenWithAuthData = {
+export type GakurenWithAuthData = {
   gakuren: Gakuren;
   authData: AuthData;
 };
