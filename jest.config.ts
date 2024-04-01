@@ -96,6 +96,7 @@ const config: Config = {
     "^@repository/(.*)$": "<rootDir>/domain/repository/$1",
     "^@service/(.*)$": "<rootDir>/domain/service/$1",
     "^@infrastructure/(.*)$": "<rootDir>/infrastructure/$1",
+    "^@db/(.*)$": "<rootDir>/infrastructure/db/$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
