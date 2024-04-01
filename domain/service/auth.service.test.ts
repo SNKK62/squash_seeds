@@ -1,17 +1,6 @@
 import { AuthService, hashString } from "@service/auth.service";
-import { CreateGakurenInput, IGakurenRepo } from "@repository/gakuren.repo";
-
-// Mock the IGakurenRepo
-const newMockGakurenRepo = (
-  getGakurenWithAuthDataByEmail: jest.Mock,
-  createGakuren: jest.Mock
-) => {
-  const repo = jest.fn<IGakurenRepo, []>().mockImplementation(() => ({
-    getGakurenWithAuthDataByEmail,
-    createGakuren,
-  }));
-  return new repo();
-};
+import { CreateGakurenInput } from "@repository/gakuren.repo";
+import { newMockGakurenRepo, newMockRepo } from "@/utils/testUtils";
 
 describe("AuthService", () => {
   afterEach(() => {
@@ -45,7 +34,9 @@ describe("AuthService", () => {
         jest.fn()
       );
 
-      const authService = new AuthService(mockGakurenRepo);
+      const authService = new AuthService(
+        newMockRepo({ gakuren: mockGakurenRepo })
+      );
 
       const result = await authService.login(email, password);
 
@@ -90,7 +81,9 @@ describe("AuthService", () => {
         jest.fn()
       );
 
-      const authService = new AuthService(mockGakurenRepo);
+      const authService = new AuthService(
+        newMockRepo({ gakuren: mockGakurenRepo })
+      );
 
       await expect(authService.login(email, wrongPassword)).rejects.toThrow(
         "Invalid password"
@@ -141,7 +134,9 @@ describe("AuthService", () => {
         mockCreateGakuren
       );
 
-      const authService = new AuthService(mockGakurenRepo);
+      const authService = new AuthService(
+        newMockRepo({ gakuren: mockGakurenRepo })
+      );
 
       const result = await authService.signup(input);
 
@@ -204,7 +199,9 @@ describe("AuthService", () => {
         mockCreateGakuren
       );
 
-      const authService = new AuthService(mockGakurenRepo);
+      const authService = new AuthService(
+        newMockRepo({ gakuren: mockGakurenRepo })
+      );
 
       await expect(authService.signup(input)).rejects.toThrow(
         "Error while create gakuren"
@@ -243,7 +240,9 @@ describe("AuthService", () => {
         jest.fn()
       );
 
-      const authService = new AuthService(mockGakurenRepo);
+      const authService = new AuthService(
+        newMockRepo({ gakuren: mockGakurenRepo })
+      );
 
       const result = await authService.checkSessionToken(email, sessionToken);
 
@@ -278,7 +277,9 @@ describe("AuthService", () => {
         jest.fn()
       );
 
-      const authService = new AuthService(mockGakurenRepo);
+      const authService = new AuthService(
+        newMockRepo({ gakuren: mockGakurenRepo })
+      );
 
       const result = await authService.checkSessionToken(
         email,
@@ -305,7 +306,9 @@ describe("AuthService", () => {
       jest.fn()
     );
 
-    const authService = new AuthService(mockGakurenRepo);
+    const authService = new AuthService(
+      newMockRepo({ gakuren: mockGakurenRepo })
+    );
 
     await expect(
       authService.checkSessionToken(email, sessionToken)

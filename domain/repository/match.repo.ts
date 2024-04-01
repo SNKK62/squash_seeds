@@ -13,7 +13,10 @@ type CreateMatchInput = {
 };
 
 export type IMatchRepo = {
-  getMatchesByTournamentId: (tournamentId: string) => Match[];
-  getMatchesByTournamentIdAndSex: (tournamentId: string, sex: Sex) => Match[];
-  createMatch: (input: CreateMatchInput) => void;
+  getMatchesByTournamentIdAndSex: (
+    tournamentId: string,
+    sex: Sex
+  ) => Promise<Match[]>;
+  // TODO: implement getMatchesNotAnnouncedByTournamentId: (tournamentId: string) => Match[];
+  createMatch: (input: CreateMatchInput) => Promise<void>;
 };

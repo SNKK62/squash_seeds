@@ -1,7 +1,12 @@
-import { MatchMeta } from "@model/matchMeta.model";
+import { Sex } from "../model/sex";
+
+type CreateMatchMetaInput = {
+  name: string;
+  isRated: Boolean;
+  sex: Sex;
+  tournamentId: string;
+};
 
 export type IMatchMetaRepo = {
-  getMatchMetas: () => MatchMeta[];
-  getMatchMetaById: (id: string) => MatchMeta;
-  createMatchMeta: (matchMeta: MatchMeta) => void;
+  createMatchMeta: (input: CreateMatchMetaInput) => Promise<void>;
 };

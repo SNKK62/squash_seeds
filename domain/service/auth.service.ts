@@ -1,6 +1,7 @@
 import { Gakuren } from "@model/gakuren.model";
 import { CreateGakurenInput, IGakurenRepo } from "@repository/gakuren.repo";
 import { createHash } from "crypto";
+import { Repo } from "@repository/repository";
 
 export const hashString = (str: string): string => {
   const hash = createHash("sha256");
@@ -9,7 +10,11 @@ export const hashString = (str: string): string => {
 };
 
 export class AuthService {
-  constructor(private readonly gakurenRepo: IGakurenRepo) {}
+  private readonly gakurenRepo: IGakurenRepo;
+
+  constructor(repo: Repo) {
+    this.gakurenRepo = repo.gakuren;
+  }
 
   public async login(email: string, password: string): Promise<Gakuren> {
     try {
