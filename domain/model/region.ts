@@ -9,3 +9,7 @@ const regionNames = [
 ] as const;
 
 export type Region = (typeof regionNames)[number];
+
+export const isRegion = (arg: any): arg is Region => {
+  return regionNames.includes(arg);
+};
