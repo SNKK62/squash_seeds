@@ -20,5 +20,5 @@ export type IMatchRepo = {
   getMatchesNotAnnouncedByTournamentId: (
     tournamentId: string
   ) => Promise<Match[]>;
-  createMatch: (input: CreateMatchInput) => Promise<void>;
+  createMatch: (input: CreateMatchInput) => Promise<Match>;
 };

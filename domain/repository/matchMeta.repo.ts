@@ -1,3 +1,4 @@
+import { MatchMeta } from "@model/matchMeta.model";
 import { Sex } from "../model/sex";
 
 export type CreateMatchMetaInput = {
@@ -8,5 +9,5 @@ export type CreateMatchMetaInput = {
 };
 
 export type IMatchMetaRepo = {
-  createMatchMeta: (input: CreateMatchMetaInput) => Promise<void>;
+  createMatchMeta: (input: CreateMatchMetaInput) => Promise<MatchMeta>;
 };

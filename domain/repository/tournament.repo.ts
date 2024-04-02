@@ -11,5 +11,5 @@ export type CreateTournamentInput = {
 
 export type ITournamentRepo = {
   getOpenTournamentByRegion: (region: Region) => Promise<Tournament>;
-  createTournament: (input: CreateTournamentInput) => Promise<void>;
+  createTournament: (input: CreateTournamentInput) => Promise<Tournament>;
 };
