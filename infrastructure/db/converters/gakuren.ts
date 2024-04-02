@@ -6,7 +6,7 @@ import {
 import { convertToUniversity } from "@db/converters/university";
 import { isRegion } from "@/domain/model/region";
 
-type DBGakurenWithUniversity = DBGakuren & {
+export type DBGakurenWithUniversity = DBGakuren & {
   university: DBUniversity;
 };
 

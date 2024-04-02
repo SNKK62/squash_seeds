@@ -30,6 +30,7 @@ export class AuthService {
       }
       return gakurenWithAuthData.gakuren;
     } catch (e) {
+      console.error(e);
       throw e;
     }
   }
@@ -41,6 +42,7 @@ export class AuthService {
         .getGakurenWithAuthDataByEmail(input.email)
         .then((gakurenWithAuthData) => gakurenWithAuthData.gakuren);
     } catch (e) {
+      console.error(e);
       throw e;
     }
   }
@@ -48,7 +50,7 @@ export class AuthService {
   public async checkSessionToken(
     email: string,
     sessionToken: string
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     try {
       const gakurenWithAuthData =
         await this.gakurenRepo.getGakurenWithAuthDataByEmail(email);
@@ -61,6 +63,7 @@ export class AuthService {
         hashedSessionToken === gakurenWithAuthData.authData.hashedSessionToken
       );
     } catch (e) {
+      console.error(e);
       throw e;
     }
   }

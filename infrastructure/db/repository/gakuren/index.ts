@@ -35,6 +35,7 @@ const getGakurenWithAuthDataByEmail = async (
       },
     };
   } catch (e) {
+    console.error(e);
     throw e;
   }
 };
@@ -61,6 +62,7 @@ const createGakuren = async (input: CreateGakurenInput): Promise<void> => {
       },
     });
   } catch (e) {
+    console.error(e);
     throw e;
   }
 };
