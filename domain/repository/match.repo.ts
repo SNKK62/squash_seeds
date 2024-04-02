@@ -1,7 +1,7 @@
 import { Match, Score } from "@model/match.model";
 import { Sex } from "@model/sex";
 
-type CreateMatchInput = {
+export type CreateMatchInput = {
   tournamentId: string;
   winnerId: string;
   loserId: string;
@@ -9,7 +9,7 @@ type CreateMatchInput = {
   gameScores: Score[];
   createdById: string;
   matchMetaId: string;
-  isDefo: Boolean;
+  isDefo: boolean;
 };
 
 export type IMatchRepo = {
@@ -17,6 +17,8 @@ export type IMatchRepo = {
     tournamentId: string,
     sex: Sex
   ) => Promise<Match[]>;
-  // TODO: implement getMatchesNotAnnouncedByTournamentId: (tournamentId: string) => Match[];
+  getMatchesNotAnnouncedByTournamentId: (
+    tournamentId: string
+  ) => Promise<Match[]>;
   createMatch: (input: CreateMatchInput) => Promise<void>;
 };

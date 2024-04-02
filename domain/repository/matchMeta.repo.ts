@@ -1,8 +1,8 @@
 import { Sex } from "../model/sex";
 
-type CreateMatchMetaInput = {
-  name: string;
-  isRated: Boolean;
+export type CreateMatchMetaInput = {
+  type: string;
+  isRated: boolean;
   sex: Sex;
   tournamentId: string;
 };

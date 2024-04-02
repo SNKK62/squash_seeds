@@ -25,8 +25,8 @@ export class Match {
     public readonly createdBy: Gakuren,
     public readonly createdAt: Date,
     public readonly matchMeta: MatchMeta,
-    public readonly isDefo: Boolean
-    // TODO: adapt to Twitter API
+    public readonly isDefo: boolean,
+    public readonly isAnnounced: boolean
   ) {}
 
   get fullScore(): string {
