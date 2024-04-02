@@ -102,6 +102,7 @@ CREATE TABLE "matches" (
     "match_meta_id" TEXT NOT NULL,
     "created_by_gakuren_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "is_announced" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "matches_pkey" PRIMARY KEY ("id")
 );
