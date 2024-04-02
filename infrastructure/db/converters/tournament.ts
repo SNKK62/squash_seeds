@@ -1,10 +1,16 @@
 import { isRegion } from "@/domain/model/region";
-import { Tournament } from "@model/tournament.model";
+import { isDateString, Tournament } from "@model/tournament.model";
 import { Tournament as DBTournament } from "@prisma/client";
 
 export const convertToTournament = (tournament: DBTournament): Tournament => {
   if (!isRegion(tournament.region)) {
     throw new Error("Invalid region");
+  }
+  if (!isDateString(tournament.beginAt)) {
+    throw new Error("Invalid beginAt");
+  }
+  if (!isDateString(tournament.endAt)) {
+    throw new Error("Invalid endAt");
   }
   return new Tournament(
     tournament.id,

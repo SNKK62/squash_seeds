@@ -25,6 +25,7 @@ const getOpenTournamentByRegion = async (
     }
     return convertToTournament(dbTournament[0]);
   } catch (e) {
+    console.error(e);
     throw e;
   }
 };
@@ -43,6 +44,7 @@ const createTournament = async (
       },
     });
   } catch (e) {
+    console.error(e);
     throw e;
   }
 };
