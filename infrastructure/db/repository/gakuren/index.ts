@@ -8,6 +8,7 @@ import { convertToGakuren } from "@db/converters/gakuren";
 import { hashString } from "@/domain/service/auth.service";
 
 import { v4 as uuid } from "uuid";
+import { Gakuren } from "@model/gakuren.model";
 
 const getGakurenWithAuthDataByEmail = async (
   email: string
@@ -40,14 +41,14 @@ const getGakurenWithAuthDataByEmail = async (
   }
 };
 
-const createGakuren = async (input: CreateGakurenInput): Promise<void> => {
+const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
   const hashSalt = uuid();
   const hashedPassword = hashString(input.password + hashSalt);
 
   const sessionToken = uuid();
 
   try {
-    await prisma.gakuren.create({
+    const gakuren = await prisma.gakuren.create({
       data: {
         firstName: input.firstName,
         lastName: input.lastName,
@@ -60,7 +61,11 @@ const createGakuren = async (input: CreateGakurenInput): Promise<void> => {
         hashSalt,
         sessionToken,
       },
+      include: {
+        university: true,
+      },
     });
+    return convertToGakuren(gakuren);
   } catch (e) {
     console.error(e);
     throw e;

@@ -68,9 +68,9 @@ const getMatchesNotAnnouncedByTournamentId = async (
   }
 };
 
-const createMatch = async (input: CreateMatchInput): Promise<void> => {
+const createMatch = async (input: CreateMatchInput): Promise<Match> => {
   try {
-    await prisma.match.create({
+    const match = await prisma.match.create({
       data: {
         winnerId: input.winnerId,
         loserId: input.loserId,
@@ -111,7 +111,9 @@ const createMatch = async (input: CreateMatchInput): Promise<void> => {
           ? input.gameScores[4].loserScore
           : null,
       },
+      include: includeAll,
     });
+    return convertToMatch(match);
   } catch (e) {
     console.error(e);
     throw e;

@@ -32,9 +32,9 @@ const getOpenTournamentByRegion = async (
 
 const createTournament = async (
   input: CreateTournamentInput
-): Promise<void> => {
+): Promise<Tournament> => {
   try {
-    await prisma.tournament.create({
+    const tournament = await prisma.tournament.create({
       data: {
         name: input.name,
         region: input.region,
@@ -43,6 +43,7 @@ const createTournament = async (
         isTeam: input.isTeam,
       },
     });
+    return convertToTournament(tournament);
   } catch (e) {
     console.error(e);
     throw e;
