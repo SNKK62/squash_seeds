@@ -28,5 +28,6 @@ export type IGakurenRepo = {
   getGakurenWithAuthDataByEmail: (
     email: string
   ) => Promise<GakurenWithAuthData>;
+  getGakurenById: (id: string) => Promise<Gakuren>;
   createGakuren: (input: CreateGakurenInput) => Promise<Gakuren>;
 };

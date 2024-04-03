@@ -41,6 +41,26 @@ const getGakurenWithAuthDataByEmail = async (
   }
 };
 
+const getGakurenById = async (id: string): Promise<Gakuren> => {
+  try {
+    const dbGakuren = await prisma.gakuren.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        university: true,
+      },
+    });
+    if (!dbGakuren) {
+      throw new Error("Gakuren not found");
+    }
+    return convertToGakuren(dbGakuren);
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
 const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
   const hashSalt = uuid();
   const hashedPassword = hashString(input.password + hashSalt);
@@ -74,5 +94,6 @@ const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
 
 export const GakurenRepo: IGakurenRepo = {
   getGakurenWithAuthDataByEmail,
+  getGakurenById,
   createGakuren,
 };
