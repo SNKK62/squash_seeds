@@ -7,10 +7,12 @@ export const newMockRepo = (repo: Partial<Repo>) => {
 
 export const newMockGakurenRepo = (
   getGakurenWithAuthDataByEmail: jest.Mock,
+  getGakurenById: jest.Mock,
   createGakuren: jest.Mock
 ) => {
   const repo = jest.fn<IGakurenRepo, []>().mockImplementation(() => ({
     getGakurenWithAuthDataByEmail,
+    getGakurenById,
     createGakuren,
   }));
   return new repo();

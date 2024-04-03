@@ -5,7 +5,6 @@ import {
 } from "@repository/gakuren.repo";
 import { prisma } from "@/infrastructure/db/client";
 import { convertToGakuren } from "@db/converters/gakuren";
-import { hashString } from "@/domain/service/auth.service";
 
 import { v4 as uuid } from "uuid";
 import { Gakuren } from "@model/gakuren.model";
@@ -31,7 +30,6 @@ const getGakurenWithAuthDataByEmail = async (
       authData: {
         email: dbGakuren.email,
         hashedPassword: dbGakuren.password,
-        salt: dbGakuren.hashSalt,
         hashedSessionToken: dbGakuren.sessionToken,
       },
     };
@@ -62,9 +60,6 @@ const getGakurenById = async (id: string): Promise<Gakuren> => {
 };
 
 const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
-  const hashSalt = uuid();
-  const hashedPassword = hashString(input.password + hashSalt);
-
   const sessionToken = uuid();
 
   try {
@@ -77,8 +72,7 @@ const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
         role: input.role,
         region: input.region,
         email: input.email,
-        password: hashedPassword,
-        hashSalt,
+        password: input.password,
         sessionToken,
       },
       include: {
