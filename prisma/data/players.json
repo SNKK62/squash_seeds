@@ -1,0 +1,44 @@
+[
+  {
+    "firstName": "太郎",
+    "lastName": "田中",
+    "grade": 3,
+    "universityId": 1,
+    "sex": "男子"
+  },
+  {
+    "firstName": "園子",
+    "lastName": "鈴木",
+    "grade": 2,
+    "universityId": 2,
+    "sex": "女子"
+  },
+  {
+    "firstName": "花子",
+    "lastName": "佐藤",
+    "grade": 1,
+    "universityId": 3,
+    "sex": "女子"
+  },
+  {
+    "firstName": "智也",
+    "lastName": "井上",
+    "grade": 4,
+    "universityId": 4,
+    "sex": "男子"
+  },
+  {
+    "firstName": "美咲",
+    "lastName": "高橋",
+    "grade": 3,
+    "universityId": 5,
+    "sex": "女子"
+  },
+  {
+    "firstName": "翔太",
+    "lastName": "佐々木",
+    "grade": 2,
+    "universityId": 6,
+    "sex": "男子"
+  }
+]
