@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "慶應義塾大学",
+    "shortName": "慶應",
+    "region": "関東"
+  },
+  {
+    "id": 2,
+    "name": "早稲田大学",
+    "shortName": "早大",
+    "region": "関東"
+  },
+  {
+    "id": 3,
+    "name": "順天堂大学",
+    "shortName": "順大",
+    "region": "関東"
+  },
+  {
+    "id": 4,
+    "name": "明治大学",
+    "shortName": "明治",
+    "region": "関東"
+  },
+  {
+    "id": 5,
+    "name": "青山学院大学",
+    "shortName": "青学",
+    "region": "関東"
+  },
+  {
+    "id": 6,
+    "name": "日本体育大学",
+    "shortName": "日体",
+    "region": "関東"
+  },
+  {
+    "id": 7,
+    "name": "日本大学",
+    "shortName": "日大",
+    "region": "関東"
+  },
+  {
+    "id": 8,
+    "name": "上智大学",
+    "shortName": "上智",
+    "region": "関東"
+  },
+  {
+    "id": 9,
+    "name": "学習院大学",
+    "shortName": "学習",
+    "region": "関東"
+  }
+]
