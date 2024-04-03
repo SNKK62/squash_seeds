@@ -9,5 +9,6 @@ export type CreateMatchMetaInput = {
 };
 
 export type IMatchMetaRepo = {
+  getMatchMetasByTournamentId: (tournamentId: string) => Promise<MatchMeta[]>;
   createMatchMeta: (input: CreateMatchMetaInput) => Promise<MatchMeta>;
 };
