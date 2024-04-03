@@ -3,20 +3,24 @@ import { CreateMatchMetaInput } from "@repository/matchMeta.repo";
 import { Repo } from "@repository/repository";
 import { CreateTournamentInput } from "@repository/tournament.repo";
 
-type PostTournamentsUseCaseInput = {
+type PostTournamentsUsecaseInput = {
   tournament: CreateTournamentInput;
   matchMetas: Exclude<CreateMatchMetaInput, "tournamentId">[];
 };
 
-export class PostTournamentsUseCase {
+export class PostTournamentsUsecase {
   constructor(private readonly repo: Repo) {}
 
-  async execute(input: PostTournamentsUseCaseInput): Promise<Tournament> {
+  public async execute(
+    input: PostTournamentsUsecaseInput
+  ): Promise<Tournament> {
     try {
+      // Create a tournament
       const tournament = await this.repo.tournament.createTournament(
         input.tournament
       );
 
+      // Create match metas' information
       input.matchMetas.forEach(async (matchMeta) => {
         await this.repo.matchMeta.createMatchMeta({
           ...matchMeta,
