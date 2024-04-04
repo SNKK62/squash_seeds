@@ -24,8 +24,12 @@
       "@model/*": ["./domain/model/*"],
       "@repository/*": ["./domain/repository/*"],
       "@service/*": ["./domain/service/*"],
-      "@infrastructure/*": ["./infrastructure/*"],
+      "@usecase/*": ["./usecase/*"],
+      "@fetcher/*": ["./handlers/fetcher/*"],
+      "@actions/*": ["./handlers/actions/*"],
       "@db/*": ["./infrastructure/db/*"],
+      "@infrastructure/*": ["./infrastructure/*"],
+      "@registry/*": ["./registry/*"],
       "@/*": ["./*"]
     }
   },
