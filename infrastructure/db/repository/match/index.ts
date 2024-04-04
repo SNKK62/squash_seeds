@@ -44,7 +44,6 @@ const getMatchesByTournamentIdAndSex = async (
     });
     return dbMatches.map((dbMatch) => convertToMatch(dbMatch));
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };
@@ -63,7 +62,6 @@ const getMatchesNotAnnouncedByTournamentId = async (
 
     return dbMatches.map((dbMatch) => convertToMatch(dbMatch));
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };
@@ -115,7 +113,6 @@ const createMatch = async (input: CreateMatchInput): Promise<Match> => {
     });
     return convertToMatch(match);
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };

@@ -20,7 +20,6 @@ const getMatchMetasByTournamentId = async (
     });
     return matchMetas.map((matchMeta) => convertToMatchMeta(matchMeta));
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };
@@ -42,7 +41,6 @@ const createMatchMeta = async (
     });
     return convertToMatchMeta(matchMeta);
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };

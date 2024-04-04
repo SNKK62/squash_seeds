@@ -10,7 +10,6 @@ export class PostMatchesUsecase {
     try {
       return await this.repo.match.createMatch(input);
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }

@@ -19,7 +19,6 @@ export class GetAllPlayersUsecase {
         throw new Error("Not implemented get retired players");
       }
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }

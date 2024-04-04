@@ -18,7 +18,6 @@ const getPlayersNotRetired = async (): Promise<Player[]> => {
       return convertToPlayer(dbPlayer);
     });
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };

@@ -13,7 +13,6 @@ const getAllUniversities = async (): Promise<University[]> => {
 
     return universities;
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };

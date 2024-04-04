@@ -15,7 +15,6 @@ export class SignupUsecase {
     try {
       return await this.authService.signup(input);
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }

@@ -8,7 +8,6 @@ export class GetGakurenSelfUsecase {
     try {
       return await this.repo.gakuren.getGakurenWithAuthDataByEmail(email);
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }

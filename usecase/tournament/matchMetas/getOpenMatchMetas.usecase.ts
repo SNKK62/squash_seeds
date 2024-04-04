@@ -10,7 +10,6 @@ export class GetOpenMatchMetasUsecase {
         tournamentId
       );
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }

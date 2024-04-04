@@ -29,7 +29,6 @@ export class AuthService {
       }
       return gakurenWithAuthData.gakuren;
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }
@@ -45,7 +44,6 @@ export class AuthService {
         .getGakurenWithAuthDataByEmail(input.email)
         .then((gakurenWithAuthData) => gakurenWithAuthData.gakuren);
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }
@@ -63,7 +61,6 @@ export class AuthService {
         gakurenWithAuthData.authData.hashedSessionToken
       );
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }

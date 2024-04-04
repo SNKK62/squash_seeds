@@ -8,7 +8,6 @@ export class GetAllUniversitiesUsecase {
     try {
       return await this.repo.university.getAllUniversities();
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }

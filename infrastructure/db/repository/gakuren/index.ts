@@ -34,7 +34,6 @@ const getGakurenWithAuthDataByEmail = async (
       },
     };
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };
@@ -54,7 +53,6 @@ const getGakurenById = async (id: string): Promise<Gakuren> => {
     }
     return convertToGakuren(dbGakuren);
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };
@@ -81,7 +79,6 @@ const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
     });
     return convertToGakuren(gakuren);
   } catch (e) {
-    console.error(e);
     throw e;
   }
 };

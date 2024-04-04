@@ -12,7 +12,6 @@ export class LoginUsecase {
     try {
       return await this.authService.login(email, password);
     } catch (e) {
-      console.error(e);
       throw e;
     }
   }
