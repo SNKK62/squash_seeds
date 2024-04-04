@@ -1,12 +1,12 @@
-import { Gakuren } from "@model/gakuren.model";
+import { GakurenWithAuthData } from "@repository/gakuren.repo";
 import { Repo } from "@repository/repository";
 
 export class GetGakurenSelfUsecase {
   constructor(private repo: Repo) {}
 
-  async execute(id: string): Promise<Gakuren> {
+  async execute(email: string): Promise<GakurenWithAuthData> {
     try {
-      return await this.repo.gakuren.getGakurenById(id);
+      return await this.repo.gakuren.getGakurenWithAuthDataByEmail(email);
     } catch (e) {
       console.error(e);
       throw e;
