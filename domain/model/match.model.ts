@@ -49,4 +49,23 @@ export class Match {
         throw new Error("Invalid game count");
     }
   }
+
+  static fromJSON(json: any): Match {
+    return new Match(
+      json.id,
+      Player.fromJSON(json.winner),
+      Player.fromJSON(json.loser),
+      Tournament.fromJSON(json.tournament),
+      new Score(json.winnerGameCount, json.loserGameCount),
+      json.gameScores.map(
+        (gameScore: any) =>
+          new Score(gameScore.winnerScore, gameScore.loserScore)
+      ),
+      Gakuren.fromJSON(json.createdByGakuren),
+      new Date(json.createdAt),
+      MatchMeta.fromJSON(json.matchMeta),
+      json.isDefo,
+      json.isAnnounced
+    );
+  }
 }

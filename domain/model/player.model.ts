@@ -14,4 +14,16 @@ export class Player extends Person {
   ) {
     super(id, firstName, lastName, grade, university);
   }
+
+  static fromJSON(json: any): Player {
+    return new Player(
+      json.id,
+      json.firstName,
+      json.lastName,
+      json.grade,
+      University.fromJSON(json.university),
+      json.sex,
+      json.isRetired
+    );
+  }
 }

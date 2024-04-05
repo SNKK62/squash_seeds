@@ -9,4 +9,14 @@ export class MatchMeta {
     public readonly isRated: boolean,
     public readonly sex: Sex
   ) {}
+
+  static fromJSON(json: any): MatchMeta {
+    return new MatchMeta(
+      json.id,
+      json.type,
+      Tournament.fromJSON(json.tournament),
+      json.isRated,
+      json.sex
+    );
+  }
 }

@@ -22,4 +22,16 @@ export class Gakuren extends Person {
   ) {
     super(id, firstName, lastName, grade, university);
   }
+
+  static fromJSON(json: any): Gakuren {
+    return new Gakuren(
+      json.id,
+      json.firstName,
+      json.lastName,
+      json.grade,
+      University.fromJSON(json.university),
+      json.role,
+      json.region
+    );
+  }
 }

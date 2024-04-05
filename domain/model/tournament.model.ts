@@ -31,4 +31,16 @@ export class Tournament {
     public readonly beginAt: DateString,
     public readonly endAt: DateString
   ) {}
+
+  static fromJSON(json: any): Tournament {
+    return new Tournament(
+      json.id,
+      json.name,
+      json.region,
+      json.isOpen,
+      json.isTeam,
+      json.beginAt,
+      json.endAt
+    );
+  }
 }
