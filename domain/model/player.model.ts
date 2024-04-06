@@ -1,6 +1,16 @@
 import { Person } from "@model/person.abstract";
 import { Sex } from "@model/sex";
-import { University } from "@model/university.model";
+import { University, UniversityJSON } from "@model/university.model";
+
+export type PlayerJSON = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  grade: number;
+  university: UniversityJSON;
+  sex: Sex;
+  isRetired: boolean;
+};
 
 export class Player extends Person {
   constructor(
@@ -15,7 +25,7 @@ export class Player extends Person {
     super(id, firstName, lastName, grade, university);
   }
 
-  static fromJSON(json: any): Player {
+  static fromJSON(json: PlayerJSON): Player {
     return new Player(
       json.id,
       json.firstName,

@@ -1,5 +1,13 @@
 import { Sex } from "@model/sex";
-import { Tournament } from "@model/tournament.model";
+import { Tournament, TournamentJSON } from "@model/tournament.model";
+
+export type MatchMetaJSON = {
+  id: string;
+  type: string;
+  tournament: TournamentJSON;
+  isRated: boolean;
+  sex: Sex;
+};
 
 export class MatchMeta {
   constructor(
@@ -10,7 +18,7 @@ export class MatchMeta {
     public readonly sex: Sex
   ) {}
 
-  static fromJSON(json: any): MatchMeta {
+  static fromJSON(json: MatchMetaJSON): MatchMeta {
     return new MatchMeta(
       json.id,
       json.type,

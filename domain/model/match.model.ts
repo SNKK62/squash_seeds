@@ -1,7 +1,12 @@
-import { Gakuren } from "@model/gakuren.model";
-import { MatchMeta } from "@model/matchMeta.model";
-import { Player } from "@model/player.model";
-import { Tournament } from "@model/tournament.model";
+import { Gakuren, GakurenJSON } from "@model/gakuren.model";
+import { MatchMeta, MatchMetaJSON } from "@model/matchMeta.model";
+import { Player, PlayerJSON } from "@model/player.model";
+import { Tournament, TournamentJSON } from "@model/tournament.model";
+
+export type ScoreJSON = {
+  winnerScore: number;
+  loserScore: number;
+};
 
 export class Score {
   constructor(
@@ -12,7 +17,25 @@ export class Score {
   get concatenatedScore(): string {
     return `${this.winnerScore}-${this.loserScore}`;
   }
+
+  static fromJSON(json: ScoreJSON): Score {
+    return new Score(json.winnerScore, json.loserScore);
+  }
 }
+
+export type MatchJSON = {
+  id: string;
+  winner: PlayerJSON;
+  loser: PlayerJSON;
+  tournament: TournamentJSON;
+  gameCount: ScoreJSON;
+  gameScores: ScoreJSON[];
+  createdByGakuren: GakurenJSON;
+  createdAt: string;
+  matchMeta: MatchMetaJSON;
+  isDefo: boolean;
+  isAnnounced: boolean;
+};
 
 export class Match {
   constructor(
@@ -50,17 +73,14 @@ export class Match {
     }
   }
 
-  static fromJSON(json: any): Match {
+  static fromJSON(json: MatchJSON): Match {
     return new Match(
       json.id,
       Player.fromJSON(json.winner),
       Player.fromJSON(json.loser),
       Tournament.fromJSON(json.tournament),
-      new Score(json.winnerGameCount, json.loserGameCount),
-      json.gameScores.map(
-        (gameScore: any) =>
-          new Score(gameScore.winnerScore, gameScore.loserScore)
-      ),
+      Score.fromJSON(json.gameCount),
+      json.gameScores.map((gameScore: ScoreJSON) => Score.fromJSON(gameScore)),
       Gakuren.fromJSON(json.createdByGakuren),
       new Date(json.createdAt),
       MatchMeta.fromJSON(json.matchMeta),

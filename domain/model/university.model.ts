@@ -1,5 +1,12 @@
 import { Region } from "@model/region";
 
+export type UniversityJSON = {
+  id: number;
+  name: string;
+  shortName: string;
+  region: Region;
+};
+
 export class University {
   constructor(
     public readonly id: number,
@@ -8,7 +15,7 @@ export class University {
     public readonly region: Region
   ) {}
 
-  static fromJSON(json: any): University {
+  static fromJSON(json: UniversityJSON): University {
     return new University(json.id, json.name, json.shortName, json.region);
   }
 }

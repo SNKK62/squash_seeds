@@ -21,6 +21,16 @@ export const isDateString = (arg: any): arg is DateString => {
   );
 };
 
+export type TournamentJSON = {
+  id: string;
+  name: string;
+  region: Region;
+  isOpen: boolean;
+  isTeam: boolean;
+  beginAt: DateString;
+  endAt: DateString;
+};
+
 export class Tournament {
   constructor(
     public readonly id: string,
@@ -32,7 +42,7 @@ export class Tournament {
     public readonly endAt: DateString
   ) {}
 
-  static fromJSON(json: any): Tournament {
+  static fromJSON(json: TournamentJSON): Tournament {
     return new Tournament(
       json.id,
       json.name,
