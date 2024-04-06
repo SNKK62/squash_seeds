@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { setUniversityData } from "./university.seed";
-import { setPlayerData } from "./players.seed";
+import { setUniversityData } from "./seeds/university.seed";
+import { setPlayerData } from "./seeds/players.seed";
 
 const prisma = new PrismaClient();
 
