@@ -51,21 +51,4 @@ export class AuthService {
       throw e;
     }
   }
-
-  public async checkSessionToken(
-    email: string,
-    sessionToken: string
-  ): Promise<boolean> {
-    try {
-      const gakurenWithAuthData =
-        await this.gakurenRepo.getGakurenWithAuthDataByEmail(email);
-
-      return compareHash(
-        sessionToken,
-        gakurenWithAuthData.authData.hashedSessionToken
-      );
-    } catch (e) {
-      throw e;
-    }
-  }
 }

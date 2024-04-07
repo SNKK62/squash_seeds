@@ -6,7 +6,6 @@ import {
 import { prisma } from "@/infrastructure/db/client";
 import { convertToGakuren } from "@db/converters/gakuren";
 
-import { v4 as uuid } from "uuid";
 import { Gakuren } from "@model/gakuren.model";
 
 const getGakurenWithAuthDataByEmail = async (
@@ -30,7 +29,6 @@ const getGakurenWithAuthDataByEmail = async (
       authData: {
         email: dbGakuren.email,
         hashedPassword: dbGakuren.password,
-        hashedSessionToken: dbGakuren.sessionToken,
       },
     };
   } catch (e) {
@@ -58,8 +56,6 @@ const getGakurenById = async (id: string): Promise<Gakuren> => {
 };
 
 const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
-  const sessionToken = uuid();
-
   try {
     const gakuren = await prisma.gakuren.create({
       data: {
@@ -71,7 +67,6 @@ const createGakuren = async (input: CreateGakurenInput): Promise<Gakuren> => {
         region: input.region,
         email: input.email,
         password: input.password,
-        sessionToken,
       },
       include: {
         university: true,

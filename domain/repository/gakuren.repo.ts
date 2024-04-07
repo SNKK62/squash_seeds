@@ -4,7 +4,6 @@ import { Region } from "@model/region";
 type AuthData = {
   email: string;
   hashedPassword: string;
-  hashedSessionToken: string;
 };
 
 export type GakurenWithAuthData = {

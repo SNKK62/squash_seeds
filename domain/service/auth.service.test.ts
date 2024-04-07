@@ -23,7 +23,7 @@ describe("AuthService", () => {
           role: "幹部",
           region: "全日本",
         },
-        authData: { email, hashedPassword, hashedSessionToken: "" },
+        authData: { email, hashedPassword },
       };
 
       const mockGetGakurenWithAuthDataByEmail = jest
@@ -64,7 +64,7 @@ describe("AuthService", () => {
           role: "幹部",
           region: "全日本",
         },
-        authData: { email, hashedPassword, hashedSessionToken: "" },
+        authData: { email, hashedPassword },
       };
 
       const mockGetGakurenWithAuthDataByEmail = jest
@@ -115,7 +115,6 @@ describe("AuthService", () => {
         authData: {
           email: email,
           hashedPassword: "",
-          hashedSessionToken: "",
         },
       };
 
@@ -173,7 +172,6 @@ describe("AuthService", () => {
         authData: {
           email: email,
           hashedPassword,
-          hashedSessionToken: "",
         },
       };
 
@@ -201,112 +199,6 @@ describe("AuthService", () => {
       expect(
         mockGakurenRepo.getGakurenWithAuthDataByEmail
       ).not.toHaveBeenCalledWith(input.email);
-    });
-  });
-
-  describe("checkSessionToken", () => {
-    it("should return true if the session token is valid", async () => {
-      const email = "test@example.com";
-      const sessionToken = "sessionToken";
-      const hashedSessionToken = hashString(sessionToken);
-
-      const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
-        Promise.resolve({
-          gakuren: {
-            id: "1",
-            firstName: "John",
-            lastName: "Doe",
-            grade: 1,
-            universityId: 1,
-            role: "幹部",
-            region: "全日本",
-          },
-          authData: { email, hashedPassword: "", hashedSessionToken },
-        })
-      );
-
-      const mockGakurenRepo = newMockGakurenRepo(
-        mockGetGakurenWithAuthDataByEmail,
-        jest.fn(),
-        jest.fn()
-      );
-
-      const authService = new AuthService(
-        newMockRepo({ gakuren: mockGakurenRepo })
-      );
-
-      const result = await authService.checkSessionToken(email, sessionToken);
-
-      expect(result).toBe(true);
-      expect(
-        mockGakurenRepo.getGakurenWithAuthDataByEmail
-      ).toHaveBeenCalledWith(email);
-    });
-
-    it("should return false if the session token is invalid", async () => {
-      const email = "test@example.com";
-      const sessionToken = "SessionToken";
-      const invalidSessionToken = "invalidSessionToken";
-      const hashedSessionToken = hashString(sessionToken);
-
-      const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue({
-        gakuren: {
-          id: "1",
-          firstName: "John",
-          lastName: "Doe",
-          grade: 1,
-          universityId: 1,
-          role: "幹部",
-          region: "全日本",
-        },
-        authData: { email, hashedPassword: "", hashedSessionToken },
-      });
-
-      const mockGakurenRepo = newMockGakurenRepo(
-        mockGetGakurenWithAuthDataByEmail,
-        jest.fn(),
-        jest.fn()
-      );
-
-      const authService = new AuthService(
-        newMockRepo({ gakuren: mockGakurenRepo })
-      );
-
-      const result = await authService.checkSessionToken(
-        email,
-        invalidSessionToken
-      );
-
-      expect(result).toBe(false);
-      expect(
-        mockGakurenRepo.getGakurenWithAuthDataByEmail
-      ).toHaveBeenCalledWith(email);
-    });
-
-    it("should throw an error if an error occurs", async () => {
-      const email = "test@example.com";
-      const sessionToken = "sessionToken";
-
-      const mockGetGakurenWithAuthDataByEmail = jest
-        .fn()
-        .mockRejectedValue(new Error("Error while getting gakuren"));
-
-      const mockGakurenRepo = newMockGakurenRepo(
-        mockGetGakurenWithAuthDataByEmail,
-        jest.fn(),
-        jest.fn()
-      );
-
-      const authService = new AuthService(
-        newMockRepo({ gakuren: mockGakurenRepo })
-      );
-
-      await expect(
-        authService.checkSessionToken(email, sessionToken)
-      ).rejects.toThrow("Error while getting gakuren");
-      expect(
-        mockGakurenRepo.getGakurenWithAuthDataByEmail
-      ).toHaveBeenCalledWith(email);
     });
   });
 });

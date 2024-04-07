@@ -32,7 +32,6 @@ CREATE TABLE "gakurens" (
     "region" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "session_token" TEXT NOT NULL,
 
     CONSTRAINT "gakurens_pkey" PRIMARY KEY ("id")
 );

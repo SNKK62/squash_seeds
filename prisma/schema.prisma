@@ -51,7 +51,6 @@ model Gakuren {
   region       String
   email        String     @unique
   password     String
-  sessionToken String     @map("session_token")
 
   match Match[]
 
