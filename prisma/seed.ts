@@ -6,7 +6,9 @@ const prisma = new PrismaClient();
 
 async function main() {
   await setUniversityData(prisma);
-  await setPlayerData(prisma);
+  setTimeout(async () => {
+    await setPlayerData(prisma);
+  }, 2000);
 }
 
 main()
