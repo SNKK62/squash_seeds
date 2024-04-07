@@ -119,7 +119,9 @@ describe("AuthService", () => {
         },
       };
 
-      const mockCreateGakuren = jest.fn().mockResolvedValue(undefined);
+      const mockCreateGakuren = jest
+        .fn()
+        .mockResolvedValue(gakurenWithAuthData.gakuren);
 
       const mockGetGakurenWithAuthDataByEmail = jest
         .fn()
