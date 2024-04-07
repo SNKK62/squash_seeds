@@ -10,7 +10,7 @@ export abstract class Person {
   ) {}
 
   get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
+    return `${this.lastName} ${this.firstName}`;
   }
 
   get lastNameWithUnivShortName(): string {
