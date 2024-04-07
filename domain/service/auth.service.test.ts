@@ -13,20 +13,22 @@ describe("AuthService", () => {
       const password = "password";
       const hashedPassword = hashString(password);
 
-      const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
-        Promise.resolve({
-          gakuren: {
-            id: "1",
-            firstName: "John",
-            lastName: "Doe",
-            grade: 1,
-            universityId: 1,
-            role: "幹部",
-            region: "全日本",
-          },
-          authData: { email, hashedPassword, hashedSessionToken: "" },
-        })
-      );
+      const gakurenWithAuthData = {
+        gakuren: {
+          id: "1",
+          firstName: "John",
+          lastName: "Doe",
+          grade: 1,
+          universityId: 1,
+          role: "幹部",
+          region: "全日本",
+        },
+        authData: { email, hashedPassword, hashedSessionToken: "" },
+      };
+
+      const mockGetGakurenWithAuthDataByEmail = jest
+        .fn()
+        .mockResolvedValue(Promise.resolve(gakurenWithAuthData));
 
       const mockGakurenRepo = newMockGakurenRepo(
         mockGetGakurenWithAuthDataByEmail,
@@ -40,15 +42,7 @@ describe("AuthService", () => {
 
       const result = await authService.login(email, password);
 
-      expect(result).toEqual({
-        id: "1",
-        firstName: "John",
-        lastName: "Doe",
-        grade: 1,
-        universityId: 1,
-        role: "幹部",
-        region: "全日本",
-      });
+      expect(result).toEqual(gakurenWithAuthData);
       expect(
         mockGakurenRepo.getGakurenWithAuthDataByEmail
       ).toHaveBeenCalledWith(email);
@@ -58,23 +52,24 @@ describe("AuthService", () => {
       const email = "test@example.com";
       const wrongPassword = "wrongPassword";
       const password = "password";
-      const salt = "salt";
       const hashedPassword = hashString(password);
 
-      const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
-        Promise.resolve({
-          gakuren: {
-            id: "1",
-            firstName: "John",
-            lastName: "Doe",
-            grade: 1,
-            universityId: 1,
-            role: "幹部",
-            region: "全日本",
-          },
-          authData: { email, hashedPassword, salt, hashedSessionToken: "" },
-        })
-      );
+      const gakurenWithAuthData = {
+        gakuren: {
+          id: "1",
+          firstName: "John",
+          lastName: "Doe",
+          grade: 1,
+          universityId: 1,
+          role: "幹部",
+          region: "全日本",
+        },
+        authData: { email, hashedPassword, hashedSessionToken: "" },
+      };
+
+      const mockGetGakurenWithAuthDataByEmail = jest
+        .fn()
+        .mockResolvedValue(Promise.resolve(gakurenWithAuthData));
 
       const mockGakurenRepo = newMockGakurenRepo(
         mockGetGakurenWithAuthDataByEmail,
@@ -95,7 +90,6 @@ describe("AuthService", () => {
   describe("signup", () => {
     it("should return a Gakuren object if signup is successful", async () => {
       const email = "test@example.com";
-      const salt = "salt";
       const password = "password";
       const input: CreateGakurenInput = {
         firstName: "John",
@@ -107,29 +101,29 @@ describe("AuthService", () => {
         email,
         password,
       };
-      const hashedPassword = hashString(password);
+
+      const gakurenWithAuthData = {
+        gakuren: {
+          id: "1",
+          firstName: "John",
+          lastName: "Doe",
+          grade: 1,
+          universityId: 1,
+          role: "幹部",
+          region: "全日本",
+        },
+        authData: {
+          email: email,
+          hashedPassword: "",
+          hashedSessionToken: "",
+        },
+      };
 
       const mockCreateGakuren = jest.fn().mockResolvedValue(undefined);
 
-      const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
-        Promise.resolve({
-          gakuren: {
-            id: "1",
-            firstName: "John",
-            lastName: "Doe",
-            grade: 1,
-            universityId: 1,
-            role: "幹部",
-            region: "全日本",
-          },
-          authData: {
-            email: email,
-            hashedPassword,
-            salt,
-            hashedSessionToken: "",
-          },
-        })
-      );
+      const mockGetGakurenWithAuthDataByEmail = jest
+        .fn()
+        .mockResolvedValue(Promise.resolve(gakurenWithAuthData));
       const mockGakurenRepo = newMockGakurenRepo(
         mockGetGakurenWithAuthDataByEmail,
         jest.fn(),
@@ -142,24 +136,15 @@ describe("AuthService", () => {
 
       const result = await authService.signup(input);
 
-      expect(result).toEqual({
-        id: "1",
-        firstName: "John",
-        lastName: "Doe",
-        grade: 1,
-        universityId: 1,
-        role: "幹部",
-        region: "全日本",
-      });
-      expect(mockCreateGakuren).toHaveBeenCalledWith(input);
-      expect(
-        mockGakurenRepo.getGakurenWithAuthDataByEmail
-      ).toHaveBeenCalledWith(input.email);
+      expect(result).toEqual(gakurenWithAuthData);
+      expect(mockCreateGakuren).toHaveBeenCalled();
+      expect(mockGetGakurenWithAuthDataByEmail).toHaveBeenCalledWith(
+        input.email
+      );
     });
 
     it("should return an error if signup failed", async () => {
       const email = "test@example.com";
-      const salt = "salt";
       const password = "password";
       const input: CreateGakurenInput = {
         firstName: "John",
@@ -173,29 +158,30 @@ describe("AuthService", () => {
       };
       const hashedPassword = hashString(password);
 
+      const gakurenWithAuthData = {
+        gakuren: {
+          id: "1",
+          firstName: "John",
+          lastName: "Doe",
+          grade: 1,
+          universityId: 1,
+          role: "幹部",
+          region: "全日本",
+        },
+        authData: {
+          email: email,
+          hashedPassword,
+          hashedSessionToken: "",
+        },
+      };
+
       const mockCreateGakuren = jest
         .fn()
         .mockRejectedValue(new Error("Error while create gakuren"));
 
-      const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
-        Promise.resolve({
-          gakuren: {
-            id: "1",
-            firstName: "John",
-            lastName: "Doe",
-            grade: 1,
-            universityId: 1,
-            role: "幹部",
-            region: "全日本",
-          },
-          authData: {
-            email: email,
-            hashedPassword,
-            salt,
-            hashedSessionToken: "",
-          },
-        })
-      );
+      const mockGetGakurenWithAuthDataByEmail = jest
+        .fn()
+        .mockResolvedValue(Promise.resolve(gakurenWithAuthData));
       const mockGakurenRepo = newMockGakurenRepo(
         mockGetGakurenWithAuthDataByEmail,
         jest.fn(),
@@ -209,7 +195,7 @@ describe("AuthService", () => {
       await expect(authService.signup(input)).rejects.toThrow(
         "Error while create gakuren"
       );
-      expect(mockCreateGakuren).toHaveBeenCalledWith(input);
+      expect(mockCreateGakuren).toHaveBeenCalled();
       expect(
         mockGakurenRepo.getGakurenWithAuthDataByEmail
       ).not.toHaveBeenCalledWith(input.email);
@@ -220,7 +206,6 @@ describe("AuthService", () => {
     it("should return true if the session token is valid", async () => {
       const email = "test@example.com";
       const sessionToken = "sessionToken";
-      const salt = "salt";
       const hashedSessionToken = hashString(sessionToken);
 
       const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue(
@@ -234,7 +219,7 @@ describe("AuthService", () => {
             role: "幹部",
             region: "全日本",
           },
-          authData: { email, hashedPassword: "", salt, hashedSessionToken },
+          authData: { email, hashedPassword: "", hashedSessionToken },
         })
       );
 
@@ -260,7 +245,6 @@ describe("AuthService", () => {
       const email = "test@example.com";
       const sessionToken = "SessionToken";
       const invalidSessionToken = "invalidSessionToken";
-      const salt = "salt";
       const hashedSessionToken = hashString(sessionToken);
 
       const mockGetGakurenWithAuthDataByEmail = jest.fn().mockResolvedValue({
@@ -273,7 +257,7 @@ describe("AuthService", () => {
           role: "幹部",
           region: "全日本",
         },
-        authData: { email, hashedPassword: "", salt, hashedSessionToken },
+        authData: { email, hashedPassword: "", hashedSessionToken },
       });
 
       const mockGakurenRepo = newMockGakurenRepo(

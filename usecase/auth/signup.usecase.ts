@@ -1,5 +1,7 @@
-import { Gakuren } from "@model/gakuren.model";
-import { CreateGakurenInput } from "@repository/gakuren.repo";
+import {
+  CreateGakurenInput,
+  GakurenWithAuthData,
+} from "@repository/gakuren.repo";
 import { Repo } from "@repository/repository";
 import { AuthService } from "@service/auth.service";
 
@@ -11,7 +13,9 @@ export class SignupUsecase {
     this.authService = new AuthService(repo);
   }
 
-  public async execute(input: SignupUsecaseInput): Promise<Gakuren> {
+  public async execute(
+    input: SignupUsecaseInput
+  ): Promise<GakurenWithAuthData> {
     try {
       return await this.authService.signup(input);
     } catch (e) {

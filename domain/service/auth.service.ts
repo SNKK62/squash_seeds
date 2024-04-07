@@ -1,5 +1,8 @@
-import { Gakuren } from "@model/gakuren.model";
-import { CreateGakurenInput, IGakurenRepo } from "@repository/gakuren.repo";
+import {
+  CreateGakurenInput,
+  GakurenWithAuthData,
+  IGakurenRepo,
+} from "@repository/gakuren.repo";
 import bcrypt from "bcrypt";
 import { Repo } from "@repository/repository";
 
@@ -19,7 +22,10 @@ export class AuthService {
     this.gakurenRepo = repo.gakuren;
   }
 
-  public async login(email: string, password: string): Promise<Gakuren> {
+  public async login(
+    email: string,
+    password: string
+  ): Promise<GakurenWithAuthData> {
     try {
       const gakurenWithAuthData =
         await this.gakurenRepo.getGakurenWithAuthDataByEmail(email);
@@ -27,22 +33,20 @@ export class AuthService {
       if (!compareHash(password, gakurenWithAuthData.authData.hashedPassword)) {
         throw new Error("Invalid password");
       }
-      return gakurenWithAuthData.gakuren;
+      return gakurenWithAuthData;
     } catch (e) {
       throw e;
     }
   }
 
-  public async signup(input: CreateGakurenInput): Promise<Gakuren> {
+  public async signup(input: CreateGakurenInput): Promise<GakurenWithAuthData> {
     try {
       const hashedPassword = hashString(input.password);
       await this.gakurenRepo.createGakuren({
         ...input,
         password: hashedPassword,
       });
-      return await this.gakurenRepo
-        .getGakurenWithAuthDataByEmail(input.email)
-        .then((gakurenWithAuthData) => gakurenWithAuthData.gakuren);
+      return await this.gakurenRepo.getGakurenWithAuthDataByEmail(input.email);
     } catch (e) {
       throw e;
     }
