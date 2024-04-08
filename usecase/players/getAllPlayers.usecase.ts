@@ -12,7 +12,7 @@ export class GetAllPlayersUsecase {
     options: GetAllPlayersUsecaseOptions
   ): Promise<Player[]> {
     try {
-      if (options.retired) {
+      if (!options.retired) {
         const players = await this.repo.player.getPlayersNotRetired();
         return players;
       } else {
