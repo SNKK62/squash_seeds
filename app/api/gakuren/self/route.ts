@@ -10,7 +10,7 @@ export async function GET() {
   const password = cookieStore.get("password");
   try {
     if (!email || !password) {
-      throw new Error("Unauthorized");
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
     const gakurenWithAuthData = await getGakurenSelfUsecase.execute(
       email.value,
