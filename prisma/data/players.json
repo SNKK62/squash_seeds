@@ -4,41 +4,47 @@
     "lastName": "田中",
     "grade": 3,
     "universityId": 1,
-    "sex": "男子"
+    "sex": "男子",
+    "isRetired": false
   },
   {
     "firstName": "園子",
     "lastName": "鈴木",
     "grade": 2,
     "universityId": 2,
-    "sex": "女子"
+    "sex": "女子",
+    "isRetired": false
   },
   {
     "firstName": "花子",
     "lastName": "佐藤",
     "grade": 1,
     "universityId": 3,
-    "sex": "女子"
+    "sex": "女子",
+    "isRetired": false
   },
   {
     "firstName": "智也",
     "lastName": "井上",
     "grade": 4,
     "universityId": 4,
-    "sex": "男子"
+    "sex": "男子",
+    "isRetired": false
   },
   {
     "firstName": "美咲",
     "lastName": "高橋",
     "grade": 3,
     "universityId": 5,
-    "sex": "女子"
+    "sex": "女子",
+    "isRetired": false
   },
   {
     "firstName": "翔太",
     "lastName": "佐々木",
-    "grade": 2,
+    "grade": 4,
     "universityId": 6,
-    "sex": "男子"
+    "sex": "男子",
+    "isRetired": true
   }
 ]

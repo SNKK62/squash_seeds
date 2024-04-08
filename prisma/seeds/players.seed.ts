@@ -11,6 +11,7 @@ export const setPlayerData = async (prisma: PrismaClient) => {
           universityId: player.universityId,
           grade: player.grade,
           sex: player.sex,
+          isRetired: player.isRetired,
         },
       });
     });
