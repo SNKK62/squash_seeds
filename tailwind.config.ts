@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config = {
   darkMode: ["class"],
@@ -17,10 +18,10 @@ const config = {
         "2xl": "1400px",
       },
     },
-    fontFamily: {
-      sans: ["var(--font-noto-sans-jp)"], // font-sans クラスに適用
-    },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-noto-sans-jp)", ...fontFamily.sans],
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
