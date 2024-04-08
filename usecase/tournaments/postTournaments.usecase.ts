@@ -1,3 +1,4 @@
+import { openTournamentNotFoundMessage } from "@db/repository/tournament";
 import { Tournament } from "@model/tournament.model";
 import { CreateMatchMetaInput } from "@repository/matchMeta.repo";
 import { Repo } from "@repository/repository";
@@ -14,6 +15,16 @@ export class PostTournamentsUsecase {
   public async execute(
     input: PostTournamentsUsecaseInput
   ): Promise<Tournament> {
+    try {
+      await this.repo.tournament.getOpenTournamentByRegion(
+        input.tournament.region
+      );
+      throw new Error("There is already an open tournament in the region");
+    } catch (e) {
+      if (String(e) !== openTournamentNotFoundMessage) {
+        throw e;
+      }
+    }
     try {
       // Create a tournament
       const tournament = await this.repo.tournament.createTournament(

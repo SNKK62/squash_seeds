@@ -7,6 +7,8 @@ import {
 import { prisma } from "@db/client";
 import { convertToTournament } from "@infrastructure/db/converters/tournament";
 
+export const openTournamentNotFoundMessage = "Open tournament not found.";
+
 const getOpenTournamentByRegion = async (
   region: Region
 ): Promise<Tournament> => {
@@ -17,11 +19,8 @@ const getOpenTournamentByRegion = async (
         isOpen: true,
       },
     });
-    if (dbTournament.length > 1) {
-      throw new Error("Open tournament must be only one.");
-    }
     if (!dbTournament[0]) {
-      throw new Error("Open tournament not found.");
+      throw new Error(openTournamentNotFoundMessage);
     }
     return convertToTournament(dbTournament[0]);
   } catch (e) {
