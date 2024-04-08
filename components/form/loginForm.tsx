@@ -8,7 +8,6 @@ import { loginSchema } from "@actions/schema/login.schema";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export function LoginForm() {
   const [lastResult, action] = useFormState(loginAction, undefined);
@@ -30,6 +29,7 @@ export function LoginForm() {
         action={action}
         noValidate
       >
+        <ul>{form.errors?.map((error) => <li key={error}>{error}</li>)}</ul>
         <div>
           <Label htmlFor={fields.email.id}>Email</Label>
           <Input type="email" name={fields.email.name} />

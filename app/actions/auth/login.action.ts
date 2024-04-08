@@ -30,6 +30,8 @@ export async function loginAction(_: unknown, formData: FormData) {
     return;
   } catch (e) {
     console.log(e);
-    return submission.reply();
+    return submission.reply({
+      formErrors: [String(e)],
+    });
   }
 }
