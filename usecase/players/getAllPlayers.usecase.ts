@@ -2,7 +2,7 @@ import { Player } from "@model/player.model";
 import { Repo } from "@repository/repository";
 
 export type GetAllPlayersUsecaseOptions = {
-  retired?: boolean;
+  retired: boolean;
 };
 
 export class GetAllPlayersUsecase {
