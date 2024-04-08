@@ -39,6 +39,8 @@ export async function signupAction(_: unknown, formData: FormData) {
     return;
   } catch (e) {
     console.log(e);
-    throw e;
+    return submission.reply({
+      formErrors: [String(e)],
+    });
   }
 }

@@ -29,6 +29,7 @@ export function SignupForm() {
         action={action}
         noValidate
       >
+        <ul>{form.errors?.map((error) => <li key={error}>{error}</li>)}</ul>
         <div>
           <Label htmlFor={fields.lastName.id}>苗字</Label>
           <Input type="text" name={fields.lastName.name} className="block" />
