@@ -5,10 +5,10 @@ import { cookies } from "next/headers";
 const getGakurenSelfUsecase = new GetGakurenSelfUsecase(repository);
 
 export async function GET() {
-  const cookieStore = cookies();
-  const email = cookieStore.get("email");
-  const password = cookieStore.get("password");
   try {
+    const cookieStore = cookies();
+    const email = cookieStore.get("email");
+    const password = cookieStore.get("password");
     if (!email || !password) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
