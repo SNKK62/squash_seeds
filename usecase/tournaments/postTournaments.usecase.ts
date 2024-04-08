@@ -6,7 +6,7 @@ import { CreateTournamentInput } from "@repository/tournament.repo";
 
 type PostTournamentsUsecaseInput = {
   tournament: CreateTournamentInput;
-  matchMetas: Exclude<CreateMatchMetaInput, "tournamentId">[];
+  matchMetas: Omit<CreateMatchMetaInput, "tournamentId">[];
 };
 
 export class PostTournamentsUsecase {
