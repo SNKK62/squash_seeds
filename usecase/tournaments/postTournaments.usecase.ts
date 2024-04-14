@@ -4,7 +4,7 @@ import { CreateMatchMetaInput } from "@repository/matchMeta.repo";
 import { Repo } from "@repository/repository";
 import { CreateTournamentInput } from "@repository/tournament.repo";
 
-type PostTournamentsUsecaseInput = {
+export type PostTournamentsUsecaseInput = {
   tournament: CreateTournamentInput;
   matchMetas: Omit<CreateMatchMetaInput, "tournamentId">[];
 };
@@ -21,7 +21,7 @@ export class PostTournamentsUsecase {
       );
       throw new Error("There is already an open tournament in the region");
     } catch (e) {
-      if (String(e) !== openTournamentNotFoundMessage) {
+      if (String(e) !== `Error: ${openTournamentNotFoundMessage}`) {
         throw e;
       }
     }
