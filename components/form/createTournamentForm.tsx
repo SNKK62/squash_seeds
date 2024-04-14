@@ -74,10 +74,10 @@ export const CreateTournamentForm = () => {
         <div>
           <Label htmlFor={fields.name.id}>大会名</Label>
           <Input type="text" name={fields.name.name} />
-          <div>{fields.name.errors}</div>
+          <div className="h-8">{fields.name.errors}</div>
         </div>
         <div>
-          <Input hidden type="text" name={fields.region.name} value="関東" />
+          <Input type="hidden" name={fields.region.name} value="関東" />
           <div>{fields.region.errors}</div>
         </div>
         <div>
