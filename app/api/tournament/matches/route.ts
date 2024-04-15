@@ -1,5 +1,5 @@
 import { repository } from "@registry/repository";
-import { GetAllMatchesNotAnnouncedUsecase } from "@usecase/tournament/matches/getAllMatchesNotAnnounced.usecase";
+import { GetAllMatchesNotAnnouncedUsecase } from "@usecase/matches/getAllMatchesNotAnnounced.usecase";
 import { cookies } from "next/headers";
 
 const getAllMatchesNotAnnouncedUsecase = new GetAllMatchesNotAnnouncedUsecase(

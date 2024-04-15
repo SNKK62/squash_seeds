@@ -3,7 +3,10 @@ import { CreateMatchInput } from "@repository/match.repo";
 import { Repo } from "@repository/repository";
 import { AuthService } from "@service/auth.service";
 
-type PostMatchesUsecaseInput = Omit<CreateMatchInput, "tournamentId"> & {
+export type PostMatchesUsecaseInput = Omit<
+  Omit<CreateMatchInput, "tournamentId">,
+  "createdById"
+> & {
   email: string;
   password: string;
 };
@@ -21,6 +24,7 @@ export class PostMatchesUsecase {
       );
       return await this.repo.match.createMatch({
         ...input,
+        createdById: self.gakuren.id,
         tournamentId: tournament.id,
       });
     } catch (e) {

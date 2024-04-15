@@ -1,5 +1,5 @@
 import { repository } from "@registry/repository";
-import { GetOpenMatchMetasUsecase } from "@usecase/tournament/matchMetas/getOpenMatchMetas.usecase";
+import { GetOpenMatchMetasUsecase } from "@usecase/matchMetas/getOpenMatchMetas.usecase";
 import { cookies } from "next/headers";
 
 const getOpenMatchMetasUsecase = new GetOpenMatchMetasUsecase(repository);
