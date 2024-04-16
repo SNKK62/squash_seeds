@@ -117,8 +117,24 @@ const createMatch = async (input: CreateMatchInput): Promise<Match> => {
   }
 };
 
+const announceMatch = async (id: string): Promise<void> => {
+  try {
+    await prisma.match.update({
+      where: {
+        id,
+      },
+      data: {
+        isAnnounced: true,
+      },
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
 export const MatchRepo: IMatchRepo = {
   getMatchesByTournamentIdAndSex,
   getMatchesNotAnnouncedByTournamentId,
   createMatch,
+  announceMatch,
 };
