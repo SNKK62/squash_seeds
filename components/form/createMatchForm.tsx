@@ -20,29 +20,44 @@ const CreateScoreForm = ({ score }: CreateScoreFormProps) => {
 
   return (
     <>
-      <div className="flex justify-around">
-        <Input type="number" name={scoreFields.winnerScore.name} />
-        <div>-</div>
-        <Input type="number" name={scoreFields.loserScore.name} />
-      </div>
-      <div>{scoreFields.winnerScore.errors}</div>
-      <div>{scoreFields.loserScore.errors}</div>
+      <Input
+        type="number"
+        className="aspect-square w-10"
+        name={scoreFields.winnerScore.name}
+      />
+      <div className="font-extrabold">-</div>
+      <Input
+        type="number"
+        className="aspect-square w-10"
+        name={scoreFields.loserScore.name}
+      />
     </>
   );
 };
 
 type CreateGameScoresFormProps = {
   scores: FieldMetadata<z.infer<typeof scoreSchema>>[];
+  getRemoveButtonProps: any;
+  scoresFieldName: any;
 };
 
-const CreateGameScoresForm = ({ scores }: CreateGameScoresFormProps) => {
+const CreateGameScoresForm = ({
+  scores,
+  getRemoveButtonProps,
+  scoresFieldName,
+}: CreateGameScoresFormProps) => {
   return (
     <ul>
       {scores.map((score, i) => {
         return (
-          <div>
+          <div className="flex justify-center items-center gap-x-4 my-4">
             <Label htmlFor={score.id}>{i + 1}セット目</Label>
             <CreateScoreForm score={score} />
+            <Button
+              {...getRemoveButtonProps({ name: scoresFieldName, index: i })}
+            >
+              削除
+            </Button>
           </div>
         );
       })}
@@ -93,11 +108,15 @@ export const CreateMatchForm = () => {
           <Input type="hidden" name={fields.isDefo.name} value="false" />
           <div>{fields.isDefo.errors}</div>
         </div>
-        <div>
+        <div className="flex justify-center items-center gap-x-4 my-4">
           <Label htmlFor={fields.gameCount.id}>ゲームカウント</Label>
           <CreateScoreForm score={fields.gameCount} />
         </div>
-        <CreateGameScoresForm scores={scores} />
+        <CreateGameScoresForm
+          scores={scores}
+          getRemoveButtonProps={form.remove.getButtonProps}
+          scoresFieldName={fields.scores.name}
+        />
         {scores.length < 5 && (
           <Button
             {...form.insert.getButtonProps({
