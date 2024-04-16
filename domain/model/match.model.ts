@@ -30,7 +30,7 @@ export type MatchJSON = {
   tournament: TournamentJSON;
   gameCount: ScoreJSON;
   gameScores: ScoreJSON[];
-  createdByGakuren: GakurenJSON;
+  createdBy: GakurenJSON;
   createdAt: string;
   matchMeta: MatchMetaJSON;
   isDefo: boolean;
@@ -81,7 +81,7 @@ export class Match {
       Tournament.fromJSON(json.tournament),
       Score.fromJSON(json.gameCount),
       json.gameScores.map((gameScore: ScoreJSON) => Score.fromJSON(gameScore)),
-      Gakuren.fromJSON(json.createdByGakuren),
+      Gakuren.fromJSON(json.createdBy),
       new Date(json.createdAt),
       MatchMeta.fromJSON(json.matchMeta),
       json.isDefo,
