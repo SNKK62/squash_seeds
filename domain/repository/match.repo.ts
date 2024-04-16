@@ -21,4 +21,5 @@ export type IMatchRepo = {
     tournamentId: string
   ) => Promise<Match[]>;
   createMatch: (input: CreateMatchInput) => Promise<Match>;
+  announceMatch: (id: string) => Promise<void>;
 };
