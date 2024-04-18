@@ -1,6 +1,7 @@
+import { cookies } from "next/headers";
+
 import { repository } from "@registry/repository";
 import { GetGakurenSelfUsecase } from "@usecase/gakuren/getGakurenSelf.usecase";
-import { cookies } from "next/headers";
 
 const getGakurenSelfUsecase = new GetGakurenSelfUsecase(repository);
 

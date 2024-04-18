@@ -1,6 +1,8 @@
-import { isRegion } from "@/domain/model/region";
-import { isDateString, Tournament } from "@model/tournament.model";
 import { Tournament as DBTournament } from "@prisma/client";
+
+import { isRegion } from "@/domain/model/region";
+
+import { isDateString, Tournament } from "@model/tournament.model";
 
 export const convertToTournament = (tournament: DBTournament): Tournament => {
   if (!isRegion(tournament.region)) {

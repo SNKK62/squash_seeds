@@ -1,6 +1,7 @@
+import { cookies } from "next/headers";
+
 import { repository } from "@registry/repository";
 import { GetOpenTournamentUsecase } from "@usecase/tournaments/getOpenTournament.usecase";
-import { cookies } from "next/headers";
 
 const getOpenTournamentByRegionUsecase = new GetOpenTournamentUsecase(
   repository

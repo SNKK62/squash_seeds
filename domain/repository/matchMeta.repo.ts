@@ -1,5 +1,6 @@
-import { MatchMeta } from "@model/matchMeta.model";
 import { Sex } from "../model/sex";
+
+import { MatchMeta } from "@model/matchMeta.model";
 
 export type CreateMatchMetaInput = {
   type: string;

@@ -1,9 +1,11 @@
 import { Match as DBMatch, Tournament as DBTournament } from "@prisma/client";
-import { Match, Score } from "@model/match.model";
-import { convertToPlayer, DBPlayerWithUniversity } from "./player";
-import { convertToTournament } from "./tournament";
+
 import { convertToGakuren, DBGakurenWithUniversity } from "./gakuren";
 import { convertToMatchMeta, DBMatchMetaWithTournament } from "./matchMeta";
+import { convertToPlayer, DBPlayerWithUniversity } from "./player";
+import { convertToTournament } from "./tournament";
+
+import { Match, Score } from "@model/match.model";
 
 type ScoreIndexKey =
   | `winnerGame1Score`
@@ -44,7 +46,9 @@ export const convertToMatch = (dbMatch: DBMatchWithData): Match => {
       typeof dbMatch[winnerKey] === "number" &&
       typeof dbMatch[loserKey] === "number"
     ) {
-      gameScores.push(new Score(dbMatch[winnerKey], dbMatch[loserKey]));
+      gameScores.push(
+        new Score(dbMatch[winnerKey] as number, dbMatch[loserKey] as number)
+      );
     }
   }
 

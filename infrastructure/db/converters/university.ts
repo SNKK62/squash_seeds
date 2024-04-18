@@ -1,6 +1,7 @@
 import { University as DBUniversity } from "@prisma/client";
-import { University } from "@/domain/model/university.model";
+
 import { isRegion } from "@/domain/model/region";
+import { University } from "@/domain/model/university.model";
 
 export const convertToUniversity = (university: DBUniversity): University => {
   if (!isRegion(university.region)) {

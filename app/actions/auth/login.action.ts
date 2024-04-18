@@ -1,11 +1,11 @@
 "use server";
 import "server-only";
 import { parseWithZod } from "@conform-to/zod";
+import { cookies } from "next/headers";
 
+import { loginSchema } from "@actions/schema/login.schema";
 import { repository } from "@registry/repository";
 import { LoginUsecase } from "@usecase/auth/login.usecase";
-import { cookies } from "next/headers";
-import { loginSchema } from "@actions/schema/login.schema";
 
 export async function loginAction(_: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {

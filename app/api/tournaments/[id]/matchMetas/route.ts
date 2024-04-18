@@ -1,13 +1,18 @@
+import { NextRequest } from "next/server";
+
 import { repository } from "@registry/repository";
 import { GetMatchMetasByTournamentIdUsecase } from "@usecase/matchMetas/getMatchMetasByTournamentId.usecase";
-import { NextApiRequest } from "next";
 
 const getMatchMetasByTournamentIdUsecase =
   new GetMatchMetasByTournamentIdUsecase(repository);
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const { id: tournamentId } = req.body;
+    const searchParams = req.nextUrl.searchParams;
+    const tournamentId = searchParams.get("id");
+    if (!tournamentId) {
+      throw Error("id is required");
+    }
     const matchMetas =
       await getMatchMetasByTournamentIdUsecase.execute(tournamentId);
     return Response.json({

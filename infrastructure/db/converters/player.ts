@@ -1,7 +1,9 @@
 import { Player as DBPlayer, University as DBUniversity } from "@prisma/client";
+
+import { convertToUniversity } from "./university";
+
 import { Player } from "@model/player.model";
 import { isSex } from "@model/sex";
-import { convertToUniversity } from "./university";
 
 export type DBPlayerWithUniversity = DBPlayer & {
   university: DBUniversity;

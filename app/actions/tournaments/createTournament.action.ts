@@ -2,14 +2,14 @@
 import "server-only";
 import { parseWithZod } from "@conform-to/zod";
 
+import { createTournamentSchema } from "@actions/schema/createTournament.schema";
+import { Region } from "@model/region";
+import { Sex } from "@model/sex";
 import { repository } from "@registry/repository";
 import {
   PostTournamentsUsecase,
   PostTournamentsUsecaseInput,
 } from "@usecase/tournaments/postTournaments.usecase";
-import { createTournamentSchema } from "@actions/schema/createTournament.schema";
-import { Region } from "@model/region";
-import { Sex } from "@model/sex";
 
 export async function createTournamentAction(_: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {

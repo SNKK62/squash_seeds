@@ -1,10 +1,12 @@
-import { Gakuren, isRole } from "@model/gakuren.model";
 import {
   Gakuren as DBGakuren,
   University as DBUniversity,
 } from "@prisma/client";
-import { convertToUniversity } from "@db/converters/university";
+
 import { isRegion } from "@/domain/model/region";
+
+import { convertToUniversity } from "@db/converters/university";
+import { Gakuren, isRole } from "@model/gakuren.model";
 
 export type DBGakurenWithUniversity = DBGakuren & {
   university: DBUniversity;

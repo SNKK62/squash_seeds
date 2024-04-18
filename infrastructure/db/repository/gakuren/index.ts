@@ -1,12 +1,12 @@
+import { prisma } from "@/infrastructure/db/client";
+
+import { convertToGakuren } from "@db/converters/gakuren";
+import { Gakuren } from "@model/gakuren.model";
 import {
   CreateGakurenInput,
   GakurenWithAuthData,
   IGakurenRepo,
 } from "@repository/gakuren.repo";
-import { prisma } from "@/infrastructure/db/client";
-import { convertToGakuren } from "@db/converters/gakuren";
-
-import { Gakuren } from "@model/gakuren.model";
 
 const getGakurenWithAuthDataByEmail = async (
   email: string

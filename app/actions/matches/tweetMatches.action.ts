@@ -5,6 +5,7 @@ import { repository } from "@registry/repository";
 import { TweetMatchesUsecase } from "@usecase/matches/tweetMatches.usecase";
 
 export async function tweetMatchesAction(matchIds: string[], _: FormData) {
+  _;
   try {
     const usecase = new TweetMatchesUsecase(repository);
     await usecase.execute(matchIds);

@@ -1,5 +1,6 @@
-import { isSex } from "@model/sex";
 import { z } from "zod";
+
+import { isSex } from "@model/sex";
 
 export const createMatchMetaSchema = z.object({
   type: z.string(),

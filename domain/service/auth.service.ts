@@ -1,9 +1,10 @@
+import bcrypt from "bcrypt";
+
 import {
   CreateGakurenInput,
   GakurenWithAuthData,
   IGakurenRepo,
 } from "@repository/gakuren.repo";
-import bcrypt from "bcrypt";
 import { Repo } from "@repository/repository";
 
 export const hashString = (str: string): string => {

@@ -1,13 +1,13 @@
 "use server";
 import "server-only";
 import { parseWithZod } from "@conform-to/zod";
+import { cookies } from "next/headers";
 
-import { repository } from "@registry/repository";
-import { SignupUsecase } from "@usecase/auth/signup.usecase";
+import { signupSchema } from "@actions/schema/signup.schema";
 import { Role } from "@model/gakuren.model";
 import { Region } from "@model/region";
-import { cookies } from "next/headers";
-import { signupSchema } from "@actions/schema/signup.schema";
+import { repository } from "@registry/repository";
+import { SignupUsecase } from "@usecase/auth/signup.usecase";
 
 export async function signupAction(_: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {

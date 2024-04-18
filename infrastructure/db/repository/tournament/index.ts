@@ -1,11 +1,11 @@
+import { prisma } from "@db/client";
+import { convertToTournament } from "@infrastructure/db/converters/tournament";
 import { Region } from "@model/region";
 import { Tournament } from "@model/tournament.model";
 import {
   CreateTournamentInput,
   ITournamentRepo,
 } from "@repository/tournament.repo";
-import { prisma } from "@db/client";
-import { convertToTournament } from "@infrastructure/db/converters/tournament";
 
 export const openTournamentNotFoundMessage = "Open tournament not found.";
 

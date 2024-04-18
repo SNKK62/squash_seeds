@@ -1,16 +1,18 @@
 "use client";
-import { parseWithZod } from "@conform-to/zod";
 import { FieldMetadata, useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import { createTournamentAction } from "@actions/tournaments/createTournament.action";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import {
   createMatchMetaSchema,
   createTournamentSchema,
 } from "@actions/schema/createTournament.schema";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { z } from "zod";
+import { createTournamentAction } from "@actions/tournaments/createTournament.action";
 
 type CreateMatchMetasFormProps = {
   matchMetas: FieldMetadata<z.infer<typeof createMatchMetaSchema>>[];
@@ -62,9 +64,9 @@ export const CreateTournamentForm = () => {
 
   return (
     <div className="min-w-svw mt-4">
-      <div className="text-center font-bold text-3xl p-4">大会情報登録</div>
+      <div className="p-4 text-center text-3xl font-bold">大会情報登録</div>
       <form
-        className="max-w-md min-w-fit m-auto p-4 space-y-2"
+        className="m-auto min-w-fit max-w-md space-y-2 p-4"
         id={form.id}
         onSubmit={form.onSubmit}
         action={action}

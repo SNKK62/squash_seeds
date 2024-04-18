@@ -1,6 +1,8 @@
 import { IUniversityRepo } from "@/domain/repository/university.repo";
-import { prisma } from "@db/client";
+
 import { convertToUniversity } from "../../converters/university";
+
+import { prisma } from "@db/client";
 import { University } from "@model/university.model";
 
 const getAllUniversities = async (): Promise<University[]> => {

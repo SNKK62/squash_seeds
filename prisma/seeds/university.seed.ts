@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+
 import data from "../data/universities.json";
 
 export const setUniversityData = async (prisma: PrismaClient) => {

@@ -1,13 +1,15 @@
 "use client";
 
-import { parseWithZod } from "@conform-to/zod";
 import { useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import { loginAction } from "@actions/auth/login.action";
 import { loginSchema } from "@actions/schema/login.schema";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 export function LoginForm() {
   const [lastResult, action] = useFormState(loginAction, undefined);
@@ -21,9 +23,9 @@ export function LoginForm() {
 
   return (
     <div className="min-w-svw mt-4">
-      <div className="text-center font-bold text-3xl p-4">ログイン</div>
+      <div className="p-4 text-center text-3xl font-bold">ログイン</div>
       <form
-        className="max-w-md min-w-fit m-auto p-4 space-y-2"
+        className="m-auto min-w-fit max-w-md space-y-2 p-4"
         id={form.id}
         onSubmit={form.onSubmit}
         action={action}

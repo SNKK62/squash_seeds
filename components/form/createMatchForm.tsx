@@ -1,16 +1,18 @@
 "use client";
-import { parseWithZod } from "@conform-to/zod";
 import { FieldMetadata, useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+import { createMatchAction } from "@actions/matches/createMatch.action";
 import {
   createMatchSchema,
   scoreSchema,
 } from "@actions/schema/createMatch.schema";
-import { createMatchAction } from "@actions/matches/createMatch.action";
 
 type CreateScoreFormProps = {
   score: FieldMetadata<z.infer<typeof scoreSchema>>;
@@ -50,7 +52,10 @@ const CreateGameScoresForm = ({
     <ul>
       {scores.map((score, i) => {
         return (
-          <div className="flex justify-center items-center gap-x-4 my-4">
+          <div
+            key={i}
+            className="my-4 flex items-center justify-center gap-x-4"
+          >
             <Label htmlFor={score.id}>{i + 1}セット目</Label>
             <CreateScoreForm score={score} />
             <Button
@@ -79,9 +84,9 @@ export const CreateMatchForm = () => {
 
   return (
     <div className="min-w-svw mt-4">
-      <div className="text-center font-bold text-3xl p-4">試合結果記入</div>
+      <div className="p-4 text-center text-3xl font-bold">試合結果記入</div>
       <form
-        className="max-w-md min-w-fit m-auto p-4 space-y-2"
+        className="m-auto min-w-fit max-w-md space-y-2 p-4"
         id={form.id}
         onSubmit={form.onSubmit}
         action={action}
@@ -108,7 +113,7 @@ export const CreateMatchForm = () => {
           <Input type="hidden" name={fields.isDefo.name} value="false" />
           <div>{fields.isDefo.errors}</div>
         </div>
-        <div className="flex justify-center items-center gap-x-4 my-4">
+        <div className="my-4 flex items-center justify-center gap-x-4">
           <Label htmlFor={fields.gameCount.id}>ゲームカウント</Label>
           <CreateScoreForm score={fields.gameCount} />
         </div>

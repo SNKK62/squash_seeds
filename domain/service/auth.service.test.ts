@@ -1,6 +1,7 @@
-import { AuthService, hashString } from "@service/auth.service";
-import { CreateGakurenInput } from "@repository/gakuren.repo";
 import { newMockGakurenRepo, newMockRepo } from "@/utils/testUtils";
+
+import { CreateGakurenInput } from "@repository/gakuren.repo";
+import { AuthService, hashString } from "@service/auth.service";
 
 describe("AuthService", () => {
   afterEach(() => {

@@ -1,6 +1,7 @@
+import { cookies } from "next/headers";
+
 import { repository } from "@registry/repository";
 import { GetAllMatchesNotAnnouncedUsecase } from "@usecase/matches/getAllMatchesNotAnnounced.usecase";
-import { cookies } from "next/headers";
 
 const getAllMatchesNotAnnouncedUsecase = new GetAllMatchesNotAnnouncedUsecase(
   repository
