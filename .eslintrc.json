@@ -48,6 +48,8 @@
     }
   },
   "rules": {
+    "no-useless-catch": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
@@ -59,11 +61,11 @@
     "prettier/prettier": [
       "error",
       {
-        "trailingComma": "all",
+        "trailingComma": "es5",
         "endOfLine": "lf",
         "semi": true,
-        "singleQuote": true,
-        "jsxSingleQuote": true,
+        "singleQuote": false,
+        "jsxSingleQuote": false,
         "printWidth": 80,
         "tabWidth": 2
       }
