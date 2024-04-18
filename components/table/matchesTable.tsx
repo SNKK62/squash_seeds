@@ -1,5 +1,3 @@
-import { CheckedState } from "@radix-ui/react-checkbox";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
@@ -12,18 +10,12 @@ import {
 
 import { Match } from "@model/match.model";
 
-const taleLabels = {
-  formattedScore: "試合結果",
-};
-
-type TableKeys = keyof typeof taleLabels;
-
 interface MatchesTableProps {
   matches: {
     data: Match;
     checked: boolean;
   }[];
-  onCheck: (index: number, checked: CheckedState) => void;
+  onCheck: (index: number) => void;
 }
 
 export function MatchesTable({ matches, onCheck }: MatchesTableProps) {
@@ -31,16 +23,20 @@ export function MatchesTable({ matches, onCheck }: MatchesTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          {Object.keys(taleLabels).map((key) => (
-            <TableHead key={key}>{taleLabels[key as TableKeys]}</TableHead>
-          ))}
+          <TableHead>試合結果</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {matches.map((match, i) => (
-          <TableRow key={match.data.id}>
+          <TableRow
+            className="cursor-pointer"
+            key={match.data.id}
+            onClick={() => {
+              onCheck(i);
+            }}
+          >
             <TableCell key={`${match.data.id}_check`}>
-              <Checkbox onCheckedChange={(checked) => onCheck(i, checked)} />
+              <Checkbox checked={match.checked} id={match.data.id} />
             </TableCell>
             <TableCell key={`${match.data.id}_formatted`}>
               {match.data.formattedScore}

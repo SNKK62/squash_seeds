@@ -20,15 +20,14 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
       checked: false,
     }))
   );
-  const handleCheck = (index: number, checked: any) => {
+  const handleCheck = (index: number) => {
     setMatchesWithCheckedStatus((prev) => {
-      if (index >= prev.length) {
-        return prev;
-      }
-      const newMatches = [...prev];
-      console.log(prev);
-      newMatches[index]!.checked = checked;
-      return newMatches;
+      return prev.map((match, i) => {
+        if (i === index) {
+          return { ...match, checked: !match.checked };
+        }
+        return match;
+      });
     });
   };
 
