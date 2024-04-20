@@ -43,7 +43,7 @@ const CreateMatchMetasForm = ({
         return (
           <div
             key={matchMeta.id}
-            className="border border-black p-4 rounded-2xl my-4"
+            className="my-4 rounded-2xl border border-black p-4"
           >
             <div>
               <Label htmlFor={matchMetaFields.type.id}>試合種別</Label>
