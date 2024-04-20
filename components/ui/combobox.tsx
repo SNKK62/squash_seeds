@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 
 interface ComboboxProps {
+  id: string;
   dataList: ComboboxLabel[];
   // control is type from conform field
   control: {
@@ -32,7 +33,7 @@ interface ComboboxProps {
   label: string;
 }
 
-export function Combobox({ dataList, control, label }: ComboboxProps) {
+export function Combobox({ id, dataList, control, label }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<string>("");
 
@@ -44,6 +45,7 @@ export function Combobox({ dataList, control, label }: ComboboxProps) {
           role="combobox"
           aria-expanded={open}
           className="w-[200px] justify-between"
+          id={id}
         >
           {value
             ? dataList.find((data) => data.value === value)?.label

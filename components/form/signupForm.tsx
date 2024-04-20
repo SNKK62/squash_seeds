@@ -69,7 +69,12 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
           </ul>
           <div>
             <Label htmlFor={fields.lastName.id}>苗字</Label>
-            <Input type="text" name={fields.lastName.name} className="block" />
+            <Input
+              type="text"
+              id={fields.lastName.id}
+              name={fields.lastName.name}
+              className="block"
+            />
             <Warn>{fields.lastName.errors}</Warn>
           </div>
           <div>
@@ -89,6 +94,7 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
               <Input
                 className="inline w-16"
                 type="number"
+                id={fields.grade.id}
                 name={fields.grade.name}
               />
             </div>
@@ -99,6 +105,7 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
               大学
             </Label>
             <Combobox
+              id={fields.universityId.id}
               dataList={universityLabels}
               control={universityControl}
               label="University"
@@ -113,12 +120,16 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
           </div>
           <div>
             <Label htmlFor={fields.email.id}>Email</Label>
-            <Input type="email" name={fields.email.name} />
+            <Input id={fields.email.id} type="email" name={fields.email.name} />
             <Warn>{fields.email.errors}</Warn>
           </div>
           <div>
             <Label htmlFor={fields.password.id}>Password</Label>
-            <Input type="password" name={fields.password.name} />
+            <Input
+              type="password"
+              id={fields.password.id}
+              name={fields.password.name}
+            />
             <Warn>{fields.password.errors}</Warn>
           </div>
           <div className="flex justify-center">
