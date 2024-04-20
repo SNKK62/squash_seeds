@@ -8,8 +8,8 @@ const getMatchMetasByTournamentIdUsecase =
 
 export async function GET(req: NextRequest) {
   try {
-    const searchParams = req.nextUrl.searchParams;
-    const tournamentId = searchParams.get("id");
+    const pathname = req.nextUrl.pathname;
+    const tournamentId = pathname.split("/")[3];
     if (!tournamentId) {
       throw Error("id is required");
     }
