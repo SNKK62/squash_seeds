@@ -18,7 +18,6 @@ export async function signupAction(_: unknown, formData: FormData) {
     return submission.reply();
   }
   console.log(submission.payload);
-
   const input = {
     lastName: formData.get("lastName") as string,
     firstName: formData.get("firstName") as string,
