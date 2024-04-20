@@ -152,7 +152,13 @@ export const CreateMatchForm = ({
         action={action}
         noValidate
       >
-        <ul>{form.errors?.map((error) => <li key={error}>{error}</li>)}</ul>
+        <ul>
+          {form.errors?.map((error) => (
+            <li key={error}>
+              <Warn>{error}</Warn>
+            </li>
+          ))}
+        </ul>
         <div>
           <Label htmlFor={fields.matchMetaId.id} className="mr-4">
             試合種別
