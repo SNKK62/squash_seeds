@@ -45,8 +45,8 @@ export async function createMatchAction(_: unknown, formData: FormData) {
       isDefo: submission.payload["isDefo"] == "true",
       matchMetaId: submission.payload["matchMetaId"] as string,
       gameCount: new Score(
-        Number(gameCount["winnerScore"]),
-        Number(gameCount["loserScore"])
+        Number(gameCount ? gameCount["winnerScore"] : 0),
+        Number(gameCount ? gameCount["loserScore"] : 0)
       ),
       gameScores: scores.map((score) => {
         return new Score(Number(score.winnerScore), Number(score.loserScore));
