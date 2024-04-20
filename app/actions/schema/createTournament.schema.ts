@@ -11,8 +11,12 @@ export const createMatchMetaSchema = z.object({
 export const createTournamentSchema = z.object({
   name: z.string(),
   region: z.string(),
-  beginAt: z.string(),
-  endAt: z.string(),
+  beginAt: z.string().refine((arg) => {
+    return arg.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  }),
+  endAt: z.string().refine((arg) => {
+    return arg.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  }),
   isTeam: z.preprocess((input) => JSON.parse(`${input}`), z.boolean()),
   matchMetas: z.array(createMatchMetaSchema),
 });
