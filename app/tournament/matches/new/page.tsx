@@ -1,7 +1,35 @@
+import { cookies } from "next/headers";
+
 import { CreateMatchForm } from "@/components/form/createMatchForm";
 
 async function CreateMatchPage() {
-  return <CreateMatchForm />;
+  const tournamentRes = await fetch(
+    `${process.env["ORIGIN"]}/api/tournament/open`,
+    {
+      cache: "no-store",
+      headers: {
+        Cookie: cookies().toString(),
+      },
+    }
+  );
+  const tournamentData = (await tournamentRes.json()).data;
+
+  const matchMetaRes = await fetch(
+    `${process.env["ORIGIN"]}/api/tournaments/${tournamentData.id}/matchMetas`,
+    {
+      cache: "no-store",
+    }
+  );
+  const matchMetaData = (await matchMetaRes.json()).data;
+
+  const playerRes = await fetch(`${process.env["ORIGIN"]}/api/players`, {
+    cache: "no-store",
+  });
+  const playerData = (await playerRes.json()).data;
+
+  return (
+    <CreateMatchForm matchMetasJson={matchMetaData} playersJson={playerData} />
+  );
 }
 
 export default CreateMatchPage;

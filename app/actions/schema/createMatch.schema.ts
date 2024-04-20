@@ -8,7 +8,7 @@ export const scoreSchema = z.object({
 export const createMatchSchema = z.object({
   winnerId: z.string(),
   loserId: z.string(),
-  isDefo: z.preprocess((input) => JSON.parse(`${input}`), z.boolean()),
+  isDefo: z.string().refine((arg) => arg === "true" || arg === "false"),
   matchMetaId: z.string(),
   gameCount: scoreSchema,
   scores: z.array(scoreSchema),
