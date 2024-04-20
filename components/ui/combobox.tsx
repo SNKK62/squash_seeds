@@ -49,15 +49,15 @@ export function Combobox({ id, dataList, control, label }: ComboboxProps) {
         >
           {value
             ? dataList.find((data) => data.value === value)?.label
-            : `Select ${label}...`}
+            : `${label}を選択...`}
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder={`Search ${label}...`} />
+          <CommandInput placeholder={`${label}を検索...`} />
           <CommandList>
-            <CommandEmpty>No {`${label}`} found.</CommandEmpty>
+            <CommandEmpty>{`${label}`}が見つかりません</CommandEmpty>
             <CommandGroup>
               {dataList.map((data) => (
                 <CommandItem
