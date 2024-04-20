@@ -81,7 +81,6 @@ export const CreateTournamentForm = () => {
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      console.log(parseWithZod(formData, { schema: createTournamentSchema }));
       return parseWithZod(formData, { schema: createTournamentSchema });
     },
     shouldValidate: "onBlur",
