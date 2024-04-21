@@ -52,7 +52,7 @@ export function Combobox({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "w-[250px] justify-between overflow-hidden",
+            "w-[230px] justify-between overflow-hidden",
             classNames
           )}
           id={id}
@@ -63,7 +63,7 @@ export function Combobox({
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={cn("w-[250px] p-0", classNames)}>
+      <PopoverContent className={cn("w-[230px] p-0", classNames)}>
         <Command>
           <CommandInput placeholder={`${label}を検索...`} />
           <CommandList>
