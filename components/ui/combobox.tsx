@@ -31,9 +31,16 @@ interface ComboboxProps {
     blur: () => void;
   };
   label: string;
+  classNames?: string;
 }
 
-export function Combobox({ id, dataList, control, label }: ComboboxProps) {
+export function Combobox({
+  id,
+  dataList,
+  control,
+  label,
+  classNames,
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<string>("");
 
@@ -44,7 +51,10 @@ export function Combobox({ id, dataList, control, label }: ComboboxProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn(
+            "w-[250px] justify-between overflow-hidden",
+            classNames
+          )}
           id={id}
         >
           {value
@@ -53,7 +63,7 @@ export function Combobox({ id, dataList, control, label }: ComboboxProps) {
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={cn("w-[250px] p-0", classNames)}>
         <Command>
           <CommandInput placeholder={`${label}を検索...`} />
           <CommandList>
