@@ -90,82 +90,86 @@ export const CreateTournamentForm = () => {
 
   return (
     <div className="mt-4">
-      <div className="p-4 text-center text-3xl font-bold">大会情報登録</div>
+      <div className="pt-4 text-center text-3xl font-bold">大会情報登録</div>
       <form
-        className="m-auto min-w-fit max-w-md space-y-2 p-4"
+        className="m-auto p-4 px-2"
         id={form.id}
         onSubmit={form.onSubmit}
         action={action}
         noValidate
       >
-        <ul>
+        <ul className="pb-4 text-center">
           {form.errors?.map((error) => (
             <li key={error}>
               <Warn>{error}</Warn>
             </li>
           ))}
         </ul>
-        <div>
-          <Label htmlFor={fields.name.id}>大会名</Label>
-          <Input id={fields.name.id} type="text" name={fields.name.name} />
-          <Warn>{fields.name.errors}</Warn>
-        </div>
-        <div>
-          <Input type="hidden" name={fields.region.name} value="関東" />
-        </div>
-        <div>
-          <Label htmlFor={fields.beginAt.id}>開始日</Label>
-          <Input
-            type="text"
-            placeholder="ex) 2000-02-28"
-            id={fields.beginAt.id}
-            name={fields.beginAt.name}
+        <div className="m-auto max-w-lg px-4">
+          <div>
+            <Label htmlFor={fields.name.id}>大会名</Label>
+            <Input id={fields.name.id} type="text" name={fields.name.name} />
+            <Warn>{fields.name.errors}</Warn>
+          </div>
+          <div>
+            <Input type="hidden" name={fields.region.name} value="関東" />
+          </div>
+          <div>
+            <Label htmlFor={fields.beginAt.id}>開始日</Label>
+            <Input
+              type="text"
+              placeholder="ex) 2000-02-28"
+              id={fields.beginAt.id}
+              name={fields.beginAt.name}
+            />
+            <Warn>{fields.beginAt.errors}</Warn>
+          </div>
+          <div>
+            <Label htmlFor={fields.endAt.id}>終了日</Label>
+            <Input
+              type="text"
+              id={fields.endAt.id}
+              placeholder="ex) 2000-03-01"
+              name={fields.endAt.name}
+            />
+            <Warn>{fields.endAt.errors}</Warn>
+          </div>
+          <div>
+            <Input type="hidden" name={fields.isTeam.name} value="true" />
+          </div>
+          <CreateMatchMetasForm
+            matchMetas={
+              matchMetas as FieldMetadata<
+                z.infer<typeof createMatchMetaSchema>
+              >[]
+            }
+            RemoveButton={({ index }: { index: number }) => {
+              return (
+                <Button
+                  {...form.remove.getButtonProps({
+                    name: fields.matchMetas.name,
+                    index,
+                  })}
+                  variant="destructive"
+                >
+                  項目を削除
+                </Button>
+              );
+            }}
           />
-          <Warn>{fields.beginAt.errors}</Warn>
-        </div>
-        <div>
-          <Label htmlFor={fields.endAt.id}>終了日</Label>
-          <Input
-            type="text"
-            id={fields.endAt.id}
-            placeholder="ex) 2000-03-01"
-            name={fields.endAt.name}
-          />
-          <Warn>{fields.endAt.errors}</Warn>
-        </div>
-        <div>
-          <Input type="hidden" name={fields.isTeam.name} value="true" />
-        </div>
-        <CreateMatchMetasForm
-          matchMetas={
-            matchMetas as FieldMetadata<z.infer<typeof createMatchMetaSchema>>[]
-          }
-          RemoveButton={({ index }: { index: number }) => {
-            return (
-              <Button
-                {...form.remove.getButtonProps({
-                  name: fields.matchMetas.name,
-                  index,
-                })}
-                variant="destructive"
-              >
-                項目を削除
-              </Button>
-            );
-          }}
-        />
-        <Button
-          {...form.insert.getButtonProps({
-            name: fields.matchMetas.name,
-          })}
-          variant="secondary"
-        >
-          試合情報追加
-        </Button>
-        <div className="flex justify-center">
-          <Button className="my-4" variant="default">
-            大会を開催する
+          <Button
+            {...form.insert.getButtonProps({
+              name: fields.matchMetas.name,
+            })}
+            variant="secondary"
+          >
+            試合情報追加
           </Button>
+          <div className="flex justify-center">
+            <Button className="my-4" variant="default">
+              大会を開催する
+            </Button>
+          </div>
         </div>
       </form>
     </div>
