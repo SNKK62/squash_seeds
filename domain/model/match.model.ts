@@ -53,11 +53,13 @@ export class Match {
   ) {}
 
   get fullScore(): string {
-    return `${this.gameCount.concatenatedScore} ${this.gameScores.map((score) => score.concatenatedScore).join(" ")}`;
+    return `${this.gameCount.concatenatedScore} ${this.gameScores.map((score) => score.concatenatedScore).join(", ")}`;
   }
 
   get formattedScore(): string {
-    return `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} ${this.fullScore}`;
+    return this.isDefo
+      ? `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} N/A`
+      : `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} ${this.fullScore}`;
   }
 
   get maxGameCount(): number {
