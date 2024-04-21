@@ -26,37 +26,43 @@ export function LoginForm() {
   return (
     <>
       <div className="mt-4">
-        <div className="p-4 text-center text-3xl font-bold">ログイン</div>
+        <div className="pt-4 text-center text-3xl font-bold">ログイン画面</div>
         <form
-          className="m-auto min-w-fit max-w-md space-y-2 p-4"
+          className="m-auto p-4"
           id={form.id}
           onSubmit={form.onSubmit}
           action={action}
           noValidate
         >
-          <ul>
+          <ul className="pb-4 text-center">
             {form.errors?.map((error) => (
               <li key={error}>
                 <Warn>{error}</Warn>
               </li>
             ))}
           </ul>
-          <div>
-            <Label htmlFor={fields.email.id}>Email</Label>
-            <Input type="email" id={fields.email.id} name={fields.email.name} />
-            <Warn>{fields.email.errors}</Warn>
-          </div>
-          <div>
-            <Label htmlFor={fields.password.id}>Password</Label>
-            <Input
-              id={fields.password.id}
-              type="password"
-              name={fields.password.name}
-            />
-            <Warn>{fields.password.errors}</Warn>
-          </div>
-          <div className="flex justify-center">
-            <Button variant="default">Login</Button>
+          <div className="m-auto max-w-lg px-4">
+            <div>
+              <Label htmlFor={fields.email.id}>Email</Label>
+              <Input
+                type="email"
+                id={fields.email.id}
+                name={fields.email.name}
+              />
+              <Warn>{fields.email.errors}</Warn>
+            </div>
+            <div>
+              <Label htmlFor={fields.password.id}>Password</Label>
+              <Input
+                id={fields.password.id}
+                type="password"
+                name={fields.password.name}
+              />
+              <Warn>{fields.password.errors}</Warn>
+            </div>
+            <div className="flex justify-center">
+              <Button variant="default">Login</Button>
+            </div>
           </div>
         </form>
       </div>
