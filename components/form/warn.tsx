@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils";
 
 interface WarnProps {
   children: React.ReactNode;
-  classNames?: string;
+  className?: string;
 }
 
-export const Warn = ({ children, classNames }: WarnProps) => {
+export const Warn = ({ children, className }: WarnProps) => {
   return (
-    <div className={cn("min-h-5 text-red-500", classNames)}>{children}</div>
+    <div className={cn("min-h-5 text-red-500", className)}>{children}</div>
   );
 };
