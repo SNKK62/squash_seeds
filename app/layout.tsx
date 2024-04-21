@@ -23,7 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={cn("font-sans", notoSansJP.variable)}>{children}</body>
+      <body
+        className={(cn("font-sans", notoSansJP.variable), "m-auto min-w-fit")}
+      >
+        {children}
+      </body>
     </html>
   );
 }

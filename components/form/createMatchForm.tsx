@@ -37,7 +37,7 @@ const CreateScoreForm = ({ score }: CreateScoreFormProps) => {
         />
         <Warn> {scoreFields.winnerScore.errors}</Warn>
       </div>
-      <div className="pb-10 text-5xl font-bold">-</div>
+      <div className="pb-8 text-5xl font-medium">-</div>
       <div className="aspect-square w-16">
         <Input
           id={scoreFields.loserScore.id}
@@ -63,7 +63,7 @@ const CreateGameScoresForm = ({
     <ul>
       {scores.map((score, i) => {
         return (
-          <div key={i} className="flex items-center justify-center gap-x-2">
+          <div key={i} className="flex items-center justify-start gap-x-2">
             <div>
               <Label htmlFor={score.id}>{i + 1}セット目</Label>
               <Warn>{""}</Warn>
@@ -144,105 +144,108 @@ export const CreateMatchForm = ({
 
   return (
     <div className="mt-4">
-      <div className="p-4 text-center text-3xl font-bold">試合結果記入</div>
+      <div className="pt-4 text-center text-3xl font-bold">試合結果記入</div>
       <form
-        className="m-auto min-w-fit max-w-md space-y-2 p-4"
+        className="m-auto p-4 px-2"
         id={form.id}
         onSubmit={form.onSubmit}
         action={action}
         noValidate
       >
-        <ul>
+        <ul className="pb-4 text-center">
           {form.errors?.map((error) => (
             <li key={error}>
               <Warn>{error}</Warn>
             </li>
           ))}
         </ul>
-        <div>
-          <Label htmlFor={fields.matchMetaId.id} className="mr-4">
-            試合種別
-          </Label>
-          <Combobox
-            id={fields.matchMetaId.id}
-            label="試合情報"
-            dataList={matchMetaLabels}
-            control={matchMetaControl}
-          />
-          <Warn>{fields.matchMetaId.errors}</Warn>
-        </div>
-        <div>
-          <Label htmlFor={fields.winnerId.id} className="mr-4">
-            勝者
-          </Label>
-          <Combobox
-            id={fields.winnerId.id}
-            label="勝者"
-            dataList={playerLabels}
-            control={winnerControl}
-          />
-          <Warn>{fields.winnerId.errors}</Warn>
-        </div>
-        <div>
-          <Label htmlFor={fields.loserId.id} className="mr-4">
-            敗者
-          </Label>
-          <Combobox
-            id={fields.loserId.id}
-            label="敗者"
-            dataList={playerLabels}
-            control={loserControl}
-          />
-          <Warn>{fields.loserId.errors}</Warn>
-        </div>
-        <div className="flex items-center gap-x-4 py-2">
-          <Label htmlFor={fields.isDefo.id}>デフォしたかどうか</Label>
-          <Switch
-            name={fields.isDefo.name}
-            id={fields.isDefo.id}
-            value={isDefoControl.value}
-            onCheckedChange={(checked) => {
-              isDefoControl.change(checked ? "true" : "false");
-            }}
-          />
-        </div>
-        {fields.isDefo.value === "false" && (
-          <>
-            <div className="flex items-center justify-center gap-x-1 pr-8">
-              <div>
-                <Label htmlFor={fields.gameCount.id}>ゲームカウント</Label>
-                <Warn>{""}</Warn>
-              </div>
-              <CreateScoreForm score={fields.gameCount} />
-            </div>
-            <CreateGameScoresForm
-              scores={scores}
-              RemoveButton={({ index }: { index: number }) => {
-                return (
-                  <Button
-                    {...form.remove.getButtonProps({
-                      name: fields.scores.name,
-                      index,
-                    })}
-                    variant="destructive"
-                  >
-                    削除
-                  </Button>
-                );
+        <div className="m-auto flex max-w-xs flex-col items-start gap-y-1">
+          <div>
+            <Label htmlFor={fields.matchMetaId.id} className="mr-4">
+              試合種別：
+            </Label>
+            <Combobox
+              id={fields.matchMetaId.id}
+              label="試合情報"
+              dataList={matchMetaLabels}
+              control={matchMetaControl}
+            />
+            <Warn className="ml-24">{fields.matchMetaId.errors}</Warn>
+          </div>
+          <div>
+            <Label htmlFor={fields.winnerId.id} className="mr-4">
+              勝者：
+            </Label>
+            <Combobox
+              id={fields.winnerId.id}
+              label="勝者"
+              dataList={playerLabels}
+              control={winnerControl}
+            />
+            <Warn className="ml-16">{fields.winnerId.errors}</Warn>
+          </div>
+          <div>
+            <Label htmlFor={fields.loserId.id} className="mr-4">
+              敗者：
+            </Label>
+            <Combobox
+              id={fields.loserId.id}
+              label="敗者"
+              dataList={playerLabels}
+              control={loserControl}
+            />
+            <Warn className="ml-16">{fields.loserId.errors}</Warn>
+          </div>
+
+          <div className="flex items-center gap-x-4 py-2">
+            <Label htmlFor={fields.isDefo.id}>デフォしたかどうか</Label>
+            <Switch
+              name={fields.isDefo.name}
+              id={fields.isDefo.id}
+              value={isDefoControl.value}
+              onCheckedChange={(checked) => {
+                isDefoControl.change(checked ? "true" : "false");
               }}
             />
-            {scores.length < 5 && (
-              <Button
-                {...form.insert.getButtonProps({
-                  name: fields.scores.name,
-                })}
-                variant="secondary"
-              >
-                ゲーム追加
-              </Button>
-            )}
-          </>
-        )}
+          </div>
+          {fields.isDefo.value === "false" && (
+            <>
+              <div className="flex items-center justify-start gap-x-1 pr-8">
+                <div>
+                  <Label htmlFor={fields.gameCount.id}>ゲームカウント</Label>
+                  <Warn>{""}</Warn>
+                </div>
+                <CreateScoreForm score={fields.gameCount} />
+              </div>
+              <CreateGameScoresForm
+                scores={scores}
+                RemoveButton={({ index }: { index: number }) => {
+                  return (
+                    <Button
+                      {...form.remove.getButtonProps({
+                        name: fields.scores.name,
+                        index,
+                      })}
+                      variant="destructive"
+                    >
+                      削除
+                    </Button>
+                  );
+                }}
+              />
+              {scores.length < 5 && (
+                <Button
+                  {...form.insert.getButtonProps({
+                    name: fields.scores.name,
+                  })}
+                  variant="secondary"
+                >
+                  ゲーム追加
+                </Button>
+              )}
+            </>
+          )}
+        </div>
         <div className="flex justify-center py-4">
           <Button variant="default">登録</Button>
         </div>
