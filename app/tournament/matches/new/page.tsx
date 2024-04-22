@@ -4,7 +4,7 @@ import { CreateMatchForm } from "@/components/form/createMatchForm";
 
 async function CreateMatchPage() {
   const tournamentRes = await fetch(
-    `${process.env["ORIGIN"]}/api/tournament/open`,
+    `${process.env["NEXT_PUBLIC_ORIGIN"]}/api/tournament/open`,
     {
       cache: "no-store",
       headers: {
@@ -15,16 +15,19 @@ async function CreateMatchPage() {
   const tournamentData = (await tournamentRes.json()).data;
 
   const matchMetaRes = await fetch(
-    `${process.env["ORIGIN"]}/api/tournaments/${tournamentData.id}/matchMetas`,
+    `${process.env["NEXT_PUBLIC_ORIGIN"]}/api/tournaments/${tournamentData.id}/matchMetas`,
     {
       cache: "no-store",
     }
   );
   const matchMetaData = (await matchMetaRes.json()).data;
 
-  const playerRes = await fetch(`${process.env["ORIGIN"]}/api/players`, {
-    cache: "no-store",
-  });
+  const playerRes = await fetch(
+    `${process.env["NEXT_PUBLIC_ORIGIN"]}/api/players`,
+    {
+      cache: "no-store",
+    }
+  );
   const playerData = (await playerRes.json()).data;
 
   return (
