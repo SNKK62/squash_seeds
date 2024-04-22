@@ -132,9 +132,40 @@ const announceMatch = async (id: string): Promise<void> => {
   }
 };
 
+const getMatchById = async (id: string): Promise<Match> => {
+  try {
+    const dbMatch = await prisma.match.findUnique({
+      where: {
+        id,
+      },
+      include: includeAll,
+    });
+    if (dbMatch === null) {
+      throw Error("No match found");
+    }
+    return convertToMatch(dbMatch);
+  } catch (e) {
+    throw e;
+  }
+};
+
+const deleteMatchById = async (id: string): Promise<void> => {
+  try {
+    await prisma.match.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
 export const MatchRepo: IMatchRepo = {
   getMatchesByTournamentIdAndSex,
   getMatchesNotAnnouncedByTournamentId,
   createMatch,
   announceMatch,
+  getMatchById,
+  deleteMatchById,
 };

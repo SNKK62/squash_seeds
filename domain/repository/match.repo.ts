@@ -22,4 +22,6 @@ export type IMatchRepo = {
   ) => Promise<Match[]>;
   createMatch: (input: CreateMatchInput) => Promise<Match>;
   announceMatch: (id: string) => Promise<void>;
+  getMatchById: (id: string) => Promise<Match>;
+  deleteMatchById: (id: string) => Promise<void>;
 };
