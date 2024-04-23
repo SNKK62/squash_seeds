@@ -24,7 +24,7 @@ interface ComboboxProps {
   id: string;
   dataList: ComboboxLabel[];
   // control is type from conform field
-  control: {
+  control?: {
     value: string | undefined;
     change: React.Dispatch<React.SetStateAction<string | undefined>>;
     focus: () => void;
@@ -43,6 +43,19 @@ export function Combobox({
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<string>("");
+
+  React.useEffect(() => {
+    if (!value) {
+      return;
+    }
+    const foundData = dataList.find((data) => {
+      return data.value === value;
+    });
+    if (!foundData) {
+      setValue("");
+      control?.change("");
+    }
+  }, [dataList, value, control]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -71,12 +84,14 @@ export function Combobox({
                   key={data.value}
                   value={data.value}
                   onSelect={(newValue: string) => {
-                    control.change(
+                    control?.change(
                       newValue === value
                         ? ""
                         : dataList.find((data) => data.value === newValue)?.key
                     );
-                    setValue(newValue === value ? "" : newValue);
+                    setValue((prevVal) =>
+                      newValue === prevVal ? "" : newValue
+                    );
                     setOpen(false);
                   }}
                 >
