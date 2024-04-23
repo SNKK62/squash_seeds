@@ -136,7 +136,6 @@ export const CreateMatchForm = ({
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      console.log(parseWithZod(formData, { schema: createMatchSchema }));
       return parseWithZod(formData, { schema: createMatchSchema });
     },
     shouldValidate: "onBlur",
@@ -171,7 +170,7 @@ export const CreateMatchForm = ({
         </ul>
         <RadioGroup
           value={sexOption}
-          className="flex justify-center gap-x-4 my-2"
+          className="my-2 flex justify-center gap-x-4"
         >
           <div>
             <RadioGroupItem
