@@ -4,16 +4,16 @@ import React from "react";
 import { Button, ButtonProps } from "@/components/ui/button";
 
 type LoadingButtonProps = {
-  loading: boolean;
+  isLoading: boolean;
 };
 
 export const LoadingButton = React.forwardRef<
   HTMLButtonElement,
   ButtonProps & LoadingButtonProps
->(({ loading, children, ...props }, ref) => {
+>(({ isLoading, children, ...props }, ref) => {
   return (
-    <Button {...props} disabled={loading} ref={ref}>
-      {loading && <UpdateIcon className="mr-2 size-4 animate-spin" />}
+    <Button {...props} disabled={isLoading} ref={ref}>
+      {isLoading && <UpdateIcon className="mr-2 size-4 animate-spin" />}
       {children}
     </Button>
   );

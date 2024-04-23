@@ -29,7 +29,7 @@ interface MatchesTableProps {
 }
 
 export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const handleCheck = (index: number) => {
     setMatches((prev) => {
@@ -43,7 +43,7 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
   };
 
   const handleDelete = async (id: string) => {
-    setDeleteLoading(true);
+    setIsDeleteLoading(true);
 
     await fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/matches/${id}`, {
       method: "delete",
@@ -55,7 +55,7 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
         return match.data.id !== id;
       });
     });
-    setDeleteLoading(false);
+    setIsDeleteLoading(false);
   };
 
   return (
@@ -82,13 +82,13 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
             <TableCell>
               <LoadingButton
                 variant="destructive"
-                loading={deleteLoading}
+                isLoading={isDeleteLoading}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDelete(match.data.id);
                 }}
               >
-                {deleteLoading ? "削除中です" : "削除"}
+                {isDeleteLoading ? "削除中です" : "削除"}
               </LoadingButton>
             </TableCell>
           </TableRow>
