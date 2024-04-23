@@ -1,7 +1,7 @@
 "use client";
 import { FieldMetadata, useForm, useInputControl } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useFormState } from "react-dom";
 import { z } from "zod";
 
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 
 import { createMatchAction } from "@actions/matches/createMatch.action";
@@ -19,6 +20,7 @@ import {
 } from "@actions/schema/createMatch.schema";
 import { MatchMeta, MatchMetaJSON } from "@model/matchMeta.model";
 import { Player, PlayerJSON } from "@model/player.model";
+import { Sex } from "@model/sex";
 
 type CreateScoreFormProps = {
   score: FieldMetadata<z.infer<typeof scoreSchema>>;
@@ -90,6 +92,8 @@ export const CreateMatchForm = ({
   playersJson,
   matchMetasJson,
 }: CreateMatchFormProps) => {
+  const [sexOption, setSexOption] = useState<Sex>("男子");
+
   const players = useMemo(() => {
     return playersJson.map((playerJson) => {
       return Player.fromJSON(playerJson);
@@ -97,14 +101,17 @@ export const CreateMatchForm = ({
   }, [playersJson]);
 
   const playerLabels = useMemo(() => {
-    return players.map((player) => {
+    const playersWithSelectedSex = players.filter((player) => {
+      return player.sex == sexOption;
+    });
+    return playersWithSelectedSex.map((player) => {
       return {
         key: player.id,
         label: player.fullNameWithUnivName,
         value: player.fullNameWithUnivName,
       };
     });
-  }, [players]);
+  }, [players, sexOption]);
 
   const matchMetas = useMemo(() => {
     return matchMetasJson.map((matchMetaJson) => {
@@ -113,14 +120,17 @@ export const CreateMatchForm = ({
   }, [matchMetasJson]);
 
   const matchMetaLabels = useMemo(() => {
-    return matchMetas.map((matchMeta) => {
+    const matchMetasOfSelectedSex = matchMetas.filter((matchMeta) => {
+      return matchMeta.sex == sexOption;
+    });
+    return matchMetasOfSelectedSex.map((matchMeta) => {
       return {
         key: matchMeta.id,
         label: matchMeta.type,
         value: matchMeta.type,
       };
     });
-  }, [matchMetas]);
+  }, [matchMetas, sexOption]);
 
   const [lastResult, action] = useFormState(createMatchAction, undefined);
   const [form, fields] = useForm({
@@ -159,6 +169,31 @@ export const CreateMatchForm = ({
             </li>
           ))}
         </ul>
+        <RadioGroup
+          value={sexOption}
+          className="flex justify-center gap-x-4 my-2"
+        >
+          <div>
+            <RadioGroupItem
+              value="男子"
+              id="male"
+              onClick={() => {
+                setSexOption("男子");
+              }}
+            />
+            <Label htmlFor="male">男子</Label>
+          </div>
+          <div>
+            <RadioGroupItem
+              value="女子"
+              id="female"
+              onClick={() => {
+                setSexOption("女子");
+              }}
+            />
+            <Label htmlFor="female">女子</Label>
+          </div>
+        </RadioGroup>
         <div className="m-auto flex max-w-xs flex-col items-start gap-y-1">
           <div>
             <Label htmlFor={fields.matchMetaId.id} className="mr-4">
