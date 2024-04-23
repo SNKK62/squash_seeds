@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { LoadingButton } from "@/components/ui/loadingButton";
@@ -29,12 +29,10 @@ interface MatchesTableProps {
 }
 
 export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-
-  const handleCheck = (index: number) => {
+  const handleCheck = (id: string) => {
     setMatches((prev) => {
-      return prev.map((match, i) => {
-        if (i === index) {
+      return prev.map((match) => {
+        if (match.data.id === id) {
           return { ...match, checked: !match.checked };
         }
         return match;
@@ -43,8 +41,6 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
   };
 
   const handleDelete = async (id: string) => {
-    setIsDeleteLoading(true);
-
     await fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/matches/${id}`, {
       method: "delete",
       cache: "no-store",
@@ -55,7 +51,6 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
         return match.data.id !== id;
       });
     });
-    setIsDeleteLoading(false);
   };
 
   return (
@@ -67,12 +62,12 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {matches.map((match, i) => (
+        {matches.map((match) => (
           <TableRow
             className="cursor-pointer overflow-x-scroll whitespace-pre"
             key={match.data.id}
             onClick={() => {
-              handleCheck(i);
+              handleCheck(match.data.id);
             }}
           >
             <TableCell className="w-4">
@@ -82,13 +77,13 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
             <TableCell>
               <LoadingButton
                 variant="destructive"
-                isLoading={isDeleteLoading}
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.stopPropagation();
-                  handleDelete(match.data.id);
+                  await handleDelete(match.data.id);
                 }}
+                labelInLoading="削除中です"
               >
-                {isDeleteLoading ? "削除中です" : "削除"}
+                削除
               </LoadingButton>
             </TableCell>
           </TableRow>
