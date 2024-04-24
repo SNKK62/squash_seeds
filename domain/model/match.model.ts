@@ -58,7 +58,7 @@ export class Match {
 
   get formattedScore(): string {
     return this.isDefo
-      ? `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} N/A`
+      ? `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} W/O`
       : `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} ${this.fullScore}`;
   }
 
