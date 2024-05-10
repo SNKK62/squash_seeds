@@ -6,8 +6,8 @@ const roleNames = ["幹部", "普通"] as const;
 
 export type Role = (typeof roleNames)[number];
 
-export const isRole = (arg: any): arg is Role => {
-  return roleNames.includes(arg);
+export const isRole = (arg: unknown): arg is Role => {
+  return roleNames.some((role) => role === arg);
 };
 
 export type GakurenJSON = {

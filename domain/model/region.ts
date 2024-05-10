@@ -10,6 +10,6 @@ const regionNames = [
 
 export type Region = (typeof regionNames)[number];
 
-export const isRegion = (arg: any): arg is Region => {
-  return regionNames.includes(arg);
+export const isRegion = (arg: unknown): arg is Region => {
+  return regionNames.some((region) => region === arg);
 };

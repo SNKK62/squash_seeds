@@ -2,7 +2,7 @@ import { Region } from "@model/region";
 
 export type DateString = `${number}-${number}-${number}`;
 
-export const isDateString = (arg: any): arg is DateString => {
+export const isDateString = (arg: string): arg is DateString => {
   const [year, month, day] = arg.split("-").map(Number);
   const MIN_YEAR = 2000;
   const MAX_YEAR = 9999;
@@ -12,6 +12,9 @@ export const isDateString = (arg: any): arg is DateString => {
   const MAX_DAY = 31;
 
   return (
+    !!year &&
+    !!month &&
+    !!day &&
     year >= MIN_YEAR &&
     year <= MAX_YEAR &&
     month >= MIN_MONTH &&
