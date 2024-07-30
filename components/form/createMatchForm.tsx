@@ -199,7 +199,6 @@ export const CreateMatchForm = ({
           className="m-auto p-4 px-2"
           id={form.id}
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-            console.log("submit");
             if (!isAddingItem) {
               setLoading(true);
             }
