@@ -1,7 +1,13 @@
 "use client";
 import { FieldMetadata, useForm, useInputControl } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useFormState } from "react-dom";
 import { z } from "zod";
 
@@ -10,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingButton } from "@/components/ui/loadingButton";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 
@@ -22,12 +29,26 @@ import { MatchMeta, MatchMetaJSON } from "@model/matchMeta.model";
 import { Player, PlayerJSON } from "@model/player.model";
 import { Sex } from "@model/sex";
 
+type LoadingContextType = React.Dispatch<React.SetStateAction<boolean>>;
+const loadingContext = createContext<LoadingContextType>(() => {});
+
 type CreateScoreFormProps = {
   score: FieldMetadata<z.infer<typeof scoreSchema>>;
 };
 
 const CreateScoreForm = ({ score }: CreateScoreFormProps) => {
   const scoreFields = score.getFieldset();
+  const setLoading = useContext(loadingContext);
+
+  useEffect(() => {
+    if (scoreFields.winnerScore.errors || scoreFields.loserScore.errors) {
+      setLoading(false);
+    }
+  }, [
+    scoreFields.winnerScore.errors,
+    scoreFields.loserScore.errors,
+    setLoading,
+  ]);
 
   return (
     <div className="flex items-center gap-1">
@@ -138,11 +159,30 @@ export const CreateMatchForm = ({
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: createMatchSchema });
     },
-    shouldValidate: "onBlur",
+    shouldValidate: "onSubmit",
     defaultValue: {
       isDefo: "false",
     },
   });
+
+  const [loading, setLoading] = useState(false);
+  const [isAddingItem, setIsAddingItem] = useState(false);
+
+  useEffect(() => {
+    if (
+      form.errors ||
+      fields.matchMetaId.errors ||
+      fields.winnerId.errors ||
+      fields.loserId.errors
+    ) {
+      setLoading(false);
+    }
+  }, [
+    form.errors,
+    fields.matchMetaId.errors,
+    fields.winnerId.errors,
+    fields.loserId.errors,
+  ]);
 
   const scores = fields.scores.getFieldList();
 
@@ -152,138 +192,152 @@ export const CreateMatchForm = ({
   const loserControl = useInputControl(fields.loserId);
 
   return (
-    <div className="mt-4">
-      <div className="pt-4 text-center text-3xl font-bold">試合結果記入</div>
-      <form
-        className="m-auto p-4 px-2"
-        id={form.id}
-        onSubmit={form.onSubmit}
-        action={action}
-        noValidate
-      >
-        <ul className="pb-4 text-center">
-          {form.errors?.map((error) => (
-            <li key={error}>
-              <Warn>{error}</Warn>
-            </li>
-          ))}
-        </ul>
-        <RadioGroup
-          value={sexOption}
-          className="my-2 flex justify-center gap-x-4"
+    <loadingContext.Provider value={setLoading}>
+      <div className="mt-4">
+        <div className="pt-4 text-center text-3xl font-bold">試合結果記入</div>
+        <form
+          className="m-auto p-4 px-2"
+          id={form.id}
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+            console.log("submit");
+            if (!isAddingItem) {
+              setLoading(true);
+            }
+            setIsAddingItem(false);
+            form.onSubmit(e);
+          }}
+          action={action}
+          noValidate
         >
-          <div>
-            <RadioGroupItem
-              value="男子"
-              id="male"
-              onClick={() => {
-                setSexOption("男子");
-              }}
-            />
-            <Label htmlFor="male">男子</Label>
-          </div>
-          <div>
-            <RadioGroupItem
-              value="女子"
-              id="female"
-              onClick={() => {
-                setSexOption("女子");
-              }}
-            />
-            <Label htmlFor="female">女子</Label>
-          </div>
-        </RadioGroup>
-        <div className="m-auto flex max-w-xs flex-col items-start gap-y-1">
-          <div>
-            <Label htmlFor={fields.matchMetaId.id} className="mr-4">
-              試合種別：
-            </Label>
-            <Combobox
-              id={fields.matchMetaId.id}
-              label="試合情報"
-              dataList={matchMetaLabels}
-              control={matchMetaControl}
-            />
-            <Warn className="ml-24">{fields.matchMetaId.errors}</Warn>
-          </div>
-          <div>
-            <Label htmlFor={fields.winnerId.id} className="mr-4">
-              勝者：
-            </Label>
-            <Combobox
-              id={fields.winnerId.id}
-              label="勝者"
-              dataList={playerLabels}
-              control={winnerControl}
-            />
-            <Warn className="ml-16">{fields.winnerId.errors}</Warn>
-          </div>
-          <div>
-            <Label htmlFor={fields.loserId.id} className="mr-4">
-              敗者：
-            </Label>
-            <Combobox
-              id={fields.loserId.id}
-              label="敗者"
-              dataList={playerLabels}
-              control={loserControl}
-            />
-            <Warn className="ml-16">{fields.loserId.errors}</Warn>
-          </div>
-
-          <div className="flex items-center gap-x-4 py-2">
-            <Label htmlFor={fields.isDefo.id}>デフォしたかどうか</Label>
-            <Switch
-              name={fields.isDefo.name}
-              id={fields.isDefo.id}
-              value={isDefoControl.value}
-              onCheckedChange={(checked) => {
-                isDefoControl.change(checked ? "true" : "false");
-              }}
-            />
-          </div>
-          {fields.isDefo.value === "false" && (
-            <>
-              <div className="flex items-center justify-start gap-x-1 pr-8">
-                <div>
-                  <Label htmlFor={fields.gameCount.id}>ゲームカウント</Label>
-                  <Warn>{""}</Warn>
-                </div>
-                <CreateScoreForm score={fields.gameCount} />
-              </div>
-              <CreateGameScoresForm
-                scores={scores}
-                RemoveButton={({ index }: { index: number }) => {
-                  return (
-                    <Button
-                      {...form.remove.getButtonProps({
-                        name: fields.scores.name,
-                        index,
-                      })}
-                      variant="destructive"
-                    >
-                      削除
-                    </Button>
-                  );
+          <ul className="pb-4 text-center">
+            {form.errors?.map((error) => (
+              <li key={error}>
+                <Warn>{error}</Warn>
+              </li>
+            ))}
+          </ul>
+          <RadioGroup
+            value={sexOption}
+            className="my-2 flex justify-center gap-x-4"
+          >
+            <div>
+              <RadioGroupItem
+                value="男子"
+                id="male"
+                onClick={() => {
+                  setSexOption("男子");
                 }}
               />
-              {scores.length < 5 && (
-                <Button
-                  {...form.insert.getButtonProps({
-                    name: fields.scores.name,
-                  })}
-                  variant="secondary"
-                >
-                  ゲーム追加
-                </Button>
-              )}
-            </>
-          )}
-        </div>
-        <div className="flex justify-center py-4">
-          <Button variant="default">登録</Button>
-        </div>
-      </form>
-    </div>
+              <Label htmlFor="male">男子</Label>
+            </div>
+            <div>
+              <RadioGroupItem
+                value="女子"
+                id="female"
+                onClick={() => {
+                  setSexOption("女子");
+                }}
+              />
+              <Label htmlFor="female">女子</Label>
+            </div>
+          </RadioGroup>
+          <div className="m-auto flex max-w-xs flex-col items-start gap-y-1">
+            <div>
+              <Label htmlFor={fields.matchMetaId.id} className="mr-4">
+                試合種別：
+              </Label>
+              <Combobox
+                id={fields.matchMetaId.id}
+                label="試合情報"
+                dataList={matchMetaLabels}
+                control={matchMetaControl}
+              />
+              <Warn className="ml-24">{fields.matchMetaId.errors}</Warn>
+            </div>
+            <div>
+              <Label htmlFor={fields.winnerId.id} className="mr-4">
+                勝者：
+              </Label>
+              <Combobox
+                id={fields.winnerId.id}
+                label="勝者"
+                dataList={playerLabels}
+                control={winnerControl}
+              />
+              <Warn className="ml-16">{fields.winnerId.errors}</Warn>
+            </div>
+            <div>
+              <Label htmlFor={fields.loserId.id} className="mr-4">
+                敗者：
+              </Label>
+              <Combobox
+                id={fields.loserId.id}
+                label="敗者"
+                dataList={playerLabels}
+                control={loserControl}
+              />
+              <Warn className="ml-16">{fields.loserId.errors}</Warn>
+            </div>
+
+            <div className="flex items-center gap-x-4 py-2">
+              <Label htmlFor={fields.isDefo.id}>デフォしたかどうか</Label>
+              <Switch
+                name={fields.isDefo.name}
+                id={fields.isDefo.id}
+                value={isDefoControl.value}
+                onCheckedChange={(checked) => {
+                  isDefoControl.change(checked ? "true" : "false");
+                }}
+              />
+            </div>
+            {fields.isDefo.value === "false" && (
+              <>
+                <div className="flex items-center justify-start gap-x-1 pr-8">
+                  <div>
+                    <Label htmlFor={fields.gameCount.id}>ゲームカウント</Label>
+                    <Warn>{""}</Warn>
+                  </div>
+                  <CreateScoreForm score={fields.gameCount} />
+                </div>
+                <CreateGameScoresForm
+                  scores={scores}
+                  RemoveButton={({ index }: { index: number }) => {
+                    return (
+                      <Button
+                        {...form.remove.getButtonProps({
+                          name: fields.scores.name,
+                          index,
+                        })}
+                        variant="destructive"
+                      >
+                        削除
+                      </Button>
+                    );
+                  }}
+                />
+                {scores.length < 5 && (
+                  <Button
+                    {...form.insert.getButtonProps({
+                      name: fields.scores.name,
+                    })}
+                    onClick={() => {
+                      setIsAddingItem(true);
+                    }}
+                    variant="secondary"
+                  >
+                    ゲーム追加
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+          <div className="flex justify-center py-4">
+            <LoadingButton loading={loading} variant="default">
+              登録
+            </LoadingButton>
+          </div>
+        </form>
+      </div>
+    </loadingContext.Provider>
   );
 };

@@ -2,6 +2,7 @@
 import "server-only";
 import { parseWithZod } from "@conform-to/zod";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 import { createMatchSchema } from "@actions/schema/createMatch.schema";
 import { Score } from "@model/match.model";
@@ -56,12 +57,12 @@ export async function createMatchAction(_: unknown, formData: FormData) {
     };
 
     await usecase.execute(input);
-
-    return;
   } catch (e) {
     console.log(e);
     return submission.reply({
       formErrors: [String(e)],
     });
   }
+
+  redirect("/tournament/matches/notAnnounced");
 }
