@@ -1,8 +1,8 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { MatchesTable } from "@/components/table/matchesTable";
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/ui/loadingButton";
 
 import { tweetMatchesAction } from "@actions/matches/tweetMatches.action";
 import { Match, MatchJSON } from "@model/match.model";
@@ -12,22 +12,11 @@ interface AnnounceMatchesFormProps {
 }
 
 function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
-  const [matchesWithCheckedStatus, setMatchesWithCheckedStatus] = useState(
-    matchesJson.map((matchJson) => ({
-      data: Match.fromJSON(matchJson),
-      checked: false,
-    }))
+  const [matches, setMatches] = useState(
+    matchesJson.map((matchJson) => Match.fromJSON(matchJson))
   );
 
-  const selectedIds = useMemo(() => {
-    return matchesWithCheckedStatus
-      .filter((matchWithCheckedStatus) => {
-        return matchWithCheckedStatus.checked;
-      })
-      .map((selectedMatch) => {
-        return selectedMatch.data.id;
-      });
-  }, [matchesWithCheckedStatus]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const action = tweetMatchesAction.bind(null, selectedIds);
 
@@ -35,12 +24,24 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
     <div className="w-dvw">
       <div className="mx-2">
         <MatchesTable
-          matches={matchesWithCheckedStatus}
-          setMatches={setMatchesWithCheckedStatus}
+          matches={matches}
+          onCheck={(matchId: string) => {
+            if (selectedIds.includes(matchId)) {
+              setSelectedIds(selectedIds.filter((id) => id !== matchId));
+            } else {
+              setSelectedIds([...selectedIds, matchId]);
+            }
+          }}
+          selectedIds={selectedIds}
+          onDelete={(id: string) => {
+            setMatches((prev) => {
+              return prev.filter((match) => match.id !== id);
+            });
+          }}
         />
       </div>
       <form action={action} className="py-4">
-        <Button className="mx-auto block">Tweet</Button>
+        <LoadingButton className="mx-auto block">Tweet</LoadingButton>
       </form>
     </div>
   );

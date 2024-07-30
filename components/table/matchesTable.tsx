@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { LoadingButton } from "@/components/ui/loadingButton";
 import {
@@ -14,43 +12,24 @@ import {
 import { Match } from "@model/match.model";
 
 interface MatchesTableProps {
-  matches: {
-    data: Match;
-    checked: boolean;
-  }[];
-  setMatches: Dispatch<
-    SetStateAction<
-      {
-        data: Match;
-        checked: boolean;
-      }[]
-    >
-  >;
+  matches: Match[];
+  onCheck: (matchId: string) => void;
+  selectedIds: string[];
+  onDelete: (id: string) => void;
 }
 
-export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
-  const handleCheck = (id: string) => {
-    setMatches((prev) => {
-      return prev.map((match) => {
-        if (match.data.id === id) {
-          return { ...match, checked: !match.checked };
-        }
-        return match;
-      });
-    });
-  };
-
+export function MatchesTable({
+  matches,
+  onCheck,
+  selectedIds,
+  onDelete,
+}: MatchesTableProps) {
   const handleDelete = async (id: string) => {
     await fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/matches/${id}`, {
       method: "delete",
       cache: "no-store",
     });
-
-    setMatches((prev) => {
-      return prev.filter((match) => {
-        return match.data.id !== id;
-      });
-    });
+    onDelete(id);
   };
 
   return (
@@ -65,21 +44,24 @@ export function MatchesTable({ matches, setMatches }: MatchesTableProps) {
         {matches.map((match) => (
           <TableRow
             className="cursor-pointer overflow-x-scroll whitespace-pre"
-            key={match.data.id}
+            key={match.id}
             onClick={() => {
-              handleCheck(match.data.id);
+              onCheck(match.id);
             }}
           >
             <TableCell className="w-4">
-              <Checkbox checked={match.checked} id={match.data.id} />
+              <Checkbox
+                checked={selectedIds.includes(match.id)}
+                id={match.id}
+              />
             </TableCell>
-            <TableCell>{match.data.formattedScore}</TableCell>
+            <TableCell>{match.formattedScore}</TableCell>
             <TableCell>
               <LoadingButton
                 variant="destructive"
                 onClick={async (e) => {
                   e.stopPropagation();
-                  await handleDelete(match.data.id);
+                  await handleDelete(match.id);
                 }}
                 labelInLoading="削除中です"
               >
