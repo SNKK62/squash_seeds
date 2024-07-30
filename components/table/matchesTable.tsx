@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { LoadingButton } from "@/components/ui/loadingButton";
 import {
@@ -13,23 +15,27 @@ import { Match } from "@model/match.model";
 
 interface MatchesTableProps {
   matches: Match[];
-  onCheck: (matchId: string) => void;
   selectedIds: string[];
-  onDelete: (id: string) => void;
+  selectId: (id: string) => void;
+  unselectId: (id: string) => void;
 }
 
 export function MatchesTable({
-  matches,
-  onCheck,
+  matches: _matches,
   selectedIds,
-  onDelete,
+  selectId,
+  unselectId,
 }: MatchesTableProps) {
+  const [matches, setMatches] = useState(_matches);
   const handleDelete = async (id: string) => {
     await fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/matches/${id}`, {
       method: "delete",
       cache: "no-store",
     });
-    onDelete(id);
+    setMatches((prev) => {
+      return prev.filter((match) => match.id !== id);
+    });
+    unselectId(id);
   };
 
   return (
@@ -46,7 +52,11 @@ export function MatchesTable({
             className="cursor-pointer overflow-x-scroll whitespace-pre"
             key={match.id}
             onClick={() => {
-              onCheck(match.id);
+              if (selectedIds.includes(match.id)) {
+                unselectId(match.id);
+              } else {
+                selectId(match.id);
+              }
             }}
           >
             <TableCell className="w-4">

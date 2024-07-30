@@ -12,30 +12,21 @@ interface AnnounceMatchesFormProps {
 }
 
 function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
-  const [matches, setMatches] = useState(
-    matchesJson.map((matchJson) => Match.fromJSON(matchJson))
-  );
-
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
   const action = tweetMatchesAction.bind(null, selectedIds);
 
   return (
     <div className="w-dvw">
       <div className="mx-2">
         <MatchesTable
-          matches={matches}
-          onCheck={(matchId: string) => {
-            if (selectedIds.includes(matchId)) {
-              setSelectedIds(selectedIds.filter((id) => id !== matchId));
-            } else {
-              setSelectedIds([...selectedIds, matchId]);
-            }
-          }}
+          matches={matchesJson.map((matchJson) => Match.fromJSON(matchJson))}
           selectedIds={selectedIds}
-          onDelete={(id: string) => {
-            setMatches((prev) => {
-              return prev.filter((match) => match.id !== id);
+          selectId={(id: string) => {
+            setSelectedIds([...selectedIds, id]);
+          }}
+          unselectId={(id: string) => {
+            setSelectedIds((prev) => {
+              return prev.filter((selectedId) => selectedId !== id);
             });
           }}
         />
