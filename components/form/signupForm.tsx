@@ -27,7 +27,6 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
-      console.log(parseWithZod(formData, { schema: signupSchema }));
       return parseWithZod(formData, { schema: signupSchema });
     },
     shouldValidate: "onSubmit",
