@@ -2,6 +2,7 @@
 import "server-only";
 import { parseWithZod } from "@conform-to/zod";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 import { signupSchema } from "@actions/schema/signup.schema";
 import { Role } from "@model/gakuren.model";
@@ -35,11 +36,11 @@ export async function signupAction(_: unknown, formData: FormData) {
     const cookiesStore = cookies();
     cookiesStore.set("email", gakurenWithAuthData.authData.email);
     cookiesStore.set("password", input.password);
-    return;
   } catch (e) {
     console.log(e);
     return submission.reply({
       formErrors: [String(e)],
     });
   }
+  redirect("/tournament/matches/notAnnounced");
 }
