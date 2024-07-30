@@ -3,15 +3,15 @@
 import { useForm, useInputControl } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFormState } from "react-dom";
 
 import { Warn } from "@/components/form/warn";
-import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import type { ComboboxLabel } from "@/components/ui/combobox.d";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingButton } from "@/components/ui/loadingButton";
 
 import { signupAction } from "@actions/auth/signup.action";
 import { signupSchema } from "@actions/schema/signup.schema";
@@ -23,13 +23,14 @@ interface SignupFormProps {
 
 export function SignupForm({ universitiesJson }: SignupFormProps) {
   const [lastResult, action] = useFormState(signupAction, undefined);
+  const [loading, setLoading] = useState(false);
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
       console.log(parseWithZod(formData, { schema: signupSchema }));
       return parseWithZod(formData, { schema: signupSchema });
     },
-    shouldValidate: "onBlur",
+    shouldValidate: "onSubmit",
   });
   const universityControl = useInputControl(fields.universityId);
 
@@ -49,6 +50,32 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
     });
   }, [universities]);
 
+  useEffect(() => {
+    if (
+      form.errors ||
+      fields.firstName.errors ||
+      fields.lastName.errors ||
+      fields.email.errors ||
+      fields.password.errors ||
+      fields.grade.errors ||
+      fields.universityId.errors ||
+      fields.region.errors ||
+      fields.role.errors
+    ) {
+      setLoading(false);
+    }
+  }, [
+    form.errors,
+    fields.firstName.errors,
+    fields.lastName.errors,
+    fields.grade.errors,
+    fields.universityId.errors,
+    fields.region.errors,
+    fields.role.errors,
+    fields.email.errors,
+    fields.password.errors,
+  ]);
+
   return (
     <>
       <div className="mt-4">
@@ -56,7 +83,10 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
         <form
           className="m-auto p-4"
           id={form.id}
-          onSubmit={form.onSubmit}
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+            setLoading(true);
+            form.onSubmit(e);
+          }}
           action={action}
           noValidate
         >
@@ -138,7 +168,9 @@ export function SignupForm({ universitiesJson }: SignupFormProps) {
               <Warn>{fields.password.errors}</Warn>
             </div>
             <div className="flex justify-center">
-              <Button variant="default">サインアップ</Button>
+              <LoadingButton loading={loading} variant="default">
+                サインアップ
+              </LoadingButton>
             </div>
           </div>
         </form>

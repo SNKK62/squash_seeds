@@ -19,7 +19,12 @@ export const LoadingButton = React.forwardRef<
     setIsLoading(false);
   };
   return (
-    <Button {...props} disabled={isLoading} ref={ref} onClick={handleClick}>
+    <Button
+      {...props}
+      disabled={isLoading || loading}
+      ref={ref}
+      onClick={handleClick}
+    >
       {loading === undefined ? (
         isLoading ? (
           <>
@@ -30,7 +35,10 @@ export const LoadingButton = React.forwardRef<
           children
         )
       ) : loading ? (
-        <UpdateIcon className="mr-2 size-4 animate-spin" />
+        <>
+          <UpdateIcon className="mr-2 size-4 animate-spin" />
+          {labelInLoading ?? children}
+        </>
       ) : (
         children
       )}

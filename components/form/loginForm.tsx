@@ -3,25 +3,33 @@
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
 import { Warn } from "@/components/form/warn";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoadingButton } from "@/components/ui/loadingButton";
 
 import { loginAction } from "@actions/auth/login.action";
 import { loginSchema } from "@actions/schema/login.schema";
 
 export function LoginForm() {
   const [lastResult, action] = useFormState(loginAction, undefined);
+  const [loading, setLoading] = useState(false);
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: loginSchema });
     },
-    shouldValidate: "onBlur",
+    shouldValidate: "onSubmit",
   });
+
+  useEffect(() => {
+    if (form.errors || fields.email.errors || fields.password.errors) {
+      setLoading(false);
+    }
+  }, [form.errors, fields.email.errors, fields.password.errors]);
 
   return (
     <>
@@ -30,7 +38,10 @@ export function LoginForm() {
         <form
           className="m-auto p-4"
           id={form.id}
-          onSubmit={form.onSubmit}
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+            setLoading(true);
+            form.onSubmit(e);
+          }}
           action={action}
           noValidate
         >
@@ -61,7 +72,9 @@ export function LoginForm() {
               <Warn>{fields.password.errors}</Warn>
             </div>
             <div className="flex justify-center">
-              <Button variant="default">Login</Button>
+              <LoadingButton loading={loading} type="submit" variant="default">
+                Login
+              </LoadingButton>
             </div>
           </div>
         </form>
