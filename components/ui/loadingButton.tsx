@@ -15,7 +15,7 @@ export const LoadingButton = React.forwardRef<
   const [isLoading, setIsLoading] = useState(false);
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsLoading(true);
-    await onClick?.(e);
+    onClick?.(e);
     setIsLoading(false);
   };
   return (

@@ -166,7 +166,8 @@ export const CreateMatchForm = ({
   });
 
   const [loading, setLoading] = useState(false);
-  const [isAddingItem, setIsAddingItem] = useState(false);
+
+  const SUBMIT_BUTTON_LABEL = "登録";
 
   useEffect(() => {
     if (
@@ -198,11 +199,11 @@ export const CreateMatchForm = ({
         <form
           className="m-auto p-4 px-2"
           id={form.id}
-          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-            if (!isAddingItem) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onSubmit={(e: any) => {
+            if (e.nativeEvent.submitter.innerText === SUBMIT_BUTTON_LABEL) {
               setLoading(true);
             }
-            setIsAddingItem(false);
             form.onSubmit(e);
           }}
           action={action}
@@ -319,9 +320,6 @@ export const CreateMatchForm = ({
                     {...form.insert.getButtonProps({
                       name: fields.scores.name,
                     })}
-                    onClick={() => {
-                      setIsAddingItem(true);
-                    }}
                     variant="secondary"
                   >
                     ゲーム追加
@@ -332,7 +330,7 @@ export const CreateMatchForm = ({
           </div>
           <div className="flex justify-center py-4">
             <LoadingButton loading={loading} variant="default">
-              登録
+              {SUBMIT_BUTTON_LABEL}
             </LoadingButton>
           </div>
         </form>

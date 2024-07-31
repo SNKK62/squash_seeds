@@ -18,24 +18,37 @@ interface MatchesTableProps {
   selectedIds: string[];
   selectId: (id: string) => void;
   unselectId: (id: string) => void;
+  removeMatch: (id: string) => void;
 }
 
 export function MatchesTable({
-  matches: _matches,
+  matches,
   selectedIds,
   selectId,
   unselectId,
+  removeMatch,
 }: MatchesTableProps) {
-  const [matches, setMatches] = useState(_matches);
-  const handleDelete = async (id: string) => {
-    await fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/matches/${id}`, {
+  const [loadings, setLoadings] = useState<string[]>([]);
+  const handleDelete = (id: string) => {
+    setLoadings((prev) => [...prev, id]);
+    fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/matches/${id}`, {
       method: "delete",
       cache: "no-store",
-    });
-    setMatches((prev) => {
-      return prev.filter((match) => match.id !== id);
-    });
-    unselectId(id);
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("削除に失敗しました");
+        }
+        return res.json();
+      })
+      .then(() => {
+        unselectId(id);
+        removeMatch(id);
+      })
+      .catch(() => {})
+      .finally(() => {
+        setLoadings((prev) => prev.filter((loadingId) => loadingId !== id));
+      });
   };
 
   return (
@@ -69,9 +82,10 @@ export function MatchesTable({
             <TableCell>
               <LoadingButton
                 variant="destructive"
+                loading={loadings.includes(match.id)}
                 onClick={async (e) => {
                   e.stopPropagation();
-                  await handleDelete(match.id);
+                  handleDelete(match.id);
                 }}
                 labelInLoading="削除中です"
               >
