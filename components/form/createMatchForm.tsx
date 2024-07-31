@@ -174,7 +174,8 @@ export const CreateMatchForm = ({
       form.errors ||
       fields.matchMetaId.errors ||
       fields.winnerId.errors ||
-      fields.loserId.errors
+      fields.loserId.errors ||
+      fields.isDefo.errors
     ) {
       setLoading(false);
     }
@@ -183,6 +184,7 @@ export const CreateMatchForm = ({
     fields.matchMetaId.errors,
     fields.winnerId.errors,
     fields.loserId.errors,
+    fields.isDefo.errors,
   ]);
 
   const scores = fields.scores.getFieldList();
@@ -201,8 +203,6 @@ export const CreateMatchForm = ({
           id={form.id}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSubmit={(e: any) => {
-            console.log(e);
-            console.log(e.nativeEvent.submitter.innerText);
             if (e.nativeEvent.submitter.innerText === SUBMIT_BUTTON_LABEL) {
               setLoading(true);
             }
@@ -291,6 +291,9 @@ export const CreateMatchForm = ({
                   isDefoControl.change(checked ? "true" : "false");
                 }}
               />
+            </div>
+            <div className="flex items-center py-2">
+              <Warn>{fields.isDefo.errors}</Warn>
             </div>
             {/* this condition adapts for the first render */}
             {fields.isDefo.value !== "true" && (
