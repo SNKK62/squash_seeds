@@ -78,7 +78,7 @@ export function MatchesTable({
                 id={match.id}
               />
             </TableCell>
-            <TableCell>{match.formattedScore}</TableCell>
+            <TableCell>{`[${match.matchMeta.type}] ${match.formattedScore}`}</TableCell>
             <TableCell>
               <LoadingButton
                 variant="destructive"
