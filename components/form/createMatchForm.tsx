@@ -194,6 +194,11 @@ export const CreateMatchForm = ({
   const winnerControl = useInputControl(fields.winnerId);
   const loserControl = useInputControl(fields.loserId);
 
+  useEffect(() => {
+    isDefoControl.change("false");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <loadingContext.Provider value={setLoading}>
       <div className="mt-4">
