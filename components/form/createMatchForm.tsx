@@ -290,7 +290,8 @@ export const CreateMatchForm = ({
                 }}
               />
             </div>
-            {fields.isDefo.value === "false" && (
+            {/* this condition adapts for the first render */}
+            {fields.isDefo.value !== "true" && (
               <>
                 <div className="flex items-center justify-start gap-x-1 pr-8">
                   <div>
