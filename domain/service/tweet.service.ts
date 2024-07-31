@@ -55,9 +55,13 @@ export class TweetService {
           text += `\n`;
           return text;
         })
-        .join("");
+        .join("\n");
       console.log(tweetText);
       const res = await client.v2.tweet(tweetText);
+      if (res.errors && res.errors.length > 0) {
+        const error = res.errors[0];
+        throw new Error(error?.title);
+      }
       console.log(res);
       // const currentRateLimitForMe = await rateLimitPlugin.v2.getRateLimit(
       //   "tweets",
