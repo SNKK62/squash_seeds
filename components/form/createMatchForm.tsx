@@ -160,12 +160,10 @@ export const CreateMatchForm = ({
       return parseWithZod(formData, { schema: createMatchSchema });
     },
     shouldValidate: "onSubmit",
-    defaultValue: {
-      isDefo: "false",
-    },
   });
 
   const [loading, setLoading] = useState(false);
+  const [isDefo, setIsDefo] = useState<"false" | "true">("false");
 
   const SUBMIT_BUTTON_LABEL = "登録";
 
@@ -187,17 +185,8 @@ export const CreateMatchForm = ({
     fields.isDefo.errors,
   ]);
 
-  const [isFirst, setIsFirst] = useState(false);
-  useEffect(() => {
-    if (isFirst) {
-      form.reset();
-      setIsFirst(false);
-    }
-  }, [form, isFirst]);
-
   const scores = fields.scores.getFieldList();
 
-  const isDefoControl = useInputControl(fields.isDefo);
   const matchMetaControl = useInputControl(fields.matchMetaId);
   const winnerControl = useInputControl(fields.winnerId);
   const loserControl = useInputControl(fields.loserId);
@@ -291,12 +280,16 @@ export const CreateMatchForm = ({
 
             <div className="flex items-center gap-x-4 py-2">
               <Label htmlFor={fields.isDefo.id}>デフォしたかどうか</Label>
-              <Switch
+              <input
+                hidden
                 name={fields.isDefo.name}
                 id={fields.isDefo.id}
-                value={isDefoControl.value}
+                value={isDefo}
+                onChange={() => {}}
+              />
+              <Switch
                 onCheckedChange={(checked) => {
-                  isDefoControl.change(checked ? "true" : "false");
+                  setIsDefo(checked ? "true" : "false");
                 }}
               />
             </div>
