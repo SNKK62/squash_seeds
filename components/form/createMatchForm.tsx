@@ -187,6 +187,14 @@ export const CreateMatchForm = ({
     fields.isDefo.errors,
   ]);
 
+  const [isFirst, setIsFirst] = useState(false);
+  useEffect(() => {
+    if (isFirst) {
+      form.reset();
+      setIsFirst(false);
+    }
+  }, [form, isFirst]);
+
   const scores = fields.scores.getFieldList();
 
   const isDefoControl = useInputControl(fields.isDefo);
@@ -290,8 +298,6 @@ export const CreateMatchForm = ({
                 onCheckedChange={(checked) => {
                   isDefoControl.change(checked ? "true" : "false");
                 }}
-                defaultValue="false"
-                defaultChecked={false}
               />
             </div>
             <div className="flex items-center py-2">
