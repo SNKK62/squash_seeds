@@ -194,11 +194,6 @@ export const CreateMatchForm = ({
   const winnerControl = useInputControl(fields.winnerId);
   const loserControl = useInputControl(fields.loserId);
 
-  useEffect(() => {
-    isDefoControl.change("false");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <loadingContext.Provider value={setLoading}>
       <div className="mt-4">
@@ -295,6 +290,8 @@ export const CreateMatchForm = ({
                 onCheckedChange={(checked) => {
                   isDefoControl.change(checked ? "true" : "false");
                 }}
+                defaultValue="false"
+                defaultChecked={false}
               />
             </div>
             <div className="flex items-center py-2">
