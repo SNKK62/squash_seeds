@@ -1,10 +1,10 @@
+// import { TwitterApiRateLimitPlugin } from "@twitter-api-v2/plugin-rate-limit";
 import { TwitterApi } from "twitter-api-v2";
 
 import { Match } from "@model/match.model";
 import { IMatchRepo } from "@repository/match.repo";
 import { Repo } from "@repository/repository";
 
-// import { TwitterApiRateLimitPlugin } from "@twitter-api-v2/plugin-rate-limit";
 // const rateLimitPlugin = new TwitterApiRateLimitPlugin();
 const client = new TwitterApi(
   {
@@ -26,7 +26,6 @@ export class TweetService {
 
   public async tweet(ids: string[]): Promise<void> {
     try {
-      console.log(ids);
       const matches = ids.map((id) => {
         const match = this.matchRepo.getMatchById(id);
         return match;
