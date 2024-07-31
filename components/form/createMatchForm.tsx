@@ -201,6 +201,7 @@ export const CreateMatchForm = ({
           id={form.id}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onSubmit={(e: any) => {
+            console.log(e);
             if (e.nativeEvent.submitter.innerText === SUBMIT_BUTTON_LABEL) {
               setLoading(true);
             }
