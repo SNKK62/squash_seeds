@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 
 import { CreateTournamentForm } from "@/components/form/createTournamentForm";
 
+import { GakurenJSON } from "@model/gakuren.model";
+
 async function CreateTournamentPage() {
   let isAuth = false;
   try {
@@ -18,7 +20,7 @@ async function CreateTournamentPage() {
       throw new Error("Not authorized");
     }
 
-    const data = (await res.json()).data;
+    const data: GakurenJSON = (await res.json()).data;
 
     if (data.role !== "幹部") {
       throw new Error("Not authorized");
@@ -27,7 +29,7 @@ async function CreateTournamentPage() {
   } catch {
     isAuth = false;
   }
-  return <>{isAuth ? <div>権限がありません</div> : <CreateTournamentForm />}</>;
+  return <>{isAuth ? <CreateTournamentForm /> : <div>権限がありません</div>}</>;
 }
 
 export default CreateTournamentPage;
