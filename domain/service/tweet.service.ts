@@ -36,7 +36,7 @@ export class TweetService {
           return !match.isAnnounced;
         });
       });
-      console.log(matchesNotAnnounced);
+      const tournamentName = matchesNotAnnounced[0]?.tournament.name;
       const resultDividedByMatchMeta: Record<string, string[]> = {};
       matchesNotAnnounced.forEach((match) => {
         const matchMetaType = match.matchMeta.type;
@@ -45,9 +45,10 @@ export class TweetService {
         }
         resultDividedByMatchMeta[matchMetaType].push(match.formattedScore);
       });
-      const tweetText: string = Object.entries(resultDividedByMatchMeta)
+      let tweetText: string = `【${tournamentName}】\n`;
+      tweetText += Object.entries(resultDividedByMatchMeta)
         .map(([key, value]) => {
-          let text = `[${key}]`;
+          let text = `${key}`;
           value.map((el) => {
             text += `\n${el}`;
           });
@@ -55,13 +56,12 @@ export class TweetService {
           return text;
         })
         .join("\n");
-      console.log(tweetText);
       const res = await client.v2.tweet(tweetText);
       if (res.errors && res.errors.length > 0) {
         const error = res.errors[0];
         throw new Error(error?.title);
       }
-      console.log(res);
+      // NOTE: This is how you can get the current rate limit for your app
       // const currentRateLimitForMe = await rateLimitPlugin.v2.getRateLimit(
       //   "tweets",
       //   "POST"
