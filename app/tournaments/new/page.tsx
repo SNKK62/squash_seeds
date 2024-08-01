@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { CreateTournamentForm } from "@/components/form/createTournamentForm";
 
-import { GakurenJSON } from "@model/gakuren.model";
+import { GakurenWithAuthData } from "@repository/gakuren.repo";
 
 async function CreateTournamentPage() {
   let isAuth = false;
@@ -20,9 +20,9 @@ async function CreateTournamentPage() {
       throw new Error("Not authorized");
     }
 
-    const data: GakurenJSON = (await res.json()).data;
+    const data: GakurenWithAuthData = (await res.json()).data;
 
-    if (data.role !== "幹部") {
+    if (data.gakuren.role !== "幹部") {
       throw new Error("Not authorized");
     }
     isAuth = true;
