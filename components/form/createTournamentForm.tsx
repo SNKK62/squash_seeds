@@ -135,7 +135,7 @@ export const CreateTournamentForm = () => {
             <Warn>{fields.endAt.errors}</Warn>
           </div>
           <div>
-            <Input type="hidden" name={fields.isTeam.name} value="true" />
+            <Input type="hidden" name={fields.isTeam.name} value="false" />
           </div>
           <CreateMatchMetasForm
             matchMetas={
