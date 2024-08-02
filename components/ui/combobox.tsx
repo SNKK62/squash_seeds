@@ -78,7 +78,7 @@ export function Combobox({
           <CommandInput placeholder={`${label}を検索...`} />
           <CommandList>
             <CommandEmpty>{`${label}`}が見つかりません</CommandEmpty>
-            <CommandGroup className="h-52 overflow-auto">
+            <CommandGroup className="h-36 overflow-auto">
               {dataList.map((data) => (
                 <CommandItem
                   key={data.value}
