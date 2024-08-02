@@ -1,4 +1,4 @@
-# \[WIP\]関東学生スカッシュ連盟DXアプリ
+# 関東学生スカッシュ連盟DXアプリ
 
 関東学生スカッシュ連盟の大会運営を効率的に行うためのDX推進アプリです.
 
@@ -78,6 +78,7 @@ $ touch .env
 
 ```txt
 DATABASE_URL=<データベースのURL>
+DIRECT_URL=<Migration用のデータベースURL>
 NEXT_PUBLIC_SUPABSE_API_KEY=<SupabaseのAPIキー>
 NEXT_PUBLIC_ORIGIN=<自身のOrigin(localなら`http://localhost:3000`)>
 
