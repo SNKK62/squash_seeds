@@ -45,7 +45,7 @@ export class TweetService {
         }
         resultDividedByMatchMeta[matchMetaType].push(match.formattedScore);
       });
-      let tweetText: string = `【${tournamentName}】\n`;
+      let tweetText: string = tournamentName ? `【${tournamentName}】\n` : "";
       tweetText += Object.entries(resultDividedByMatchMeta)
         .map(([key, value]) => {
           let text = `${key}`;
