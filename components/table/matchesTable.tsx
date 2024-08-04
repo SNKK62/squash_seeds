@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -79,6 +80,15 @@ export function MatchesTable({
               />
             </TableCell>
             <TableCell>{`[${match.matchMeta.type}] ${match.formattedScore}`}</TableCell>
+            <TableCell>
+              <Link
+                href={`/tournament/matches/edit/${match.id}`}
+                className="text-blue-500 underline"
+                onClick={(e) => e.stopPropagation()}
+              >
+                編集
+              </Link>
+            </TableCell>
             <TableCell>
               <LoadingButton
                 variant="destructive"
