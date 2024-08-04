@@ -21,6 +21,12 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
 
   const handleClick = () => {
     setLoading(true);
+
+    if (selectedIds.length === 0) {
+      setError("試合を選択してください");
+      setLoading(false);
+      return;
+    }
     fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/tournament/matches/tweet`, {
       method: "post",
       cache: "no-store",
