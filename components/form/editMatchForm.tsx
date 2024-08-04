@@ -301,7 +301,7 @@ export const EditMatchForm = ({
                 id={fields.matchMetaId.id}
                 label="試合情報"
                 dataList={matchMetaLabels}
-                defaultValue={match.matchMeta.id}
+                defaultValue={match.matchMeta.type}
                 control={matchMetaControl}
               />
               <Warn className="ml-24">{fields.matchMetaId.errors}</Warn>
@@ -314,7 +314,7 @@ export const EditMatchForm = ({
                 id={fields.winnerId.id}
                 label="勝者"
                 dataList={playerLabels}
-                defaultValue={match.winner.id}
+                defaultValue={match.winner.fullNameWithUnivName}
                 control={winnerControl}
               />
               <Warn className="ml-16">{fields.winnerId.errors}</Warn>
@@ -327,7 +327,7 @@ export const EditMatchForm = ({
                 id={fields.loserId.id}
                 label="敗者"
                 dataList={playerLabels}
-                defaultValue={match.loser.id}
+                defaultValue={match.loser.fullNameWithUnivName}
                 control={loserControl}
               />
               <Warn className="ml-16">{fields.loserId.errors}</Warn>
