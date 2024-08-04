@@ -12,6 +12,16 @@ export type CreateMatchInput = {
   isDefo: boolean;
 };
 
+export type UpdateMatchInput = {
+  id: string;
+  winnerId: string;
+  loserId: string;
+  gameCount: Score;
+  gameScores: Score[];
+  matchMetaId: string;
+  isDefo: boolean;
+};
+
 export type IMatchRepo = {
   getMatchesByTournamentIdAndSex: (
     tournamentId: string,
@@ -23,5 +33,6 @@ export type IMatchRepo = {
   createMatch: (input: CreateMatchInput) => Promise<Match>;
   announceMatch: (id: string) => Promise<void>;
   getMatchById: (id: string) => Promise<Match>;
+  updateMatch: (input: UpdateMatchInput) => Promise<Match>;
   deleteMatchById: (id: string) => Promise<void>;
 };

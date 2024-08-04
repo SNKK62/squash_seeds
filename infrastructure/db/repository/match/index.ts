@@ -2,7 +2,11 @@ import { prisma } from "@infrastructure/db/client";
 import { convertToMatch } from "@infrastructure/db/converters/match";
 import { Match } from "@model/match.model";
 import { Sex } from "@model/sex";
-import { CreateMatchInput, IMatchRepo } from "@repository/match.repo";
+import {
+  CreateMatchInput,
+  IMatchRepo,
+  UpdateMatchInput,
+} from "@repository/match.repo";
 
 const includeAll = {
   matchMeta: {
@@ -149,6 +153,58 @@ const getMatchById = async (id: string): Promise<Match> => {
   }
 };
 
+const updateMatch = async (input: UpdateMatchInput): Promise<Match> => {
+  try {
+    const match = await prisma.match.update({
+      where: {
+        id: input.id,
+      },
+      data: {
+        winnerId: input.winnerId,
+        loserId: input.loserId,
+        matchMetaId: input.matchMetaId,
+        isDefo: input.isDefo,
+        winnerGameCount: input.gameCount.winnerScore,
+        loserGameCount: input.gameCount.loserScore,
+        winnerGame1Score: input.gameScores[0]
+          ? input.gameScores[0].winnerScore
+          : null,
+        winnerGame2Score: input.gameScores[1]
+          ? input.gameScores[1].winnerScore
+          : null,
+        winnerGame3Score: input.gameScores[2]
+          ? input.gameScores[2].winnerScore
+          : null,
+        winnerGame4Score: input.gameScores[3]
+          ? input.gameScores[3].winnerScore
+          : null,
+        winnerGame5Score: input.gameScores[4]
+          ? input.gameScores[4].winnerScore
+          : null,
+        loserGame1Score: input.gameScores[0]
+          ? input.gameScores[0].loserScore
+          : null,
+        loserGame2Score: input.gameScores[1]
+          ? input.gameScores[1].loserScore
+          : null,
+        loserGame3Score: input.gameScores[2]
+          ? input.gameScores[2].loserScore
+          : null,
+        loserGame4Score: input.gameScores[3]
+          ? input.gameScores[3].loserScore
+          : null,
+        loserGame5Score: input.gameScores[4]
+          ? input.gameScores[4].loserScore
+          : null,
+      },
+      include: includeAll,
+    });
+    return convertToMatch(match);
+  } catch (e) {
+    throw e;
+  }
+};
+
 const deleteMatchById = async (id: string): Promise<void> => {
   try {
     await prisma.match.delete({
@@ -167,5 +223,6 @@ export const MatchRepo: IMatchRepo = {
   createMatch,
   announceMatch,
   getMatchById,
+  updateMatch,
   deleteMatchById,
 };
