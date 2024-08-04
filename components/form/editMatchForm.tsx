@@ -154,7 +154,7 @@ export const EditMatchForm = ({
       return {
         key: player.id,
         label: player.fullNameWithUnivName,
-        value: player.id,
+        value: player.fullNameWithUnivName,
       };
     });
   }, [players, sexOption]);
@@ -173,7 +173,7 @@ export const EditMatchForm = ({
       return {
         key: matchMeta.id,
         label: matchMeta.type,
-        value: matchMeta.id,
+        value: matchMeta.type,
       };
     });
   }, [matchMetas, sexOption]);
