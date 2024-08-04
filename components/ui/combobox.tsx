@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 interface ComboboxProps {
   id: string;
   dataList: ComboboxLabel[];
+  defaultValue?: string;
   // control is type from conform field
   control?: {
     value: string | undefined;
@@ -37,12 +38,13 @@ interface ComboboxProps {
 export function Combobox({
   id,
   dataList,
+  defaultValue,
   control,
   label,
   className,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState<string>("");
+  const [value, setValue] = React.useState<string>(defaultValue || "");
 
   React.useEffect(() => {
     if (!value) {
