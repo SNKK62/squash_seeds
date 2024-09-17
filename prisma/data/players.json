@@ -4,6 +4,7 @@
     "lastName": "田中",
     "grade": 3,
     "universityId": 1,
+    "tournamentId": "test",
     "sex": "男子",
     "isRetired": false
   },
@@ -12,6 +13,7 @@
     "lastName": "鈴木",
     "grade": 2,
     "universityId": 2,
+    "tournamentId": "test",
     "sex": "女子",
     "isRetired": false
   },
@@ -20,6 +22,7 @@
     "lastName": "佐藤",
     "grade": 1,
     "universityId": 3,
+    "tournamentId": "test",
     "sex": "女子",
     "isRetired": false
   },
@@ -28,6 +31,7 @@
     "lastName": "井上",
     "grade": 4,
     "universityId": 4,
+    "tournamentId": "test",
     "sex": "男子",
     "isRetired": false
   },
@@ -36,6 +40,7 @@
     "lastName": "高橋",
     "grade": 3,
     "universityId": 5,
+    "tournamentId": "test",
     "sex": "女子",
     "isRetired": false
   },
@@ -44,6 +49,7 @@
     "lastName": "佐々木",
     "grade": 4,
     "universityId": 6,
+    "tournamentId": "test",
     "sex": "男子",
     "isRetired": true
   }
