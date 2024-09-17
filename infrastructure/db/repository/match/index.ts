@@ -18,11 +18,13 @@ const includeAll = {
   winner: {
     include: {
       university: true,
+      tournament: true,
     },
   },
   loser: {
     include: {
       university: true,
+      tournament: true,
     },
   },
   createdByGakuren: {

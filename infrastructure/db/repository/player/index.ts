@@ -11,6 +11,30 @@ const getPlayersNotRetired = async (): Promise<Player[]> => {
       },
       include: {
         university: true,
+        tournament: true,
+      },
+    });
+
+    return dbPlayers.map((dbPlayer) => {
+      return convertToPlayer(dbPlayer);
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
+const getPlayersByTournamentId = async (
+  tournamentId: string
+): Promise<Player[]> => {
+  try {
+    const dbPlayers = await prisma.player.findMany({
+      where: {
+        isRetired: false,
+        tournamentId,
+      },
+      include: {
+        university: true,
+        tournament: true,
       },
     });
 
@@ -24,4 +48,5 @@ const getPlayersNotRetired = async (): Promise<Player[]> => {
 
 export const PlayerRepo: IPlayerRepo = {
   getPlayersNotRetired,
+  getPlayersByTournamentId,
 };

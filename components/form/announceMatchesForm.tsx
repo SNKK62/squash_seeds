@@ -13,7 +13,7 @@ interface AnnounceMatchesFormProps {
 
 function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
   const [matches, setMatches] = useState(
-    matchesJson.map((matchJson) => Match.fromJSON(matchJson))
+    matchesJson?.map((matchJson) => Match.fromJSON(matchJson)) ?? []
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

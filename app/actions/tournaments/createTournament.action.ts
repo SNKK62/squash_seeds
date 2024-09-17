@@ -30,19 +30,20 @@ export async function createTournamentAction(_: unknown, formData: FormData) {
         endAt: submission.payload["endAt"] as string,
         isTeam: submission.payload["isTeam"] === "true",
       },
-      matchMetas: (
-        submission.payload["matchMetas"] as {
-          type: string;
-          isRated: string;
-          sex: string;
-        }[]
-      ).map((matchMeta) => {
-        return {
-          type: matchMeta["type"] as string,
-          isRated: matchMeta["isRated"] === "true",
-          sex: matchMeta["sex"] as Sex,
-        };
-      }),
+      matchMetas:
+        (
+          submission.payload["matchMetas"] as {
+            type: string;
+            isRated: string;
+            sex: string;
+          }[]
+        )?.map((matchMeta) => {
+          return {
+            type: matchMeta["type"] as string,
+            isRated: matchMeta["isRated"] === "true",
+            sex: matchMeta["sex"] as Sex,
+          };
+        }) ?? [],
     };
 
     await usecase.execute(input);

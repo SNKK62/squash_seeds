@@ -12,5 +12,6 @@ import { Player } from "@model/player.model";
 
 export type IPlayerRepo = {
   getPlayersNotRetired: () => Promise<Player[]>;
+  getPlayersByTournamentId: (tournamentId: string) => Promise<Player[]>;
   // TODO: implement createPlayer: (player: CreatePlayerInput) => Promise<void>;
 };

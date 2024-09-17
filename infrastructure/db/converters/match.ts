@@ -2,7 +2,7 @@ import { Match as DBMatch, Tournament as DBTournament } from "@prisma/client";
 
 import { convertToGakuren, DBGakurenWithUniversity } from "./gakuren";
 import { convertToMatchMeta, DBMatchMetaWithTournament } from "./matchMeta";
-import { convertToPlayer, DBPlayerWithUniversity } from "./player";
+import { convertToPlayer, DBPlayerWithUniversityAndTournament } from "./player";
 import { convertToTournament } from "./tournament";
 
 import { Match, Score } from "@model/match.model";
@@ -20,8 +20,8 @@ type ScoreIndexKey =
   | `loserGame5Score`;
 
 type DBMatchWithData = DBMatch & {
-  winner: DBPlayerWithUniversity;
-  loser: DBPlayerWithUniversity;
+  winner: DBPlayerWithUniversityAndTournament;
+  loser: DBPlayerWithUniversityAndTournament;
   createdByGakuren: DBGakurenWithUniversity;
   matchMeta: DBMatchMetaWithTournament;
   tournament: DBTournament;

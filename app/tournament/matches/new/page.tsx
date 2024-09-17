@@ -23,7 +23,7 @@ async function CreateMatchPage() {
   const matchMetaData = (await matchMetaRes.json()).data;
 
   const playerRes = await fetch(
-    `${process.env["NEXT_PUBLIC_ORIGIN"]}/api/players`,
+    `${process.env["NEXT_PUBLIC_ORIGIN"]}/api/tournaments/${tournamentData.id}/players`,
     {
       cache: "no-store",
     }
