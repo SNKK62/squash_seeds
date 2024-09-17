@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,28 +9,27 @@ datasource db {
 }
 
 model University {
-  id        Int    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  shortName String @map("short_name")
+  shortName String    @map("short_name")
   region    String
-
-  gakuren Gakuren[]
-  player  Player[]
+  gakuren   Gakuren[]
+  player    Player[]
 
   @@map("universities")
 }
 
 model Tournament {
-  id      String  @id @default(cuid())
-  name    String
-  region  String
-  isOpen  Boolean @default(true) @map("is_open")
-  isTeam  Boolean @map("is_team") // true if team, false if individual
-  beginAt String  @map("begin_date") // YYYY-MM-DD
-  endAt   String  @map("end_date") // YYYY-MM-DD
-
+  id        String      @id @default(cuid())
+  name      String
+  region    String
+  isOpen    Boolean     @default(true) @map("is_open")
+  isTeam    Boolean     @map("is_team")
+  beginAt   String      @map("begin_date")
+  endAt     String      @map("end_date")
   matchMeta MatchMeta[]
   match     Match[]
+  player    Player[]
 
   @@map("tournaments")
 }
@@ -48,12 +41,11 @@ model Gakuren {
   grade        Int
   role         String
   universityId Int        @map("university_id")
-  university   University @relation(fields: [universityId], references: [id])
   region       String
   email        String     @unique
   password     String
-
-  match Match[]
+  university   University @relation(fields: [universityId], references: [id])
+  match        Match[]
 
   @@map("gakurens")
 }
@@ -64,13 +56,14 @@ model Player {
   firstName    String     @map("first_name")
   sex          String
   universityId Int        @map("university_id")
-  university   University @relation(fields: [universityId], references: [id])
+  tournamentId String     @default("clzc2hgox0000jldva3g234j5") @map("tournament_id")
   grade        Int
   isRetired    Boolean    @default(false) @map("is_retired")
-
+  losingMatch  Match[]    @relation("loser")
+  winningMatch Match[]    @relation("winner")
+  university   University @relation(fields: [universityId], references: [id])
   seed         Seed[]
-  winningMatch Match[] @relation(name: "winner")
-  losingMatch  Match[] @relation(name: "loser")
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
 
   @@map("players")
 }
@@ -79,11 +72,10 @@ model MatchMeta {
   id           String     @id @default(cuid())
   type         String
   tournamentId String     @map("tournament_id")
-  tournament   Tournament @relation(fields: [tournamentId], references: [id])
   isRated      Boolean    @map("is_rated")
   sex          String
-
-  match Match[]
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  match        Match[]
 
   @@map("match_metas")
 }
@@ -94,29 +86,26 @@ model SeedMeta {
   region    String
   sex       String
   createdAt DateTime @default(now()) @map("created_at")
-
-  seed Seed[]
+  seed      Seed[]
 
   @@map("seed_metas")
 }
 
 model Seed {
   seedMetaId String   @map("seed_meta_id")
-  seedMeta   SeedMeta @relation(fields: [seedMetaId], references: [id])
   playerId   String   @map("player_id")
-  player     Player   @relation(fields: [playerId], references: [id])
   rank       Int
+  player     Player   @relation(fields: [playerId], references: [id])
+  seedMeta   SeedMeta @relation(fields: [seedMetaId], references: [id])
 
-  @@unique(fields: [seedMetaId, rank], name: "id")
+  @@unique([seedMetaId, rank], name: "id")
   @@map("seeds")
 }
 
 model Match {
   id                 String     @id @default(cuid())
   winnerId           String     @map("winner_id")
-  winner             Player     @relation(name: "winner", fields: [winnerId], references: [id])
   loserId            String     @map("loser_id")
-  loser              Player     @relation(name: "loser", fields: [loserId], references: [id])
   isDefo             Boolean    @map("is_defo")
   winnerGameCount    Int        @map("winner_game_count")
   loserGameCount     Int        @map("loser_game_count")
@@ -131,13 +120,15 @@ model Match {
   loserGame4Score    Int?       @map("loser_game4_score")
   loserGame5Score    Int?       @map("loser_game5_score")
   tournamentId       String     @map("tournament_id")
-  tournament         Tournament @relation(fields: [tournamentId], references: [id])
   matchMetaId        String     @map("match_meta_id")
-  matchMeta          MatchMeta  @relation(fields: [matchMetaId], references: [id])
   createdByGakurenId String     @map("created_by_gakuren_id")
-  createdByGakuren   Gakuren    @relation(fields: [createdByGakurenId], references: [id])
   createdAt          DateTime   @default(now()) @map("created_at")
   isAnnounced        Boolean    @default(false) @map("is_announced")
+  createdByGakuren   Gakuren    @relation(fields: [createdByGakurenId], references: [id])
+  loser              Player     @relation("loser", fields: [loserId], references: [id])
+  matchMeta          MatchMeta  @relation(fields: [matchMetaId], references: [id])
+  tournament         Tournament @relation(fields: [tournamentId], references: [id])
+  winner             Player     @relation("winner", fields: [winnerId], references: [id])
 
   @@map("matches")
 }
