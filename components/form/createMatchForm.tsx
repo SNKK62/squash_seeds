@@ -191,6 +191,14 @@ export const CreateMatchForm = ({
   const winnerControl = useInputControl(fields.winnerId);
   const loserControl = useInputControl(fields.loserId);
 
+  useEffect(() => {
+    if (scores.length < 1) return;
+    const scoreInput = document.querySelector(
+      `input[name="scores[${scores.length - 1}].winnerScore"]`
+    ) as HTMLInputElement;
+    scoreInput?.focus();
+  }, [scores.length]);
+
   return (
     <loadingContext.Provider value={setLoading}>
       <div className="mt-4">
@@ -316,6 +324,7 @@ export const CreateMatchForm = ({
                           index,
                         })}
                         variant="destructive"
+                        tabIndex={-1} //
                       >
                         削除
                       </Button>
