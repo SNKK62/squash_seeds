@@ -1,0 +1,302 @@
+[
+    {
+        "id": 1,
+        "name": "学習院大学",
+        "shortName": "学習",
+        "region": "関東"
+    },
+    {
+        "id": 2,
+        "name": "国際医療福祉大学",
+        "shortName": "国際医療",
+        "region": "関東"
+    },
+    {
+        "id": 3,
+        "name": "専修大学",
+        "shortName": "専修",
+        "region": "関東"
+    },
+    {
+        "id": 4,
+        "name": "中央大学",
+        "shortName": "中央",
+        "region": "関東"
+    },
+    {
+        "id": 5,
+        "name": "秀明大学",
+        "shortName": "秀明",
+        "region": "関東"
+    },
+    {
+        "id": 6,
+        "name": "上智大学",
+        "shortName": "上智",
+        "region": "関東"
+    },
+    {
+        "id": 7,
+        "name": "青山学院大学",
+        "shortName": "青学",
+        "region": "関東"
+    },
+    {
+        "id": 8,
+        "name": "学習院女子大学",
+        "shortName": "学習女子",
+        "region": "関東"
+    },
+    {
+        "id": 9,
+        "name": "東京農業大学",
+        "shortName": "東農",
+        "region": "関東"
+    },
+    {
+        "id": 10,
+        "name": "順天堂大学",
+        "shortName": "順大",
+        "region": "関東"
+    },
+    {
+        "id": 11,
+        "name": "日本医科大学",
+        "shortName": "日本医科",
+        "region": "関東"
+    },
+    {
+        "id": 12,
+        "name": "慶應義塾大学",
+        "shortName": "慶應",
+        "region": "関東"
+    },
+    {
+        "id": 13,
+        "name": "早稲田大学",
+        "shortName": "早大",
+        "region": "関東"
+    },
+    {
+        "id": 14,
+        "name": "日本大学",
+        "shortName": "日大",
+        "region": "関東"
+    },
+    {
+        "id": 15,
+        "name": "明治大学",
+        "shortName": "明治",
+        "region": "関東"
+    },
+    {
+        "id": 16,
+        "name": "東京都市大学",
+        "shortName": "都市大",
+        "region": "関東"
+    },
+    {
+        "id": 17,
+        "name": "東京大学",
+        "shortName": "東大",
+        "region": "関東"
+    },
+    {
+        "id": 18,
+        "name": "日本体育大学",
+        "shortName": "日体",
+        "region": "関東"
+    },
+    {
+        "id": 19,
+        "name": "東海大学",
+        "shortName": "東海",
+        "region": "関東"
+    },
+    {
+        "id": 20,
+        "name": "東洋大学",
+        "shortName": "東洋",
+        "region": "関東"
+    },
+    {
+        "id": 21,
+        "name": "桐蔭横浜大学",
+        "shortName": "桐横",
+        "region": "関東"
+    },
+    {
+        "id": 22,
+        "name": "北海学園大学",
+        "shortName": "北海学園",
+        "region": "北海道"
+    },
+    {
+        "id": 23,
+        "name": "北海道教育大学",
+        "shortName": "北海教育",
+        "region": "北海道"
+    },
+    {
+        "id": 24,
+        "name": "中京大学",
+        "shortName": "中京",
+        "region": "関西"
+    },
+    {
+        "id": 25,
+        "name": "名古屋大学",
+        "shortName": "名大",
+        "region": "関西"
+    },
+    {
+        "id": 26,
+        "name": "旭川教育大学",
+        "shortName": "旭川教育",
+        "region": "北海道"
+    },
+    {
+        "id": 27,
+        "name": "九州大学",
+        "shortName": "九州",
+        "region": "九州"
+    },
+    {
+        "id": 28,
+        "name": "東北大学",
+        "shortName": "東北",
+        "region": "東北"
+    },
+    {
+        "id": 29,
+        "name": "東北学院大学",
+        "shortName": "東北学院",
+        "region": "東北"
+    },
+    {
+        "id": 30,
+        "name": "関西学院大学",
+        "shortName": "関西",
+        "region": "関西"
+    },
+    {
+        "id": 31,
+        "name": "立命館大学",
+        "shortName": "立命",
+        "region": "関西"
+    },
+    {
+        "id": 32,
+        "name": "東北福祉大学",
+        "shortName": "東北福祉",
+        "region": "東北"
+    },
+    {
+        "id": 33,
+        "name": "札幌医科大学",
+        "shortName": "札幌医科",
+        "region": "北海道"
+    },
+    {
+        "id": 34,
+        "name": "椙山女学園大学",
+        "shortName": "椙山",
+        "region": "関西"
+    },
+    {
+        "id": 35,
+        "name": "広島修道大学",
+        "shortName": "修道",
+        "region": "関西"
+    },
+    {
+        "id": 36,
+        "name": "宮城学院女子大学",
+        "shortName": "宮城女子",
+        "region": "東北"
+    },
+    {
+        "id": 37,
+        "name": "大阪公立大学",
+        "shortName": "阪公",
+        "region": "関西"
+    },
+    {
+        "id": 38,
+        "name": "福岡大学",
+        "shortName": "福大",
+        "region": "九州"
+    },
+    {
+        "id": 39,
+        "name": "北海道大学",
+        "shortName": "北大",
+        "region": "北海道"
+    },
+    {
+        "id": 40,
+        "name": "北海商科大学",
+        "shortName": "北海商科",
+        "region": "北海道"
+    },
+    {
+        "id": 41,
+        "name": "北海道医療大学",
+        "shortName": "北海医療",
+        "region": "北海道"
+    },
+    {
+        "id": 42,
+        "name": "愛知工業大学",
+        "shortName": "愛知工業",
+        "region": "関西"
+    },
+    {
+        "id": 43,
+        "name": "神戸女学院大学",
+        "shortName": "神戸女学",
+        "region": "関西"
+    },
+    {
+        "id": 44,
+        "name": "名古屋学芸大学",
+        "shortName": "名学芸",
+        "region": "関西"
+    },
+    {
+        "id": 45,
+        "name": "広島市立大学",
+        "shortName": "広島市立",
+        "region": "関西"
+    },
+    {
+        "id": 46,
+        "name": "龍谷大学",
+        "shortName": "龍谷",
+        "region": "関西"
+    },
+    {
+        "id": 47,
+        "name": "大阪大学",
+        "shortName": "阪大",
+        "region": "関西"
+    },
+    {
+        "id": 48,
+        "name": "同志社大学",
+        "shortName": "同志社",
+        "region": "関西"
+    },
+    {
+        "id": 49,
+        "name": "慶応義塾大学",
+        "shortName": "慶應",
+        "region": "関東"
+    },
+    {
+        "id": 50,
+        "name": "広島大学",
+        "shortName": "広島",
+        "region": "関西"
+    }
+]

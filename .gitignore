@@ -29,7 +29,7 @@ yarn-error.log*
 .env*
 
 # prod data
-prisma/data/prod/
+prisma/data/prod/players.json
 
 # vercel
 .vercel
