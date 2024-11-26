@@ -32,12 +32,12 @@ export class PostTournamentsUsecase {
       );
 
       // Create match metas' information
-      input.matchMetas.forEach(async (matchMeta) => {
+      for (const matchMeta of input.matchMetas) {
         await this.repo.matchMeta.createMatchMeta({
           ...matchMeta,
           tournamentId: tournament.id,
         });
-      });
+      }
 
       return tournament;
     } catch (e) {
