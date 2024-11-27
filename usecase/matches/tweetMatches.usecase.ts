@@ -9,9 +9,12 @@ export class TweetMatchesUsecase {
     this.service = new TweetService(repo);
     this.matchRepo = repo.match;
   }
-  public async execute(ids: string[]): Promise<{ message: string }> {
+  public async execute(
+    ids: string[],
+    isNational: boolean
+  ): Promise<{ message: string }> {
     try {
-      await this.service.tweet(ids);
+      await this.service.tweet(ids, isNational);
       const announceResults = ids.map((id) => {
         return this.matchRepo.announceMatch(id);
       });

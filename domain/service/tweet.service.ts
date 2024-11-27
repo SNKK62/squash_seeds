@@ -6,6 +6,7 @@ import { IMatchRepo } from "@repository/match.repo";
 import { Repo } from "@repository/repository";
 
 // const rateLimitPlugin = new TwitterApiRateLimitPlugin();
+// for kando
 const client = new TwitterApi(
   {
     // these two values come from your app's API keys
@@ -18,13 +19,43 @@ const client = new TwitterApi(
   // { plugins: [rateLimitPlugin] }
 );
 
+// for All Japan
+const client_alljp = new TwitterApi(
+  {
+    // these two values come from your app's API keys
+    appKey: process.env["X_ALLJP_API_KEY"] as string,
+    appSecret: process.env["X_ALLJP_API_KEY_SECRET"] as string,
+    // these two values come from the user's access tokens
+    accessToken: process.env["X_ALLJP_ACCESS_TOKEN"] as string,
+    accessSecret: process.env["X_ALLJP_ACCESS_TOKEN_SECRET"] as string,
+  }
+  // { plugins: [rateLimitPlugin] }
+);
+
+function calculateTweetLength(text: string): number {
+  let length = 0;
+  for (const char of text) {
+    if (char === "\n") {
+      // 改行文字
+      length += 2;
+    } else if (char.match(/[ -~]/)) {
+      // 半角文字
+      length += 1;
+    } else {
+      // 全角文字
+      length += 2;
+    }
+  }
+  return length;
+}
+
 export class TweetService {
   private readonly matchRepo: IMatchRepo;
   constructor(repo: Repo) {
     this.matchRepo = repo.match;
   }
 
-  public async tweet(ids: string[]): Promise<void> {
+  public async tweet(ids: string[], isNational: boolean): Promise<void> {
     try {
       const matches = ids.map((id) => {
         const match = this.matchRepo.getMatchById(id);
@@ -36,7 +67,7 @@ export class TweetService {
           return !match.isAnnounced;
         });
       });
-      const tournamentName = matchesNotAnnounced[0]?.tournament.name;
+      // const tournamentName = matchesNotAnnounced[0]?.tournament.name;
       const resultDividedByMatchMeta: Record<string, string[]> = {};
       matchesNotAnnounced.forEach((match) => {
         const matchMetaType = match.matchMeta.type;
@@ -45,7 +76,9 @@ export class TweetService {
         }
         resultDividedByMatchMeta[matchMetaType].push(match.formattedScore);
       });
-      let tweetText: string = tournamentName ? `【${tournamentName}】\n` : "";
+      // save the tweet text length
+      // let tweetText: string = tournamentName ? `【${tournamentName}】\n` : "";
+      let tweetText: string = "";
       tweetText += Object.entries(resultDividedByMatchMeta)
         .map(([key, value]) => {
           let text = `${key}`;
@@ -56,7 +89,15 @@ export class TweetService {
           return text;
         })
         .join("\n");
-      const res = await client.v2.tweet(tweetText);
+
+      const tweetLength = calculateTweetLength(tweetText);
+      const TWEET_LENGTH_LIMIT = 280;
+      if (tweetLength > TWEET_LENGTH_LIMIT) {
+        throw new Error("Tweet text is too long");
+      }
+
+      const execClient = isNational ? client_alljp : client;
+      const res = await execClient.v2.tweet(tweetText);
       if (res.errors && res.errors.length > 0) {
         const error = res.errors[0];
         throw new Error(error?.title);

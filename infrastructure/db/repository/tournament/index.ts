@@ -15,8 +15,15 @@ const getOpenTournamentByRegion = async (
   try {
     const dbTournament = await prisma.tournament.findMany({
       where: {
-        region,
-        isOpen: true,
+        OR: [
+          {
+            region: "全日本",
+          },
+          {
+            region,
+            isOpen: true,
+          },
+        ],
       },
     });
     if (!dbTournament[0]) {
