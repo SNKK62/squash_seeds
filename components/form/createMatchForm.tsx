@@ -50,6 +50,27 @@ const CreateScoreForm = ({ score }: CreateScoreFormProps) => {
     setLoading,
   ]);
 
+  const [isComposition, setIsComposition] = useState(false);
+
+  const handleKeyDownBuilder =
+    (index: 0 | 1) => (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (isComposition) return;
+      if (e.key === "Enter") {
+        e.preventDefault();
+
+        if (index === 0) {
+          const inputs = document.querySelectorAll("input");
+          const currentInputIndex = Array.from(inputs).indexOf(e.currentTarget);
+          const nextInput = inputs[currentInputIndex + 1];
+          nextInput?.focus();
+          return;
+        }
+
+        const addScoreButton = document.getElementById("add-score");
+        addScoreButton?.focus();
+      }
+    };
+
   return (
     <div className="flex items-center gap-1">
       <div className="aspect-square w-16">
@@ -57,6 +78,13 @@ const CreateScoreForm = ({ score }: CreateScoreFormProps) => {
           id={scoreFields.winnerScore.id}
           type="number"
           name={scoreFields.winnerScore.name}
+          onCompositionStart={() => {
+            setIsComposition(true);
+          }}
+          onCompositionEnd={() => {
+            setIsComposition(false);
+          }}
+          onKeyDown={handleKeyDownBuilder(0)}
         />
         <Warn> {scoreFields.winnerScore.errors}</Warn>
       </div>
@@ -66,6 +94,13 @@ const CreateScoreForm = ({ score }: CreateScoreFormProps) => {
           id={scoreFields.loserScore.id}
           type="number"
           name={scoreFields.loserScore.name}
+          onCompositionStart={() => {
+            setIsComposition(true);
+          }}
+          onCompositionEnd={() => {
+            setIsComposition(false);
+          }}
+          onKeyDown={handleKeyDownBuilder(1)}
         />
         <Warn> {scoreFields.loserScore.errors}</Warn>
       </div>
@@ -324,7 +359,7 @@ export const CreateMatchForm = ({
                           index,
                         })}
                         variant="destructive"
-                        tabIndex={-1} //
+                        tabIndex={-1}
                       >
                         削除
                       </Button>
@@ -333,6 +368,7 @@ export const CreateMatchForm = ({
                 />
                 {scores.length < 5 && (
                   <Button
+                    id="add-score"
                     {...form.insert.getButtonProps({
                       name: fields.scores.name,
                     })}
