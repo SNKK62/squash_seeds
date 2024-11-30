@@ -96,10 +96,8 @@ export class TweetService {
         throw new Error("Tweet text is too long");
       }
 
-      console.log("全国: ", isNational);
       const execClient = isNational ? client_alljp : client;
       const res = await execClient.v2.tweet(tweetText);
-      console.log("response:", res);
       if (res.errors && res.errors.length > 0) {
         const error = res.errors[0];
         throw new Error(error?.title);
@@ -113,7 +111,6 @@ export class TweetService {
       // console.log(currentRateLimitForMe!.limit); // 75
       // console.log(currentRateLimitForMe!.remaining);
     } catch (e) {
-      console.log("errror in tweet service:", e);
       throw e;
     }
   }
