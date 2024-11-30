@@ -113,6 +113,7 @@ export class TweetService {
       // console.log(currentRateLimitForMe!.limit); // 75
       // console.log(currentRateLimitForMe!.remaining);
     } catch (e) {
+      console.log("errror in tweet service:", e);
       throw e;
     }
   }
