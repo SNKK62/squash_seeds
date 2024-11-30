@@ -36,7 +36,6 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [showResult, setShowResult] = useState(false);
   const tweetText = useMemo(() => {
     const selectedMatches = selectedIds.map((id) => {
       return matches.find((match) => match.id === id)!;
@@ -73,10 +72,6 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
     () => calculateTweetLength(tweetText),
     [tweetText]
   );
-
-  const handleClickShowResult = useCallback(() => {
-    setShowResult((prev) => !prev);
-  }, []);
 
   const handleClickCopy = useCallback(() => {
     navigator.clipboard.writeText(tweetText);
@@ -148,27 +143,20 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
       <div className="text-center">
         <Warn>{error}</Warn>
       </div>
-      <div className="flex justify-center">
-        <Button onClick={handleClickShowResult} className="my-4">
-          {showResult ? "Hide" : "Show"} Result
-        </Button>
-      </div>
-      {showResult && (
-        <div className="m-8 mt-0">
-          <div className="flex justify-center">
-            <Button onClick={handleClickCopy} className="my-4">
-              Copy
-            </Button>
-          </div>
-          <div className="text-center">Tweet Text</div>
-          <div className="text-center">Text Length: {textLength} / 280</div>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: tweetText.replace(/\n/g, "<br>"),
-            }}
-          />
+      <div className="m-8 mt-0">
+        <div className="flex justify-center">
+          <Button onClick={handleClickCopy} className="my-4">
+            Copy
+          </Button>
         </div>
-      )}
+        <div className="text-center">Tweet Text</div>
+        <div className="text-center">Text Length: {textLength} / 280</div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: tweetText.replace(/\n/g, "<br>"),
+          }}
+        />
+      </div>
     </div>
   );
 }
