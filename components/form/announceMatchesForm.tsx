@@ -6,10 +6,12 @@ import { MatchesTable } from "@/components/table/matchesTable";
 import { Button } from "@/components/ui/button";
 import { LoadingButton } from "@/components/ui/loadingButton";
 
+import { Role } from "@model/gakuren.model";
 import { Match, MatchJSON } from "@model/match.model";
 
 interface AnnounceMatchesFormProps {
   matchesJson: MatchJSON[];
+  role: Role;
 }
 
 function calculateTweetLength(text: string): number {
@@ -29,7 +31,7 @@ function calculateTweetLength(text: string): number {
   return length;
 }
 
-function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
+function AnnounceMatchesForm({ matchesJson, role }: AnnounceMatchesFormProps) {
   const [matches, setMatches] = useState(
     matchesJson?.map((matchJson) => Match.fromJSON(matchJson)) ?? []
   );
@@ -77,7 +79,7 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
     navigator.clipboard.writeText(tweetText);
   }, [tweetText]);
 
-  const handleClick = () => {
+  const handleClickTweet = () => {
     setLoading(true);
 
     if (selectedIds.length === 0) {
@@ -114,6 +116,49 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
       });
   };
 
+  const [loadingMark, setLoadingMark] = useState(false);
+  // 幹部が手動で試合をツイートした後に押すボタン
+  const handleClickMark = () => {
+    const isConfirmed = window.confirm("ツイート済みにしますか？");
+    if (!isConfirmed) {
+      return;
+    }
+    setLoadingMark(true);
+
+    if (selectedIds.length === 0) {
+      setError("試合を選択してください");
+      setLoadingMark(false);
+      return;
+    }
+    fetch(`${process.env["NEXT_PUBLIC_ORIGIN"]}/api/tournament/matches/mark`, {
+      method: "post",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ matchIds: selectedIds }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("更新に失敗しました");
+        }
+        return res.json();
+      })
+      .then(() => {
+        setMatches((prev) => {
+          return prev.filter((match) => !selectedIds.includes(match.id));
+        });
+        setError("");
+        setSelectedIds([]);
+      })
+      .catch((e) => {
+        setError(String(e));
+      })
+      .finally(() => {
+        setLoadingMark(false);
+      });
+  };
+
   return (
     <div className="box-border w-full">
       <div className="mx-2">
@@ -136,7 +181,11 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
         />
       </div>
       <div className="flex justify-center">
-        <LoadingButton onClick={handleClick} loading={loading} className="my-4">
+        <LoadingButton
+          onClick={handleClickTweet}
+          loading={loading}
+          className="my-4"
+        >
           Tweet
         </LoadingButton>
       </div>
@@ -149,6 +198,18 @@ function AnnounceMatchesForm({ matchesJson }: AnnounceMatchesFormProps) {
             Copy
           </Button>
         </div>
+        {role === "幹部" && (
+          <div className="flex justify-center">
+            <LoadingButton
+              onClick={handleClickMark}
+              loading={loadingMark}
+              className="my-4"
+              variant="destructive"
+            >
+              手動でTweetした(幹部用)
+            </LoadingButton>
+          </div>
+        )}
         <div className="text-center">Tweet Text</div>
         <div className="text-center">Text Length: {textLength} / 280</div>
         <div
