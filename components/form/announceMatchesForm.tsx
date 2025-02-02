@@ -179,7 +179,7 @@ function AnnounceMatchesForm({
         />
       </div>
       {isTeam && (
-        <div className="m-2 flex items-center justify-center gap-2">
+        <div className="m-2 flex w-full items-center justify-center gap-2">
           番手順
           {Array.from({ length: 5 }).map((_, index) => {
             return (
