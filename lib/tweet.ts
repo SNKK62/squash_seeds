@@ -19,10 +19,11 @@ export function calculateTweetLength(text: string): number {
 
 export function generateTweetText(
   matchesNotAnnounced: Match[],
-  isTeam: boolean
+  isTeam: boolean,
+  orders: number[]
 ) {
   return isTeam
-    ? generateTweetTextTeam(matchesNotAnnounced)
+    ? generateTweetTextTeam(matchesNotAnnounced, orders)
     : generateTweetTextPersonal(matchesNotAnnounced);
 }
 
@@ -51,17 +52,20 @@ export function generateTweetTextPersonal(matchesNotAnnounced: Match[]) {
   return tweetText;
 }
 
-export function generateTweetTextTeam(matchesNotAnnounced: Match[]) {
+export function generateTweetTextTeam(
+  matchesNotAnnounced: Match[],
+  orders: number[]
+) {
   const matchMetaTypes = matchesNotAnnounced[0]?.matchMeta.type;
   matchesNotAnnounced.forEach((match) => {
     if (match.matchMeta.type !== matchMetaTypes) {
       throw new Error("Match type is not the same");
     }
   });
-  const univs = matchesNotAnnounced.map((match) => {
+  const univIds = matchesNotAnnounced.map((match) => {
     return match.winner.university.id;
   });
-  const univCount = univs.reduce(
+  const univCount = univIds.reduce(
     (acc, cur) => {
       if (acc[cur]) {
         acc[cur] += 1;
@@ -73,19 +77,29 @@ export function generateTweetTextTeam(matchesNotAnnounced: Match[]) {
     {} as Record<number, number>
   );
   const univKeys = Object.keys(univCount);
-  const winnerTeamId =
+  const [winnerTeamId, loserTeamId] =
     univCount[Number(univKeys[0])]! > matchesNotAnnounced.length / 2
-      ? Number(univKeys[0])
-      : Number(univKeys[1]);
-
+      ? [Number(univKeys[0]), Number(univKeys[1])]
+      : [Number(univKeys[1]), Number(univKeys[0])];
+  const [winnerTeamName, loserTeamName] =
+    matchesNotAnnounced[0]?.winner.university.id === winnerTeamId
+      ? [
+          matchesNotAnnounced[0]?.winner.university.shortName,
+          matchesNotAnnounced[0]?.loser.university.shortName,
+        ]
+      : [
+          matchesNotAnnounced[0]?.loser.university.shortName,
+          matchesNotAnnounced[0]?.winner.university.shortName,
+        ];
   let tweetText: string = `【${matchMetaTypes}】\n`;
+  tweetText += `${winnerTeamName} bt. ${loserTeamName} ${univCount[winnerTeamId]}-${univCount[loserTeamId] || 0}\n`;
   tweetText += matchesNotAnnounced
-    .map((match) => {
+    .map((match, i) => {
       const winnerTeamPlayer =
         match.winner.university.id === winnerTeamId
           ? match.winner
           : match.loser;
-      return `${match.formattedScoreWithFirstPlayerSelection(winnerTeamPlayer)}`;
+      return `${match.formattedScoreWithFirstPlayerSelection(winnerTeamPlayer, orders[i])}`;
     })
     .join("\n");
   return tweetText;

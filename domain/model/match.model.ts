@@ -70,17 +70,34 @@ export class Match {
       : `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} ${this.fullScore}`;
   }
 
+  formattedScoreWithOrder(order: number): string {
+    return this.isDefo
+      ? `${this.winner.lastName}(${order}) bt. ${this.loser.lastName}(${order}) w/o`
+      : `${this.winner.lastName}(${order}) bt. ${this.loser.lastName}(${order}) ${this.fullScore}`;
+  }
+
   get formattedScoreLoserFirst(): string {
     return this.isDefo
       ? `${this.loser.lastNameWithUnivShortName} lt. ${this.winner.lastNameWithUnivShortName} w/o`
       : `${this.loser.lastNameWithUnivShortName} lt. ${this.winner.lastNameWithUnivShortName} ${this.fullScoreLoserFirst}`;
   }
 
-  formattedScoreWithFirstPlayerSelection(former: Player): string {
+  formattedScoreLoserFirstWithOrder(order: number): string {
+    return this.isDefo
+      ? `${this.loser.lastName}(${order}) lt. ${this.winner.lastName}(${order}) w/o`
+      : `${this.loser.lastName}(${order}) lt. ${this.winner.lastName}(${order}) ${this.fullScoreLoserFirst}`;
+  }
+
+  formattedScoreWithFirstPlayerSelection(
+    former: Player,
+    order?: number
+  ): string {
     if (this.winner.id === former.id) {
-      return this.formattedScore;
+      return order ? this.formattedScoreWithOrder(order) : this.formattedScore;
     }
-    return this.formattedScoreLoserFirst;
+    return order
+      ? this.formattedScoreLoserFirstWithOrder(order)
+      : this.formattedScoreLoserFirst;
   }
 
   get maxGameCount(): number {

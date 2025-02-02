@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
-import data from "../data/prod/players.json";
-// import data from "../data/players.json";
+// import data from "../data/prod/players.json";
+import data from "../data/players.json";
 
 export const setPlayerData = async (prisma: PrismaClient) => {
   try {

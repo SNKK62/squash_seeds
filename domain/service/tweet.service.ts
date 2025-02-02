@@ -43,7 +43,8 @@ export class TweetService {
   public async tweet(
     ids: string[],
     isNational: boolean,
-    isTeam: boolean
+    isTeam: boolean,
+    orders: number[]
   ): Promise<void> {
     try {
       const matches = ids.map((id) => {
@@ -56,7 +57,7 @@ export class TweetService {
           return !match.isAnnounced;
         });
       });
-      const tweetText = generateTweetText(matchesNotAnnounced, isTeam);
+      const tweetText = generateTweetText(matchesNotAnnounced, isTeam, orders);
       const tweetLength = calculateTweetLength(tweetText);
       const TWEET_LENGTH_LIMIT = 280;
       if (tweetLength > TWEET_LENGTH_LIMIT) {

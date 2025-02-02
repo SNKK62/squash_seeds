@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { LoadingButton } from "@/components/ui/loadingButton";
 import { calculateTweetLength, generateTweetText } from "@/lib/tweet";
 
+import { Input } from "../ui/input";
+
 import { Role } from "@model/gakuren.model";
 import { Match, MatchJSON } from "@model/match.model";
 
@@ -27,6 +29,15 @@ function AnnounceMatchesForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  // 番手戦の場合は順番を指定する
+  const [orders, setOrders] = useState<(number | string)[]>([
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
+
   const tweetText = useMemo(() => {
     const selectedMatches = selectedIds.map((id) => {
       return matches.find((match) => match.id === id)!;
@@ -37,8 +48,8 @@ function AnnounceMatchesForm({
     if (matchesNotAnnounced.length === 0) {
       return "";
     }
-    return generateTweetText(matchesNotAnnounced, isTeam);
-  }, [selectedIds, matches, isTeam]);
+    return generateTweetText(matchesNotAnnounced, isTeam, orders.map(Number));
+  }, [selectedIds, matches, isTeam, orders]);
 
   const textLength = useMemo(
     () => calculateTweetLength(tweetText),
@@ -48,6 +59,23 @@ function AnnounceMatchesForm({
   const handleClickCopy = useCallback(() => {
     navigator.clipboard.writeText(tweetText);
   }, [tweetText]);
+
+  const handleInputOrder = (index: number, value: string) => {
+    const newValue = parseInt(value);
+    if (isNaN(newValue) || newValue < 1 || newValue > 5) {
+      setOrders((prev) => {
+        const newOrders = [...prev];
+        newOrders[index] = "";
+        return newOrders;
+      });
+      return;
+    }
+    setOrders((prev) => {
+      const newOrders = [...prev];
+      newOrders[index] = newValue;
+      return newOrders;
+    });
+  };
 
   const handleClickTweet = () => {
     setLoading(true);
@@ -63,7 +91,7 @@ function AnnounceMatchesForm({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ matchIds: selectedIds }),
+      body: JSON.stringify({ matchIds: selectedIds, orders }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -150,6 +178,25 @@ function AnnounceMatchesForm({
           }}
         />
       </div>
+      {isTeam && (
+        <div className="m-2 flex items-center justify-center gap-2">
+          番手順
+          {Array.from({ length: 5 }).map((_, index) => {
+            return (
+              <div key={index} className="flex justify-center">
+                <Input
+                  id={`order-${index}`}
+                  className="w-14"
+                  type="number"
+                  name={`order-${index}`}
+                  value={orders[index]}
+                  onChange={(e) => handleInputOrder(index, e.target.value)}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
       <div className="flex justify-center">
         <LoadingButton
           onClick={handleClickTweet}
