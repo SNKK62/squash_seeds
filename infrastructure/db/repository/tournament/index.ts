@@ -18,6 +18,7 @@ const getOpenTournamentByRegion = async (
         OR: [
           {
             region: "全日本",
+            isOpen: true,
           },
           {
             region,

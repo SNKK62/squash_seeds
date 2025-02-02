@@ -18,6 +18,10 @@ export class Score {
     return `${this.winnerScore}-${this.loserScore}`;
   }
 
+  get concatenatedScoreLoserFirst(): string {
+    return `${this.loserScore}-${this.winnerScore}`;
+  }
+
   static fromJSON(json: ScoreJSON): Score {
     return new Score(json.winnerScore, json.loserScore);
   }
@@ -56,10 +60,27 @@ export class Match {
     return `${this.gameCount.concatenatedScore} ${this.gameScores.map((score) => score.concatenatedScore).join(", ")}`;
   }
 
+  get fullScoreLoserFirst(): string {
+    return `${this.gameCount.concatenatedScoreLoserFirst} ${this.gameScores.map((score) => score.concatenatedScoreLoserFirst).join(", ")}`;
+  }
+
   get formattedScore(): string {
     return this.isDefo
       ? `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} w/o`
       : `${this.winner.lastNameWithUnivShortName} bt. ${this.loser.lastNameWithUnivShortName} ${this.fullScore}`;
+  }
+
+  get formattedScoreLoserFirst(): string {
+    return this.isDefo
+      ? `${this.loser.lastNameWithUnivShortName} lt. ${this.winner.lastNameWithUnivShortName} w/o`
+      : `${this.loser.lastNameWithUnivShortName} lt. ${this.winner.lastNameWithUnivShortName} ${this.fullScoreLoserFirst}`;
+  }
+
+  formattedScoreWithFirstPlayerSelection(former: Player): string {
+    if (this.winner.id === former.id) {
+      return this.formattedScore;
+    }
+    return this.formattedScoreLoserFirst;
   }
 
   get maxGameCount(): number {

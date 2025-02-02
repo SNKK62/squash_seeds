@@ -41,7 +41,8 @@ export async function POST(request: NextRequest) {
     const res = await request.json();
     await tweetMatchesUsecase.execute(
       res.matchIds,
-      tournament.region === "全日本"
+      tournament.region === "全日本",
+      tournament.isTeam
     );
     return Response.json({ data: "OK" }, { status: 200 });
   } catch (e) {

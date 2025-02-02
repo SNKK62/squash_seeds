@@ -5,33 +5,22 @@ import { Warn } from "@/components/form/warn";
 import { MatchesTable } from "@/components/table/matchesTable";
 import { Button } from "@/components/ui/button";
 import { LoadingButton } from "@/components/ui/loadingButton";
+import { calculateTweetLength, generateTweetText } from "@/lib/tweet";
 
 import { Role } from "@model/gakuren.model";
 import { Match, MatchJSON } from "@model/match.model";
 
 interface AnnounceMatchesFormProps {
   matchesJson: MatchJSON[];
+  isTeam: boolean;
   role: Role;
 }
 
-function calculateTweetLength(text: string): number {
-  let length = 0;
-  for (const char of text) {
-    if (char === "\n") {
-      // 改行文字
-      length += 2;
-    } else if (char.match(/[ -~]/)) {
-      // 半角文字
-      length += 1;
-    } else {
-      // 全角文字
-      length += 2;
-    }
-  }
-  return length;
-}
-
-function AnnounceMatchesForm({ matchesJson, role }: AnnounceMatchesFormProps) {
+function AnnounceMatchesForm({
+  matchesJson,
+  role,
+  isTeam,
+}: AnnounceMatchesFormProps) {
   const [matches, setMatches] = useState(
     matchesJson?.map((matchJson) => Match.fromJSON(matchJson)) ?? []
   );
@@ -45,30 +34,11 @@ function AnnounceMatchesForm({ matchesJson, role }: AnnounceMatchesFormProps) {
     const matchesNotAnnounced: Match[] = selectedMatches.filter((match) => {
       return !match.isAnnounced;
     });
-    // const tournamentName = matchesNotAnnounced[0]?.tournament.name;
-    const resultDividedByMatchMeta: Record<string, string[]> = {};
-    matchesNotAnnounced.forEach((match) => {
-      const matchMetaType = match.matchMeta.type;
-      if (!resultDividedByMatchMeta[matchMetaType]) {
-        resultDividedByMatchMeta[matchMetaType] = [];
-      }
-      resultDividedByMatchMeta[matchMetaType].push(match.formattedScore);
-    });
-    // save the tweet text length
-    // let tweetText: string = tournamentName ? `【${tournamentName}】\n` : "";
-    let tweetText: string = "";
-    tweetText += Object.entries(resultDividedByMatchMeta)
-      .map(([key, value]) => {
-        let text = `${key}`;
-        value.map((el) => {
-          text += `\n${el}`;
-        });
-        text += `\n`;
-        return text;
-      })
-      .join("\n");
-    return tweetText;
-  }, [selectedIds, matches]);
+    if (matchesNotAnnounced.length === 0) {
+      return "";
+    }
+    return generateTweetText(matchesNotAnnounced, isTeam);
+  }, [selectedIds, matches, isTeam]);
 
   const textLength = useMemo(
     () => calculateTweetLength(tweetText),

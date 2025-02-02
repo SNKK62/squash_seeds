@@ -1,6 +1,8 @@
 // import { TwitterApiRateLimitPlugin } from "@twitter-api-v2/plugin-rate-limit";
 import { TwitterApi } from "twitter-api-v2";
 
+import { calculateTweetLength, generateTweetText } from "@/lib/tweet";
+
 import { Match } from "@model/match.model";
 import { IMatchRepo } from "@repository/match.repo";
 import { Repo } from "@repository/repository";
@@ -32,30 +34,17 @@ const client_alljp = new TwitterApi(
   // { plugins: [rateLimitPlugin] }
 );
 
-function calculateTweetLength(text: string): number {
-  let length = 0;
-  for (const char of text) {
-    if (char === "\n") {
-      // 改行文字
-      length += 2;
-    } else if (char.match(/[ -~]/)) {
-      // 半角文字
-      length += 1;
-    } else {
-      // 全角文字
-      length += 2;
-    }
-  }
-  return length;
-}
-
 export class TweetService {
   private readonly matchRepo: IMatchRepo;
   constructor(repo: Repo) {
     this.matchRepo = repo.match;
   }
 
-  public async tweet(ids: string[], isNational: boolean): Promise<void> {
+  public async tweet(
+    ids: string[],
+    isNational: boolean,
+    isTeam: boolean
+  ): Promise<void> {
     try {
       const matches = ids.map((id) => {
         const match = this.matchRepo.getMatchById(id);
@@ -67,29 +56,7 @@ export class TweetService {
           return !match.isAnnounced;
         });
       });
-      // const tournamentName = matchesNotAnnounced[0]?.tournament.name;
-      const resultDividedByMatchMeta: Record<string, string[]> = {};
-      matchesNotAnnounced.forEach((match) => {
-        const matchMetaType = match.matchMeta.type;
-        if (!resultDividedByMatchMeta[matchMetaType]) {
-          resultDividedByMatchMeta[matchMetaType] = [];
-        }
-        resultDividedByMatchMeta[matchMetaType].push(match.formattedScore);
-      });
-      // save the tweet text length
-      // let tweetText: string = tournamentName ? `【${tournamentName}】\n` : "";
-      let tweetText: string = "";
-      tweetText += Object.entries(resultDividedByMatchMeta)
-        .map(([key, value]) => {
-          let text = `${key}`;
-          value.map((el) => {
-            text += `\n${el}`;
-          });
-          text += `\n`;
-          return text;
-        })
-        .join("\n");
-
+      const tweetText = generateTweetText(matchesNotAnnounced, isTeam);
       const tweetLength = calculateTweetLength(tweetText);
       const TWEET_LENGTH_LIMIT = 280;
       if (tweetLength > TWEET_LENGTH_LIMIT) {

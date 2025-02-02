@@ -11,10 +11,12 @@ export class TweetMatchesUsecase {
   }
   public async execute(
     ids: string[],
-    isNational: boolean
+    isNational: boolean,
+    isTeam: boolean
   ): Promise<{ message: string }> {
     try {
-      await this.service.tweet(ids, isNational);
+      await this.service.tweet(ids, isNational, isTeam);
+      // TODO: use transaction
       const announceResults = ids.map((id) => {
         return this.matchRepo.announceMatch(id);
       });
