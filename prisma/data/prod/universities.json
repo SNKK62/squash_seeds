@@ -298,5 +298,11 @@
         "name": "広島大学",
         "shortName": "広島",
         "region": "関西"
+    },
+    {
+        "id": 51,
+        "name": "立教大学",
+        "shortName": "立教",
+        "region": "関東"
     }
 ]
